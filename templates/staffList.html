@@ -1,0 +1,72 @@
+{% extends 'BoardPage.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+<table class="table" > 
+    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addStaff' %}" class="btn btn-primary mb-3">Add New Staff</a> {% endcomment %}
+     <br>
+     <thead>
+        <tr>
+            <th>
+             LISTS OF STAFF Members</label>&nbsp&nbsp
+                  
+                {% comment %} <input type="text" name = "staff" id="staff" style="background-color: red; border: #080808;" > {% endcomment %}
+   
+            </th>
+            </table>
+
+
+
+<table class="table" > 
+    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addStaff' %}" class="btn btn-primary mb-3">Add Staff</a> {% endcomment %}
+     <br>
+     <thead>
+ 
+  
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+<script>
+  $( function() {
+
+    $( "#staff" ).autocomplete({
+      source: '{% url 'ajaxSearch' %}' 
+    });
+  } ); 
+  </script>
+
+    <br>
+    
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>DEGREE</th>
+            <th>Recruit Year</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            
+
+            {% comment %} <th colspan="2" style="text-align: center;">Actions</th> {% endcomment %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for staff in staffs %}
+        <tr>
+            <td>{{staff.f_name}}</td>
+            <td>{{staff.l_name}}</td>
+            <td>{{staff.gender}}</td>
+            <td>{{staff.degree}}</td>
+            <td style="text-align: center;">{{staff.recruit_year}}</td>
+            <td>{{staff.phone}}</td>
+            <td>{{staff.email}}</td>
+            
+            {% comment %} <td><a href="{% url 'staff_update' staff.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'staff_delete' staff.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

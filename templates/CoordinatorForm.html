@@ -1,0 +1,55 @@
+{% extends 'StaffPage.html' %}
+{% load crispy_forms_tags %}
+{% block mytitle %}
+Register Teacher
+{% endblock %}
+{% block myheader %}
+<h1 class="display-5 text-center">Coordinator Registration</h1>
+<p class="lead">Fill out Here, a Coordinator  will be Registered</p>
+{% endblock %}
+
+{% block schoolName %}
+<li class="nav-item">
+    {% comment %} <span class="nav-link mt-2 text-uppercase text-success">{{school}} Primary School</span> {% endcomment %}
+</li>
+{% endblock %}
+
+{% block body %}
+
+<style>
+
+    form button{
+        margin-right: 170px;
+    }
+
+    .contain{
+        display: flex;
+    }
+    .form-group {
+        width: 70%;
+    }
+</style>
+    <form action="" method="post" autocomplete="off" novalidate>
+        {% csrf_token %}
+       <div class="contain">
+        <div class="form-group">
+            {{form.CoordinatorNationalId|as_crispy_field}}
+            {{form.f_name|as_crispy_field}}
+            {{form.l_name|as_crispy_field}}
+            {{form.gender|as_crispy_field}}            
+                        
+            </div>
+
+            <div class="form-group">
+            {{form.degree|as_crispy_field}}
+            {{form.recruit_year|as_crispy_field}}
+            {{form.phone|as_crispy_field}}
+            {{form.email|as_crispy_field}}
+                
+            </div>          
+                           
+        </div>
+        <button type="submit" class="btn btn-success float-right">Register</button>
+        <br>
+    </form>
+{% endblock %} 

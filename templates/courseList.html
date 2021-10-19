@@ -1,0 +1,29 @@
+{% extends 'CoordinatorPage.html' %}
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+{% endfor %}
+<table class="table">
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addCourse' %}" class="btn btn-primary mb-3">Add Course</a>
+    <br>
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Course Description</th>
+            <th colspan="2" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{course.course_name}}</td>
+            <td>{{course.course_desc}}</td>
+            <td><a href="{% url 'course_update' course.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'course_delete' course.id%}" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

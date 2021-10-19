@@ -1,0 +1,52 @@
+{% extends 'CoordinatorPage.html' %}
+
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+    
+{% endfor %}
+<table class="table">
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addStudent' %}" class="btn btn-primary mb-3">Add a Child</a>
+    <br>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Father Name</th>
+            <th>Mother Name</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Corr Year</th>
+            <th>Reg Year</th>
+            <th>Phyisical Disability</th>
+            <th>Class</th>
+            <th>Short Note</th>
+            <th colspan="2" style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{student.f_name}}</td>
+            <td>{{student.l_name}}</td>
+            <td>{{student.father_name}}</td>
+            <td>{{student.mother_name}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.dob}}</td>
+            <td>{{student.correspond_age}}</td>
+            <td>{{student.year_reg}}</td>
+            <td style="text-align: center;">{{student.physical_disability}}</td>
+            <td>{{student.classe}}</td>
+            <td>{{student.note}}</td>
+            <td><a href="{% url 'student_update' student.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'student_delete' student.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+        
+    </tbody>
+    <a href="{% url 'homeCoordinator'%}" class="btn btn-sm btn-success float-left">Back</a>
+</table>
+
+{% endblock %}

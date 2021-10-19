@@ -1,0 +1,72 @@
+{% extends 'StaffPage.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+<table class="table" > 
+    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addCoordinator' %}" class="btn btn-primary mb-3">Add New Coordinator</a> {% endcomment %}
+     <br>
+     <thead>
+        <tr>
+            <th>
+             LISTS OF COORDINATORS</label>&nbsp&nbsp
+                  
+                {% comment %} <input type="text" name = "coordinator" id="coordinator" style="background-color: red; border: #080808;" > {% endcomment %}
+   
+            </th>
+            </table>
+
+
+
+<table class="table" > 
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addCoordinator' %}" class="btn btn-primary mb-3">Add Coordinator</a>
+     <br>
+     <thead>
+ 
+  
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+<script>
+  $( function() {
+
+    $( "#coordinator" ).autocomplete({
+      source: '{% url 'ajaxSearch' %}' 
+    });
+  } ); 
+  </script>
+
+    <br>
+    
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>DEGREE</th>
+            <th>Recruit Year</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            
+
+            <th colspan="2" style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for coordinator in coordinators %}
+        <tr>
+            <td>{{coordinator.f_name}}</td>
+            <td>{{coordinator.l_name}}</td>
+            <td>{{coordinator.gender}}</td>
+            <td>{{coordinator.degree}}</td>
+            <td style="text-align: center;">{{coordinator.recruit_year}}</td>
+            <td>{{coordinator.phone}}</td>
+            <td>{{coordinator.email}}</td>
+            
+            <td><a href="{% url 'coordinator_update' coordinator.id %}" class="btn btn-sm btn-success">Update</a></td> 
+            <td><a href="{% url 'coordinator_delete' coordinator.id %}" class="btn btn-sm btn-danger">Delete</a></td> 
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'sectorPage.html' %}
+{% block body %}
+<table class="table">
+    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addStudent' %}" class="btn btn-primary mb-3">Add Student</a>   {% endcomment %}
+     <form method="get">
+     {{myFilter.form}}
+     <button class="btn btn-primary mb-3" type="SUBMIT" align="center">AJAX Search For Teachers
+     </button>
+    </form>
+    <br>
+    {% comment %} <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Reg Year</th>
+            <th>Phyisical Disability</th>
+            <th>Class</th>
+            <th colspan="2" style="text-align: center;">Actions</th>
+        </tr>
+    </thead> {% endcomment %}
+    <tbody>
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{teacher.f_name}}</td>
+            <td>{{teacher.l_name}}</td>
+            <td>{{teacher.gender}}</td>
+            <td>{{teacher.degree}}</td>
+            <td>{{teacher.recruit_year}}</td>
+            <td style="text-align: center;">{{teacher.physical_disability}}</td>
+            <td>{{teacher.course}}</td>
+             <td><a href="{% url 'teacher_update' teacher.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

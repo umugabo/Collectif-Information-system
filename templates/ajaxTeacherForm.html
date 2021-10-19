@@ -1,0 +1,42 @@
+{% extends 'teacherList.html' %}
+
+{% block body %}
+<head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+
+    form button{
+        margin-right: 170px;
+    }
+
+    .contain{
+        display: flex;
+    }
+    .form-group {
+        width: 70%;
+    }
+    
+</style></head>
+    <form action="" method="post" > 
+<label style="background-color: grey; border: #080808;">AJAX&nbsp</label>&nbsp:&nbsp
+
+<input type="text" name = "teacher" id="teacher" style="background-color: red; border: #080808;" >
+    
+    </form>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+<script>
+  $( function() {
+
+    $( "#teacher" ).autocomplete({
+      source: '{% url 'ajaxSearch' %}' 
+    });
+  } ); 
+  </script>
+       
+
+</table>
+      
+{% endblock %} 

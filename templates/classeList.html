@@ -1,0 +1,24 @@
+{% extends 'CoordinatorPage.html' %}
+{% block body %}
+<table class="table">
+    <a style="background-color: #080808; border: #080808;"  href="{% url 'addClasse' %}" class="btn btn-primary mb-3">Add Class</a>
+    <br>
+    <h3 class="text-center">List of Classes per schools</h3>
+    <thead>
+        <tr>
+            <th>Class Name</th>
+            <th colspan="2" class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for class in classes %}
+        <tr>
+            <td>{{class.class_name}}</td>
+            <td><a href="{% url 'class_update' class.id %}" class="btn btn-sm btn-success">Update</a></td><td></td>
+            <td><a href="{% url 'class_delete' class.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

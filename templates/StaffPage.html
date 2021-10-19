@@ -1,0 +1,171 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}
+        Staff Collectif Tubakunde  
+        {% endblock %}
+    </title>
+    <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstraphome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/simple-sidebar.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'js/chartjs/chart.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/chartcss/chart.min.css'%}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/StaffPage/jquery-ui.css">
+
+
+
+</head>
+<body>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/jquery-3.5.1.slim.min' %}"></script>
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" aria-label="">
+            <center>
+                <div class="sidebar .sidebar-header">
+                     
+                        <img src="{% static 'images/logo.JPG' %}"" alt="logo" height="130" width="240"> 
+                    </a>
+                </div>
+            </center>
+            <ul class="list-unstyled components">
+          
+                <p> <strong style="color: #78797F;">COLLECTIF STAFF USER</strong> </p>
+                 
+                               <li class="{% if 'homeStaff' in request.path %} active {% endif %}">
+                    <a href="{% url 'homeStaff' %}"><span class="feather icon-map"></span> Dashboard</a>
+                {% comment %} </li>
+                              <li class="{% if 'studentList' in request.path %} active {% endif %}">
+                    <a href="{% url 'studentList' %}"><span class="feather icon-home"></span>Childrens</a>
+                </li>      {% endcomment %}
+                             <li class="{% if 'course' in request.path %} active {% endif %}">
+                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>Courses Taught In All Site</a>
+                </li>
+                   
+                            <li class="{% if 'classeList' in request.path %} active {% endif %}">
+                    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>Classes In All Site</a>
+               
+                           <li class="{% if 'ListOfcoordinatorStaff' in request.path %} active {% endif %}">
+                    <a href="{% url 'ListOfcoordinatorStaff' %}"><span class="feather icon-feather"></span>List Of Coordinators </a>
+                </li>
+                        <li class="{% if 'search' in request.path %} active {% endif %}">
+                    <a href="{% url 'SearchStudentList' %}"><span class="feather icon-feather"></span>Search For a Child </a>
+                </li> 
+                <li class="{% if 'StatisticalReport' in request.path %} active {% endif %}">
+                    <a href="{% url 'StatisticalReport' %}"><span class="feather icon-feather"></span>Statistical Reports</a>
+                </li>
+
+            </ul>
+                       
+            {% comment %} <ul class="list-unstyled CTAs"> {% endcomment %}
+                <li>
+                    
+                        {% csrf_token%}
+                        <a href="{% url 'logout' %}" style="background-color: #080808; border: #07FFF00;" class="btn btn-primary btn-block mt-5" >LOGOUT {{request.user}}</a>
+                    
+                </li>
+            </ul>
+        </nav>
+        <!-- Page Content Holder -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                    <div style="margin-right: 600px;">
+                        {% block schoolName %}{% endblock %}
+                    </div>
+                            <li class="nav-item">
+                                <span class="nav-link mt-2 text-uppercase text-success">Logged in as,
+                                    {{request.user.username}}</span>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="">
+                                    <span class="nav-link text-center text-capitalize" style="padding-top: 14.5px;" href="#" id="avatar"><strong>
+                                      
+                                        <h5>{{ request.user.username|make_list|first }}</h5>
+                                        </strong></span>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="mr-3 ml-3">
+                {% block myheader %}
+                {% endblock %}
+                {% block body %}
+                <table border="10"  align="center"><tr><td>
+                 <h1>Hello,  {{request.user}}  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <img src="{% static 'images/logo.JPG' %}" alt="logo" height="170" width="210"> </td></tr>
+                
+                <tr><td><strong style="color: #008000;"><center><strong style="color: blue"><b>Collectif Tubakunde Values </b></strong><br><li> Respect</li><li> Equality </li><li> Children Protection </li><li>Diginity Social Accountability </li><br><b> <strong style="color: blue"> Collectif Tubakunde Motto.</b><br></strong> The Voice Of The Voiceless. </strong></a></td></tr></div></table>
+                </span> <br>
+
+                <table border=" " color= "green" align="center">                              
+                <tr><td><strong style="color: green"> 
+                 Administrator's Contacts<br>
+                 <p style="text-decoration: none; color: #000000;">Email Address:mugaboyves1@gmail.com<br>Tel:(+250)784960500</p>
+                 Designed by © MGBMAINT Ltd CEO&Founder Yves MUGABO
+            
+                </table>
+                
+                 {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Popper.JS -->
+    <!-- Bootstrap JS -->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+
+
+    <script>
+        async function showLogout(item) {
+            await Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be logged out!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#218838',
+                cancelButtonColor: '#0085CA',
+                confirmButtonText: 'Yes, logout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("logout").action = "/accounts/logout/";
+                    document.getElementById("logout_confirmed").click();
+                }
+            })
+        };
+    </script>
+ 
+</body>
+</html>

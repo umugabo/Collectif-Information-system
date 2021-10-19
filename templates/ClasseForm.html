@@ -1,0 +1,19 @@
+{% extends 'CoordinatorPage.html' %}
+{% load crispy_forms_tags %}
+{% block myheader %}
+<h1 class="display-5">Classe Creation</h1>
+<p class="lead">Here, The Classe that will be created, will be used by the Students that are belong to it</p>
+{% endblock %}
+{% block body %}
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {{form.class_name|as_crispy_field}}
+                {{form.school|as_crispy_field}}
+            </div>
+        </div>
+        <br>
+        <button style="margin-left: 435px;" type="submit" class="btn btn-success">Create Course</button>
+    </form>
+{% endblock %}

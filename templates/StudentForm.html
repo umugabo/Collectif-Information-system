@@ -1,0 +1,91 @@
+{% extends "CoordinatorPage.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block mytitle %}
+Register Student
+{% endblock %}  
+{% block myheader %}
+<a href="{% url 'homeCoordinator'%}" class="btn btn-sm btn-danger float-left">Close</a>
+<h1 class="display-5 text-center">Child Registration</h1>
+{% comment %} <p class="lead">After filling This form, a Child will be Registered</p> {% endcomment %}
+{% endblock %}
+
+{% block schoolName %}
+<li class="nav-item">
+    {% comment %} <span class="nav-link mt-2 text-uppercase text-success">{{school}}Adventist School</span> {% endcomment %}
+</li>
+{% endblock %}
+
+{% block body %}
+
+<style>
+
+    form button{
+        margin-right: 170px;
+    }
+
+    .contain{
+        display: flex;
+    }
+    .form-group {
+        width: 70%;
+    }
+
+</style>
+    <form action="" method="post" autocomplete="off" novalidate>
+        {% csrf_token %}
+       <div class="contain">
+        <div class="form-group">
+            {{form.f_name|as_crispy_field}}
+            {{form.l_name|as_crispy_field}}
+            {{form.gender|as_crispy_field}}            
+            {{form.dob|as_crispy_field}}
+            {{form.correspond_age|as_crispy_field}} 
+            {{form.year_reg|as_crispy_field}}
+            </div>
+            <div class="form-group">
+            
+            {{form.physical_disability|as_crispy_field}}
+            {{form.classe|as_crispy_field}}
+            {{form.school|as_crispy_field}}
+            {{form.familyNID|as_crispy_field}}
+            {{form.father_name|as_crispy_field}}
+            {{form.mother_name|as_crispy_field}}
+            
+                               
+                </div>
+                <div class="form-group">
+                
+                {{form.phone|as_crispy_field}}
+                {{form.province|as_crispy_field}}
+                {{form.district|as_crispy_field}}
+                {{form.sectors|as_crispy_field}}
+                {{form.cell|as_crispy_field}}
+                {{form.village|as_crispy_field}}
+                
+            </div>  
+            {{form.note|as_crispy_field}}   
+                  
+        </div>
+        <button type="submit" class="btn btn-success float-right">Submit Child</button>
+        <br>
+    </form>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+{% comment %} <script>
+    const province=document.querySelector('#id_province');
+    province.addEventListener('change',(el)=>{
+        let province_value = province.value;
+        $.ajax({
+        url: '{% url 'ajaxSearchDistrict' %}',
+        data: {
+          'id': province_value
+        }
+        
+      });
+    })
+</script> {% endcomment %}
+{% endblock %} 

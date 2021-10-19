@@ -1,0 +1,133 @@
+{% extends "CoordinatorPage.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="row">
+  <div class="col-md-6">
+    <div class="card bg-white text-black shadow md-4">
+      <h5 class="text-center">Gender Students' Partcipating in {{school}}</h5> <br>
+      <canvas id="myChart" width="500" height="200"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card bg-white text-black shadow md-4">
+      <h5 class="text-center">Physical Disability Students' Partcipating in {{school}}</h5> <br>
+      <canvas id="myChart1" width="500" height="200"></canvas>
+    </div>
+  </div>
+</div>
+
+ <script>
+      $(document).ready(function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            // labels: [{% for school in qs %}'{{ school.sector }}',{% endfor %}],
+            labels: ['Male Students ', 'Female Students'],
+            datasets: [{
+              label: '# of Students with the following range of numbers',
+  {% for obj in answers2 %}
+    data: [(({{ obj.0}}*100)/{{obj.4}}).toFixed(1), (({{ obj.1}}*100)/{{obj.4}}).toFixed(1)],
+        {% endfor %}
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+      ],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+      ],
+        borderWidth: 1
+}]
+},
+        options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        plugins: {
+          datalabels: {
+            color: '#000',
+            anchor: 'end',
+            align: 'start',
+            offset: -10,
+            borderWidth: 2,
+            borderColor: '#808080',
+            borderRadius: 50,
+            backgroundColor: (context) => {
+              return context.dataset.backgroundColor;
+            },
+            font: {
+              weight: 'bold',
+              size: '10'
+            },
+            formatter: (value) => {
+              return value + '%';
+            }
+          }
+        }
+      }
+});
+}); 
+    </script>
+<script>
+  $(document).ready(function () {
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        // labels: [{% for school in qs %}'{{ school.sector }}',{% endfor %}],
+        labels: ['Physical Disability Students', 'NO Physical Disability Students'],
+        datasets: [{
+          label: '# of Students with the following range of numbers',
+{% for obj in answers2 %}
+data: [(({{ obj.2}}*100)/{{obj.4}}).toFixed(1), (({{ obj.3}}*100)/{{obj.4}}).toFixed(1)],
+    {% endfor %}
+    backgroundColor: [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+  ],
+    borderColor: [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+  ],
+    borderWidth: 1
+}]
+},
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        plugins: {
+          datalabels: {
+            color: '#000',
+            anchor: 'end',
+            align: 'start',
+            offset: -10,
+            borderWidth: 2,
+            borderColor: '#808080',
+            borderRadius: 50,
+            backgroundColor: (context) => {
+              return context.dataset.backgroundColor;
+            }, 
+            font: {
+              weight: 'bold',
+              size: '10'
+            },
+            formatter: (value) => {
+              return value + '%';
+            }
+          }
+        }
+      }
+});
+}); 
+</script>
+{% endblock %}

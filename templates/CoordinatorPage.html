@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}
+        Coordinator Panel
+        {% endblock %}
+    </title>
+    <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstraphome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/simple-sidebar.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+
+<script src="{% static 'js/chartjs/chart.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/chartcss/chart.min.css'%}">
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> 
+</head>
+<body>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/jquery-3.5.1.slim.min' %}"></script>
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" aria-label="">
+            <center>
+                <div class="sidebar-"><a>
+                    <a href="{% url 'homeCoordinator' %}">
+                         {% comment %} <img src="{% static 'images/logo.JPG' %}"" alt="logo" height="100" width="145">  {% endcomment %}
+                    </a>
+                </div>
+            </center>
+              {{coordinator.f_name}}
+            <ul class="list-styled  components" color: #7abecc>
+               
+                <p> <strong style="color: #0000FF;">Coordinators PAGE</strong> </p>
+                 <li class="{% if 'homeCoordinator' in request.path %} active {% endif %}">
+                    <a href="{% url 'homeCoordinator' %}"><span class="feather icon-map"></span> Dashboard</a>
+                </li> 
+               
+                <li class="{% if 'addStudent' in request.path %} active {% endif %}">
+                    <a href="{% url 'addStudent' %}"><span class="feather icon-home"></span>Add New Student</a>
+                </li>
+                              <li class="{% if 'addSCourse' in request.path %} active {% endif %}">
+                    <a href="{% url 'addCourse' %}"><span class="feather icon-home"></span>Add New Course</a>
+                </li>
+
+                              <li class="{% if 'addSClasse' in request.path %} active {% endif %}">
+                    <a href="{% url 'addClasse' %}"><span class="feather icon-home"></span>Add New Class</a>
+                </li>
+                <li class="{% if 'addTeachers' in request.path %} active {% endif %}">
+                    <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Teacher</a>
+                </li>
+                
+                <li class="{% if 'bar' in request.path %} active {% endif %}">
+                    <a href="{% url 'homeCoordinator' %}"><span class="feather icon-feather"></span>****************</a>
+                </li>
+                 
+                           <li class="{% if 'Board' in request.path %} active {% endif %}">
+                    <a href="{% url 'studentList' %}"><span class="feather icon-feather"></span>List Of My Student</a>
+                </li>
+                        <li class="{% if 'ListOfParent' in request.path %} active {% endif %}">
+                    <a href="{% url 'ListOfParent' %}"><span class="feather icon-feather"></span>List Of Parent</a>
+                </li> 
+                  <li class="{% if 'classeList' in request.path %} active {% endif %}">
+                    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>List Of Classes</a>
+                </li> 
+                  <li class="{% if 'courseList' in request.path %} active {% endif %}">
+                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>List Of Courses</a>
+                </li> 
+                 <li class="{% if 'ListOfTeacher' in request.path %} active {% endif %}">
+                    <a href="{% url 'teacherList' %}"><span class="feather icon-feather"></span>List Of Teachers</a>
+                </li> 
+                <li class="{% if 'StatisticalReport' in request.path %} active {% endif %}">
+                    <a href="{% url 'StatisticalReport' %}"><span class="feather icon-feather"></span>Site Report</a>
+                </li>
+                 
+                    
+                
+                     </ul>
+                        {% csrf_token%}
+                        <a href="{% url 'logout' %}" style="background-color: #00000 " class="btn btn-primary btn-block mt-5" >LOGOUT {{request.user}}</a>
+                    
+                </li>
+           
+        </nav>
+
+      
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                    <div style="margin-right: 600px;">
+                        {% block schoolName %}{% endblock %}
+                    </div>
+                            <li class="nav-item">
+                                <span class="nav-link mt-2 text-uppercase text-success">Logged in as,
+                                    {{request.user.username}}</span>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="">
+                                    <span class="nav-link text-center text-capitalize" style="padding-top: 14.5px;" href="#" id="avatar"><strong>
+                                      
+                                        <h5>{{ request.user.username|make_list|first }}</h5>
+                                        </strong></span>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="mr-3 ml-3">
+                {% block myheader %}
+                {% endblock %}
+                {% block body %}
+                <table border="4" bg-color="yellow" align="center"><tr><td>
+                 <h1>Hello, {{request.user}} Coordinator&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp               
+                <img src="{% static 'images/logo.JPG' %}"" alt="Admin" height="250" width="350"> </td></tr>
+                <tr><td><strong style="color: blue;"><center>"BE THE VOICE OF THE VOICELESS"</td></tr>
+                <tr><td><strong style="color: #78797F;"><center><b>{{request.user}} Core Values </b><br>  Respect, Equality,Equality & Children Protection <br><b> {{request.user}} Motto.</b><br> Grow Faster . </strong></a></td></tr></div></table>
+                </span><br>
+
+                <table border="0"  align="center">
+                            
+                <tr><td ><strong style="color: blown"> 
+                Address<br>
+                Tel:+250784960500<br>
+                KIGALI, RWANADA  Kicukiro - Niboye<br>                
+                E-mail: infomgbmaint@gmail.com
+              
+                </strong></a></td></tr></div></table>
+                {% comment %} <center><p style="text-decoration: none; color: #80810;">  © Collectif Tubakunde Children Information System 2021. All rights reserved.</a></p>  {% endcomment %}
+                <a><p style="text-decoration: none; color: #0000FF;" align="right"> © Designed,by MGB Maint Ltd</a></p>
+                </span>
+                 {% endblock %}
+            </div>
+ 
+        </div>
+        
+    </div>
+
+            
+
+    <!-- Popper.JS -->
+    <!-- Bootstrap JS -->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    <script>
+        async function showLogout(item) {
+            await Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be logged out!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#218838',
+                cancelButtonColor: '#0085CA',
+                confirmButtonText: 'Yes, logout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("logout").action = "/accounts/logout/";
+                    document.getElementById("logout_confirmed").click();
+                }
+            })
+        };
+    </script>
+ 
+</body>
+</html>
