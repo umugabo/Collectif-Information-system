@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from student.views import register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
+from student.views import siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.conf import settings
@@ -71,6 +71,9 @@ urlpatterns = [
     path('register_coordinator_user', register_coordinator_user, name='register_coordinator_user'),
     path('addStaff', addStaff, name='addStaff'),
     path('register_staff_user', register_staff_user, name='register_staff_user'),
+    path('sitesBoardReport', sitesBoardReport, name='sitesBoardReport'),
+    path('siteStaffReport', siteStaffReport, name='siteStaffReport'),
+    path('siteschoolReport', siteschoolReport, name='siteschoolReport'),
 
     
 

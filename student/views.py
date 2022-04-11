@@ -691,4 +691,50 @@ def testPdf(request):
     return HttpResponse*"Not found"
 
 
-    
+@login_required(login_url='login_view')
+@allowed_users(allowed_roles=['BoardUser'])
+def sitesBoardReport(request):
+
+	# rib_stations = RIBStation.objects.all()
+	# cases = Case.objects.all()
+	# station_user = StationUser.objects.all()
+	male= Student.objects.filter(gender='M').count()
+	female= Student.objects.filter(gender='F').count()
+	# Captain = StationUser.objects.filter(rank = 'Captain').count()
+	# Major = StationUser.objects.filter(rank = 'Major').count()
+	# General = StationUser.objects.filter(rank = 'General').count()
+
+	context = {'male':male, 'female':female}
+	return render(request, 'generalBoardReport.html',context)
+
+@login_required(login_url='login_view')
+@allowed_users(allowed_roles=['StaffUser'])
+def siteStaffReport(request):
+
+	# rib_stations = RIBStation.objects.all()
+	# cases = Case.objects.all()
+	# station_user = StationUser.objects.all()
+	male= Student.objects.filter(gender='M').count()
+	female= Student.objects.filter(gender='F').count()
+	# Captain = StationUser.objects.filter(rank = 'Captain').count()
+	# Major = StationUser.objects.filter(rank = 'Major').count()
+	# General = StationUser.objects.filter(rank = 'General').count()
+
+	context = {'male':male, 'female':female}
+	return render(request, 'generalStaffReport.html',context)
+
+@login_required(login_url='login_view')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def siteschoolReport(request):
+
+	# rib_stations = RIBStation.objects.all()
+	# cases = Case.objects.all()
+	# station_user = StationUser.objects.all()
+	male= Student.objects.filter(gender='M').count()
+	female= Student.objects.filter(gender='F').count()
+	# Captain = StationUser.objects.filter(rank = 'Captain').count()
+	# Major = StationUser.objects.filter(rank = 'Major').count()
+	# General = StationUser.objects.filter(rank = 'General').count()
+
+	context = {'male':male, 'female':female}
+	return render(request, 'generalCoordinatorReport.html',context)
