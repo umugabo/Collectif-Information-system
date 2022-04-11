@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 
 # Create your models here.
@@ -19,14 +20,25 @@ DEGREE = [
     
 ]
 
+CLADES = [
+    ("CLADE1", "CLADE 1"),
+    ("CLADE2", "CLADE 2"),
+    ("CLADE3", "CLADE 3"),
+]
+
 PHYSICAL_DISABILITY = [
      ("NO", "No"),
     ("Autism", "Autism"),
     ("Multiple", "Multiple"),
     ("Cerebral Palsy", "Cerebral Palsy"),
+    ("Cerebral Palsy ID", "Cerebral Palsy ID"),
     ("Down syndrom", "Down syndrom"),
     
     # ("NO", "NO")
+]
+SERVICE_CATEGORY = [
+    ("SPECIAL EDUCATION", "SPECIAL EDUCATION"),
+    ("FUSION AND EDUCATION", "FUSION AND EDUCATION"), 
 ]
 
 
@@ -61,6 +73,8 @@ class Classe(models.Model):
 class Course(models.Model):
     course_name = models.CharField(max_length=30)
     course_desc = models.CharField(max_length=50)
+    school = models.ForeignKey(School, on_delete=models.CASCADE , null=True, blank=True)
+
 
     def __str__(self):
         return self.course_name
@@ -76,7 +90,7 @@ class Teacher(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     
@@ -92,7 +106,7 @@ class Parent(models.Model):
     sector = models.CharField(max_length=30, blank=False)
     cell = models.CharField(max_length=30, blank=False)
     village = models.CharField(max_length=30, blank=False)
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
         
     def __str__(self):
         return self.f_name  
@@ -107,7 +121,8 @@ class Coordinator(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    # school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.f_name  
@@ -122,7 +137,7 @@ class Staff(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
    
     def __str__(self):
         return self.f_name  
@@ -136,7 +151,7 @@ class Board(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
    
     def __str__(self):
         return self.f_name 
@@ -188,8 +203,9 @@ class Student(models.Model):
     dob = models.DateField()
     correspond_age = models.IntegerField()
     year_reg = models.IntegerField()
-    physical_disability = models.CharField(max_length=15, choices=PHYSICAL_DISABILITY, default="NO")
-    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    service_category = models.CharField(max_length=50, choices=SERVICE_CATEGORY)
+    classe = models.CharField(max_length=50, choices=CLADES)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     familyNID = models.CharField(max_length=16, blank=False)
     father_name = models.CharField(max_length=100, blank=True)
@@ -197,10 +213,12 @@ class Student(models.Model):
     phone =  models.CharField(max_length=10, blank=False)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    sectors = models.ForeignKey(Sectors, on_delete=models.CASCADE)
-    cell = models.ForeignKey(Cell, on_delete=models.CASCADE)
-    village = models.ForeignKey(Village, on_delete=models.CASCADE)
+    sectors = models.CharField(max_length=30, blank=False)
+    cell = models.CharField(max_length=30, blank=False)
+    village = models.CharField(max_length=30, blank=False)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    st_image = models.ImageField(default="anonymous-user.png", null=True, blank=True)
     note = models.CharField(max_length=150, blank=False)
-  
     def __str__(self):
         return self.f_name  
+

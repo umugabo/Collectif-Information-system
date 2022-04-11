@@ -44,17 +44,17 @@
                 <li class="{% if 'ListOfBoard' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfBoard' %}"><span class="feather icon-feather"></span>Board Member</a>
                 </li> 
-                 <li class="{% if 'ListOfStaff' in request.path %} active  active {% elif 'addStaff' in request.path %} active {% endif %}">
+                 <li class="{% if 'ListOfStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfStaff' %}"><span class="feather icon-feather"></span>Staff Member</a>
                 </li>             
                
-                <li class="{% if 'ListOfcoordinator' in request.path %} active {% elif 'addCoordinator' in request.path %} active {% elif 'register_coordinator_user' in request.path %} active {% endif %}">
+                <li class="{% if 'ListOfcoordinator' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfcoordinator' %}"><span class="feather icon-feather"></span>Coordinator List</a>
-                {% comment %} </li>
+                </li>
                   <li class="{% if 'addSchool' in request.path %} active {% endif %}">
                     <a href="{% url 'addSchool' %}"><span class="feather icon-feather"></span>Open New School Site</a>
-                </li>  {% endcomment %}
-                    <li class="{% if 'schoolList' in request.path %} active {% elif 'addSchool' in request.path %} active {% endif %}">
+                </li> 
+                    <li class="{% if 'schoolList' in request.path %} active {% endif %}">
                     <a href="{% url 'schoolList' %}"><span class="feather icon-feather"></span>Site List in Rwanda</a>
                 </li> 
 
@@ -117,121 +117,27 @@
                 {% block myheader %}
                 {% endblock %}
                 {% block body %}
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                  All Staffs
-                                </div>
-                                <div class="card-body">
-                                  <h5 class="card-title text-center">{{staffs}}</h5>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                  All School Directors
-                                </div>
-                                <div class="card-body">
-                                  <h5 class="card-title text-center">{{coordinators}}</h5>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                  All Teachers
-                                </div>
-                                <div class="card-body">
-                                  <h5 class="card-title text-center">{{teachers}}</h5>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                  All Student
-                                </div>
-                                <div class="card-body">
-                                  <h5 class="card-title text-center">{{children}}</h5>
-                                </div>
-                              </div>
-                        </div>
-                    </div>
-<br>
+                <table border="4" bg-color="yellow" align="center"><tr><td>
+                 <h1>Hello Mr. {{request.user}} &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp               
+                <img src="{% static 'images/presidentElissam s NTIBANYENDERA.JPG' %}"" alt="President" height="220" width="350"> </td></tr>
+                
+                <tr><td><strong style="color: #78797F;"><center><b>Collectif Tubakunde Values </b><br>  Respect, Equality,Diginity Social Accountability & Children Protection <br><b> Collectif Tubakunde Motto.</b><br> The Voice Of The Voiceless. </strong></a></td></tr></div></table>
+                </span><br>
 
-<div class="row">
-    <div class="col-md-6">
-        <canvas id="myChart" height="200"></canvas>
-    </div>
-    <div class="col-md-6">
-        <canvas id="myChart1" height="200"></canvas>
-    </div>
-</div>
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Autism', 'Multiple', 'Cerebral Palsy', 'Down syndrom'],
-        datasets: [{
-            label: '# of Votes',
-            data: ["{{Autisms}}", "{{Multiples}}", "{{Cerebral_Palsys}}", "{{Down_syndroms}}"],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-const ctx1 = document.getElementById('myChart1').getContext('2d');
-const myChart1 = new Chart(ctx1, {
-    type: 'pie',
-    data: {
-        labels: ['Male Beneficiary', 'Femele Beneficiary'],
-        datasets: [{
-            label: '# of Beneciary based on gender',
-            data: ["{{st_male}}", "{{st_female}}"],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-</script>
-
-                {% endblock %}
+                <table border="0"  align="center">
+                            
+                <tr><td ><strong style="color: green"> 
+                Address<br>
+                Tel:+250788770849<br>
+                P.O.Box 5067
+                KIGALI, RWANADA<br>                
+                E-mail: tubakunde2005@yahoo.fr
+              
+                </strong></a></td></tr></div></table>
+                <center><p style="text-decoration: none; color: #80810;">  © Collectif Tubakunde Children Information System 2021. All rights reserved.</a></p> 
+                <a><p style="text-decoration: none; color: #0000FF;" align="right"> © Designed,by MGB Maint Ltd</a></p>
+                </span>
+                 {% endblock %}
             </div>
  
         </div>

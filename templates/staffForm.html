@@ -4,8 +4,8 @@
 Register Teacher
 {% endblock %}
 {% block myheader %}
-<h1 class="display-5 text-center">Coordinator Registration</h1>
-<p class="lead">Fill out Here, a Coordinator  will be Registered</p>
+<h1 class="display-5 text-center">Staff Registration</h1>
+<p class="lead">Fill out Here, a Staff  will be Registered</p>
 {% endblock %}
 
 {% block schoolName %}
@@ -15,7 +15,7 @@ Register Teacher
 {% endblock %}
 
 {% block body %}
-<a style="background-color: #080808; border: #080808; margin-right: 50px" href="{% url 'register_coordinator_user' %}" class="btn btn-primary mb-3 float-right">Add Coordinator User</a> <br /><br />
+<a style="background-color: #080808; border: #080808; margin-right: 50px" href="{% url 'register_staff_user' %}" class="btn btn-primary mb-3 float-right">Add Staff User</a> <br /><br />
 
 <style>
 
@@ -35,7 +35,7 @@ Register Teacher
        <div class="contain">
         <div class="form-group">
             {{form.user|as_crispy_field}}
-            {{form.CoordinatorNationalId|as_crispy_field}}
+            {{form.StaffNationalId|as_crispy_field}}
             {{form.f_name|as_crispy_field}}
             {{form.l_name|as_crispy_field}}
             {{form.gender|as_crispy_field}}            
@@ -46,9 +46,9 @@ Register Teacher
             {{form.degree|as_crispy_field}}
             {{form.recruit_year|as_crispy_field}}
             {{form.phone|as_crispy_field}}
+            {{form.physical_disability|as_crispy_field}}
             {{form.email|as_crispy_field}}
-                      
-                
+                       
             </div>          
                            
         </div>

@@ -11,7 +11,7 @@ class StudentFilter(django_filters.FilterSet):
     class Meta:
          model = Student
          fields = '__all__'
-         exclude = ['year_reg','l_name','dob']
+         exclude = ['year_reg','l_name','dob', 'service_category', 'st_image']
 
 class TeacherFilter(django_filters.FilterSet):
     f_name = CharFilter(field_name="f_name", lookup_expr='icontains')

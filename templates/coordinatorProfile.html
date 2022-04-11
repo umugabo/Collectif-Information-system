@@ -41,17 +41,17 @@
                  <li class="{% if 'homeCoordinator' in request.path %} active {% endif %}">
                     <a href="{% url 'homeCoordinator' %}"><span class="feather icon-map"></span> Dashboard</a>
                 </li> 
-                {% comment %} <li class="{% if 'addClasse' in request.path %} active {% endif %}">
-                    <a href="{% url 'addClasse' %}"><span class="feather icon-home"></span>Add New Class</a>
-                </li> {% endcomment %}
                
-                <li class="{% if 'addCourse' in request.path %} active {% endif %}">
-                    <a href="{% url 'addCourse' %}"><span class="feather icon-home"></span>Add New Course</a>
-                </li>
                 <li class="{% if 'addStudent' in request.path %} active {% endif %}">
                     <a href="{% url 'addStudent' %}"><span class="feather icon-home"></span>Add New Student</a>
                 </li>
-                      
+                              <li class="{% if 'addCourse' in request.path %} active {% endif %}">
+                    <a href="{% url 'addCourse' %}"><span class="feather icon-home"></span>Add New Course</a>
+                </li>
+
+                              <li class="{% if 'addClasse' in request.path %} active {% endif %}">
+                    <a href="{% url 'addClasse' %}"><span class="feather icon-home"></span>Add New Class</a>
+                </li>
                 <li class="{% if 'addTeacher' in request.path %} active {% endif %}">
                     <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Teacher</a>
                 </li>
@@ -131,153 +131,26 @@
                 {% block myheader %}
                 {% endblock %}
                 {% block body %}
+                <table border="4" bg-color="yellow" align="center"><tr><td>
+                 <h1>Hello, {{request.user}} Coordinator&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp               
+                <img src="{% static 'images/logo.JPG' %}"" alt="Admin" height="250" width="350"> </td></tr>
+                <tr><td><strong style="color: blue;"><center>"BE THE VOICE OF THE VOICELESS"</td></tr>
+                <tr><td><strong style="color: #78797F;"><center><b>{{request.user}} Core Values </b><br>  Respect, Equality,Equality & Children Protection <br><b> {{request.user}} Motto.</b><br> Grow Faster . </strong></a></td></tr></div></table>
+                </span><br>
 
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Staffs
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{staffs}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All School Directors
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{coordinators}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Teachers
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{teachers}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Student
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{children}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                </div>
-<br>
-
-<div class="row">
-<div class="col-md-6">
-    <canvas id="myChart3" height="240"></canvas>
-</div>
-<div class="col-md-6">
-    <canvas id="myChart" height="120"></canvas>
-    <canvas id="myChart1" height="120"></canvas>
-</div>
-</div>
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-type: 'doughnut',
-data: {
-    labels: ['Autism', 'Multiple', 'Cerebral Palsy', 'Down syndrom'],
-    datasets: [{
-        label: '# of Votes',
-        data: ["{{Autisms}}", "{{Multiples}}", "{{Cerebral_Palsys}}", "{{Down_syndroms}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-
-const ctx1 = document.getElementById('myChart1').getContext('2d');
-const myChart1 = new Chart(ctx1, {
-type: 'pie',
-data: {
-    labels: ['Male Beneficiary', 'Femele Beneficiary'],
-    datasets: [{
-        label: '# of Beneciary based on gender',
-        data: ["{{st_male}}", "{{st_female}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-const ctx3 = document.getElementById('myChart3').getContext('2d');
-const myChart3 = new Chart(ctx3, {
-type: 'bar',
-data: {
-    labels: ['CLADE 1 Children', 'CLADE 2 Children', 'CLADE 3 Children'],
-    datasets: [{
-        label: '# of Students based on Clases',
-        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-
-</script>
-
-                {% endblock %}
+                <table border="0"  align="center">
+                            
+                <tr><td ><strong style="color: blown"> 
+                Address<br>
+                Tel:+250784960500<br>
+                KIGALI, RWANADA  Kicukiro - Niboye<br>                
+                E-mail: infomgbmaint@gmail.com
+              
+                </strong></a></td></tr></div></table>
+                {% comment %} <center><p style="text-decoration: none; color: #80810;">  © Collectif Tubakunde Children Information System 2021. All rights reserved.</a></p>  {% endcomment %}
+                <a><p style="text-decoration: none; color: #0000FF;" align="right"> © Designed,by MGB Maint Ltd</a></p>
+                </span>
+                 {% endblock %}
             </div>
  
         </div>

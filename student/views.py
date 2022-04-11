@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
+from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -10,10 +11,13 @@ from django.db import connection
 from django .http import HttpResponse,JsonResponse
 
 # Create your views here.
-from .forms import CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm
+from .forms import StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
 from .models import *
 from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village
 from .filters import StudentFilter,TeacherFilter
+from .utils import render_to_pdf
+from django.template.loader import get_template
+
 
 @unauthenticated_user
 def registerPage(request):
@@ -67,7 +71,28 @@ def logoutUser(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['StaffUser'])
 def homeStaff(request):
-    context = {}
+    coordinators = Coordinator.objects.all().count()
+    schools = School.objects.all().count()
+    teachers = Teacher.objects.all().count()
+    children = Student.objects.all().count() 
+    staffs = Staff.objects.all().count()
+    Autisms = Student.objects.filter(physical_disability="Autism").count()
+    Multiples = Student.objects.filter(physical_disability="Multiple").count()
+    Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
+
+    clades1 = Student.objects.filter(classe="CLADE1").count()
+    clades2 = Student.objects.filter(classe="CLADE2").count()
+    clades3 = Student.objects.filter(classe="CLADE3").count()
+
+
+    st_male = Student.objects.filter(gender="M").count()
+    st_female = Student.objects.filter(gender="F").count()
+
+    context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
+        'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+    }
     return render(request, 'StaffPage.html', context)
 
 # @login_required(login_url='loginPage')
@@ -80,7 +105,23 @@ def homeAdmin(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['BoardUser'])
 def homeBoard(request):
-    context = {}
+    coordinators = Coordinator.objects.all().count()
+    schools = School.objects.all().count()
+    teachers = Teacher.objects.all().count()
+    children = Student.objects.all().count() 
+    staffs = Staff.objects.all().count()
+    Autisms = Student.objects.filter(physical_disability="Autism").count()
+    Multiples = Student.objects.filter(physical_disability="Multiple").count()
+    Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
+
+    st_male = Student.objects.filter(gender="M").count()
+    st_female = Student.objects.filter(gender="F").count()
+
+    context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
+        'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
+        'st_male':st_male, 'st_female':st_female
+    }
     return render(request, 'BoardPage.html', context)
 
 
@@ -88,13 +129,33 @@ def homeBoard(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def homeCoordinator(request):
-    context = {}
+    user = request.user
+    school = School.objects.get(user=user)
+    children = Student.objects.filter(school=school).count() 
+    Autisms = Student.objects.filter(physical_disability="Autism", school=school).count()
+    Multiples = Student.objects.filter(physical_disability="Multiple", school=school).count()
+    Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy", school=school).count()
+    Down_syndroms = Student.objects.filter(physical_disability="Down syndrom", school=school).count()
+
+    clades1 = Student.objects.filter(classe="CLADE1", school=school).count()
+    clades2 = Student.objects.filter(classe="CLADE2", school=school).count()
+    clades3 = Student.objects.filter(classe="CLADE3", school=school).count()
+
+
+    st_male = Student.objects.filter(gender="M", school=school).count()
+    st_female = Student.objects.filter(gender="F", school=school).count()
+
+    context = {'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+    }
     return render(request, 'CoordinatorPage.html', context)
 
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def addCourse(request):
+    user = request.user
+    school = School.objects.get(user=user)
     if request.method == "GET":
         form = CourseForm()
         context = {'form':form}
@@ -102,17 +163,21 @@ def addCourse(request):
     else:
         form = CourseForm(request.POST)
         if form.is_valid:
-            form.save()
-            name = form.cleaned_data.get('course_name')
-            messages.success(request, 'Course has been Created Successfully ' +name)
-        return redirect('homeCoordinator')
+           form = form.save(commit=False)
+           form.school = school
+           form.save()
+        messages.success(request, 'Course has been Created Successfully in Your School')
+
+        return redirect('courseList')
 
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def courseList(request):
-    courses = Course.objects.all()
-    context={'courses':courses}
+    user = request.user
+    school = School.objects.get(user=user)
+    courses = Course.objects.filter(school=school)
+    context={'courses':courses, 'user':user , 'school':school}
     return render(request, 'courseList.html', context)
 
 
@@ -237,21 +302,36 @@ def school_delete(request, id):
 
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['StaffUser'])
+@allowed_users(allowed_roles=['BoardUser'])
 def addCoordinator(request):
     if request.method == "GET":
         form = CoordinatorForm()
         context = {'form':form}
         return render(request,'CoordinatorForm.html',context)
     else:
-        form = SchoolForm(request.POST)
+        form = CoordinatorForm(request.POST)
         if form.is_valid:
             form.save()
             name = form.cleaned_data.get('f_name')
             messages.success(request, 'Coordinator has been Created Successfully ' +name)
             
-        return redirect('coordinatorListStaff')
+        return redirect('ListOfcoordinator')
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['BoardUser'])
+def addStaff(request):
+    if request.method == "GET":
+        form = StaffForm()
+        context = {'form':form}
+        return render(request,'StaffForm.html',context)
+    else:
+        form = StaffForm(request.POST)
+        if form.is_valid:
+            form.save()
+            name = form.cleaned_data.get('f_name')
+            messages.success(request, 'Staff has been Created Successfully ' +name)
+            
+        return redirect('ListOfStaff')
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['StaffUser'])
@@ -278,6 +358,8 @@ def coordinator_delete(request, id):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def addStudent(request):
+    user = request.user
+    school = School.objects.get(user=user)
     if request.method == "GET":
         form = StudentForm()
         context = {'form':form}
@@ -285,9 +367,11 @@ def addStudent(request):
     else: 
         form = StudentForm(request.POST)
         if form.is_valid:
+            form = form.save(commit=False)
+            form.school = school
             form.save()
-            first_name = form.cleaned_data.get('f_name')
-            messages.success(request, 'Student has been Created Successfully ' +first_name)
+            # first_name = form.cleaned_data.get('f_name')
+            messages.success(request, 'Student has been Created Successfully')
         return redirect('studentList')
 
 
@@ -296,8 +380,14 @@ def addStudent(request):
 @allowed_users(allowed_roles=['CoordinatorUser'])
 # @allowed_users(allowed_roles=['StaffUser'])
 def studentList(request):
-    students = Student.objects.all()
-    context = {'students':students}
+    user = request.user
+    school = School.objects.get(user=user)
+    students = Student.objects.filter(school=school)
+    paginator = Paginator(students, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'students':students, 'page_obj':page_obj}
     return render(request, 'studentList.html', context)
 
 
@@ -321,7 +411,7 @@ def student_update(request, pk_student):
             form.save()
             messages.success(request, 'Student has been Updated Successfully')
             return redirect('studentList')
-    context = {'form':form}
+    context = {'form':form, 'student':student}
     return render(request, 'StudentForm.html',context)
 
 
@@ -329,6 +419,8 @@ def student_update(request, pk_student):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def addTeacher(request):
+    user = request.user
+    school = School.objects.get(user=user)
     if request.method == "GET":
         form = TeacherForm()
         context = {'form':form}
@@ -336,16 +428,24 @@ def addTeacher(request):
     else: 
         form = TeacherForm(request.POST)
         if form.is_valid:
+            form = form.save(commit=False)
+            form.school = school
             form.save()
-            first_name = form.cleaned_data.get('f_name')
-            messages.success(request, 'Teacher has been Created Successfully ' +first_name)
+            # first_name = form.cleaned_data.get('f_name')
+            messages.success(request, 'Teacher has been Created Successfully')
         return redirect('teacherList')
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def teacherList(request):
-    teachers = Teacher.objects.all()
-    context = {'teachers':teachers}
+    user = request.user
+    school = School.objects.get(user=user)
+    teachers = Teacher.objects.filter(school=school)
+    paginator = Paginator(teachers, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'teachers':teachers, 'page_obj':page_obj}
     return render(request, 'teacherList.html', context)
 
 @login_required(login_url='loginPage')
@@ -429,8 +529,14 @@ def SearchteacherList(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def ListOfParent(request):
-    students = Student.objects.all()
-    context = {'students':students}
+    user = request.user
+    school = School.objects.get(user=user)
+    students = Student.objects.filter(school=school)
+    paginator = Paginator(students, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'students':students, 'page_obj':page_obj}
     return render(request, 'ParentList.html', context)
 
 
@@ -528,10 +634,61 @@ def autosuggest(request):
     context = {}
     return render(request, 'ajaxTeacherForm.html', context)
 
+def register_coordinator_user(request):
+    form = CoordinatorUserRegistrationForm()
+    if request.method == 'POST':
+        form = CoordinatorUserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='CoordinatorUser')
+            user.groups.add(group)
+            messages.success(request, 'School director user has been successfully registered')
+            
+            return redirect('addCoordinator')
+    
+    context = {'form':form}
+    return render(request, 'coordinator_user_form.html', context)
 
+
+def register_staff_user(request):
+    form = StaffUserRegistrationForm()
+    if request.method == 'POST':
+        form = StaffUserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='StaffUser')
+            user.groups.add(group)
+            messages.success(request, 'Staff user has been successfully registered')
+            
+            return redirect('addStaff')
+    
+    context = {'form':form}
+    return render(request, 'staff_user_form.html', context)
 
 def footer(request):
     context = {}
     return render(request, 'footer.html', context)
+
+def testPdf(request):
+    template = get_template('testpdf.html')
+    user = request.user
+    
+    # return render(request, 'testpdf.html')
+    context = {}
+    html = template.render(context)
+    pdf= render_to_pdf('testpdf.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Test pdf"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
 
     

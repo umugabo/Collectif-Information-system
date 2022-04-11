@@ -115,151 +115,22 @@
                 {% block myheader %}
                 {% endblock %}
                 {% block body %}
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Staffs
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{staffs}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All School Directors
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{coordinators}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Teachers
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{teachers}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header text-center">
-                              All Student
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title text-center">{{children}}</h5>
-                            </div>
-                          </div>
-                    </div>
-                </div>
-<br>
+                <table border="10"  align="center"><tr><td>
+                 <h1>Hello,  {{request.user}}  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <img src="{% static 'images/logo.JPG' %}" alt="logo" height="170" width="210"> </td></tr>
+                
+                <tr><td><strong style="color: #008000;"><center><strong style="color: blue"><b>Collectif Tubakunde Values </b></strong><br><li> Respect</li><li> Equality </li><li> Children Protection </li><li>Diginity Social Accountability </li><br><b> <strong style="color: blue"> Collectif Tubakunde Motto.</b><br></strong> The Voice Of The Voiceless. </strong></a></td></tr></div></table>
+                </span> <br>
 
-<div class="row">
-<div class="col-md-6">
-    <canvas id="myChart3" height="240"></canvas>
-</div>
-<div class="col-md-6">
-    <canvas id="myChart" height="120"></canvas>
-    <canvas id="myChart1" height="120"></canvas>
-</div>
-</div>
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-type: 'doughnut',
-data: {
-    labels: ['Autism', 'Multiple', 'Cerebral Palsy', 'Down syndrom'],
-    datasets: [{
-        label: '# of Votes',
-        data: ["{{Autisms}}", "{{Multiples}}", "{{Cerebral_Palsys}}", "{{Down_syndroms}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-
-const ctx1 = document.getElementById('myChart1').getContext('2d');
-const myChart1 = new Chart(ctx1, {
-type: 'pie',
-data: {
-    labels: ['Male Beneficiary', 'Femele Beneficiary'],
-    datasets: [{
-        label: '# of Beneciary based on gender',
-        data: ["{{st_male}}", "{{st_female}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-const ctx3 = document.getElementById('myChart3').getContext('2d');
-const myChart3 = new Chart(ctx3, {
-type: 'bar',
-data: {
-    labels: ['CLADE 1 Children', 'CLADE 2 Children', 'CLADE 3 Children'],
-    datasets: [{
-        label: '# of Beneciary based on gender',
-        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}"],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-        y: {
-            beginAtZero: true
-        }
-    }
-}
-});
-
-</script>
-                {% endblock %}
+                <table border=" " color= "green" align="center">                              
+                <tr><td><strong style="color: green"> 
+                 Administrator's Contacts<br>
+                 <p style="text-decoration: none; color: #000000;">Email Address:mugaboyves1@gmail.com<br>Tel:(+250)784960500</p>
+                 Designed by © MGBMAINT Ltd CEO&Founder Yves MUGABO
+            
+                </table>
+                
+                 {% endblock %}
             </div>
         </div>
     </div>

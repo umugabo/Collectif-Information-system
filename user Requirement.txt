@@ -1,0 +1,36 @@
+Clollectif Information System
+===========  ======== ========
+Group
+----- 
+1. BoardUser
+userName
+----Elissam
+Password
+----collectif
+
+2. StaffUser
+userName
+----Gervais
+Password
+----collectif
+
+userName
+----Roselyne
+Password
+----collectif
+
+userName
+----Emmanuel
+Password
+----collectif
+
+3. CoordinatorUser
+userName
+----IzereMubyeyi
+Password
+----collectif
+
+userName
+----InezaKabaya
+Password
+----collectif

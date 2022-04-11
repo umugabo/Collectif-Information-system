@@ -1,18 +1,24 @@
 {% extends 'BoardPage.html' %}
 {% block body %}
 <table class="table">
-    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addSchool' %}" class="btn btn-primary mb-3">Add School</a> {% endcomment %}
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addSchool' %}" class="btn btn-primary mb-3">Add School</a>
     <br>
     <thead>
         <tr>
             <th>All our Site School in Rwanda</th>
-            <th colspan="2" >Action</th>
+            <th>School Directors</th>
+            <th>Director Contact</th>            
+            <th>Update</th>
+            <th>Delete</th>
+
         </tr>
     </thead>
     <tbody>
         {% for school in schools %}
         <tr>
             <td>{{school.school_name}}</td>
+            <td>{{school.user.coordinator.f_name}}  {{school.user.coordinator.l_name}}</td>
+            <td>{{school.user.coordinator.phone}}</td>            
             <td><a href="{% url 'school_update' school.id %}" class="btn btn-sm btn-success">Update</a></td>
             <td><a href="{% url 'school_delete' school.id %}" class="btn btn-sm btn-danger">Delete</a></td>
 

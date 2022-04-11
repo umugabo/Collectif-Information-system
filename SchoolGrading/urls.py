@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from student.views import SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
+from student.views import register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('homeStaff', homeStaff, name='homeStaff'),
@@ -64,8 +66,17 @@ urlpatterns = [
     path('school_update/<str:pk_school>',school_update, name='school_update'),
     path('school_delete/<str:id>', school_delete, name='school_delete'),
     path('coordinator_update/<str:pk_coordinator>',coordinator_update, name='coordinator_update'),
-    path('coordinator_delete/<str:id>', coordinator_delete, name='coordinator_delete')
+    path('coordinator_delete/<str:id>', coordinator_delete, name='coordinator_delete'),
+    path('testPdf', testPdf, name='testPdf'),
+    path('register_coordinator_user', register_coordinator_user, name='register_coordinator_user'),
+    path('addStaff', addStaff, name='addStaff'),
+    path('register_staff_user', register_staff_user, name='register_staff_user'),
+
     
 
+
+
+    
    
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

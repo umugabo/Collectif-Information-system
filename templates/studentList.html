@@ -23,11 +23,12 @@
             <th>Phyisical Disability</th>
             <th>Class</th>
             <th>Short Note</th>
+            <th>Image</th>
             <th colspan="2" style="text-align: center;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for student in students %}
+        {% for student in page_obj %}
         <tr>
             <td>{{student.f_name}}</td>
             <td>{{student.l_name}}</td>
@@ -40,6 +41,7 @@
             <td style="text-align: center;">{{student.physical_disability}}</td>
             <td>{{student.classe}}</td>
             <td>{{student.note}}</td>
+            <td><img class="profile-pic" src="{{ student.st_image.url }}" width="50" height="50" alt=""></td>
             <td><a href="{% url 'student_update' student.id %}" class="btn btn-sm btn-success">Update</a></td>
             <td><a href="{% url 'student_delete' student.id %}" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>
@@ -48,5 +50,23 @@
     </tbody>
     <a href="{% url 'homeCoordinator'%}" class="btn btn-sm btn-success float-left">Back</a>
 </table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 {% endblock %}

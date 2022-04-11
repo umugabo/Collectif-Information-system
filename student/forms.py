@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Classe,Student,Course ,Teacher ,School , Coordinator, Province, District, Sectors, Cell, Village
+from .models import Staff,Classe,Student,Course ,Teacher ,School , Coordinator, Province, District, Sectors, Cell, Village
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -12,7 +12,7 @@ from django import forms
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ('course_name', 'course_desc')
+        fields = ('course_name', 'course_desc','school')
         labels = {
             'course_name':'Course Name',
             'course_desc':'Course Description'
@@ -33,7 +33,7 @@ class StudentForm(forms.ModelForm):
     dob =forms.DateField(widget=DateInput)
     class Meta:
         model = Student
-        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','physical_disability','classe','school','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note')
+        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','course','physical_disability','classe','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note', 'service_category', 'st_image')
         labels = {
             'f_name':'First Name',
             'l_name':'Last Name',
@@ -43,7 +43,7 @@ class StudentForm(forms.ModelForm):
             'year_reg':'Registration Year',
             'physical_disability':'Disability Type',
             'classe':'Class Name',
-            'school':'School Name',
+            'course':'Course To Take',
             'familyNID':'Family NationalId',
             'father_name':'Father Name',
             'mother_name':'Mother Name',
@@ -53,9 +53,9 @@ class StudentForm(forms.ModelForm):
             'sectors':'Sector',
             'cell':'Cell',
             'village':'Village',
-            'note':'Observation Note'
-
-            
+            'note':'Observation Note',
+            'service_category':'Service Category',
+            'st_image':'Image',         
         }
     def __init__(self,*args,**kwargs):
         super(StudentForm,self).__init__(*args,**kwargs)
@@ -67,7 +67,7 @@ class TeacherForm(forms.ModelForm):
     
     class Meta:
         model = Teacher
-        fields = ('TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','course','school')
+        fields = ('TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','course')
         labels = {
             'TeacherNationalId':'National Identification',
             'f_name':'First Name',
@@ -79,8 +79,6 @@ class TeacherForm(forms.ModelForm):
             'email':'email',         
             'physical_disability':'Physical Disability?',
             'course':'Course the teacher teachs in Class', 
-            'school':'In which school will teachs in'
-            
         }
     def __init__(self,*args,**kwargs):
         super(TeacherForm,self).__init__(*args,**kwargs)
@@ -92,7 +90,7 @@ class CoordinatorForm(forms.ModelForm):
     
     class Meta:
         model = Coordinator
-        fields = ('CoordinatorNationalId','f_name','l_name','gender','degree','recruit_year','phone','email')
+        fields = ('CoordinatorNationalId','f_name','l_name','gender','degree','recruit_year','phone','email', 'user')
         labels = {
             'CoordinatorNationalId':'National Identification',
             'f_name':'First Name',
@@ -101,7 +99,9 @@ class CoordinatorForm(forms.ModelForm):
             'degree':'Level Of Education',
             'recruit_year':'Recruitment Year',
             'phone':'phone',
-            'email':'email',         
+            'email':'email', 
+            'user':'Select User',
+            # 'school':'School'       
             
             
         }
@@ -109,6 +109,32 @@ class CoordinatorForm(forms.ModelForm):
         super(CoordinatorForm,self).__init__(*args,**kwargs)
         self.fields['gender'].empty_label = "Select Gender"
         self.fields['degree'].empty_label = "Select Degree"
+
+class StaffForm(forms.ModelForm):
+    
+    class Meta:
+        model = Staff
+        fields = ('StaffNationalId','f_name','l_name','gender','degree','recruit_year','phone','physical_disability', 'email', 'user')
+        labels = {
+            'StaffNationalId':'National Identification',
+            'f_name':'First Name',
+            'l_name':'Last Name',
+            'gender':'Gender',
+            'degree':'Level Of Education',
+            'recruit_year':'Recruitment Year',
+            'phone':'phone',
+            'physical_disability':'Disability',
+            'email':'email', 
+            'user':'Select User',
+              
+            
+            
+        }
+    def __init__(self,*args,**kwargs):
+        super(StaffForm,self).__init__(*args,**kwargs)
+        self.fields['gender'].empty_label = "Select Gender"
+        self.fields['degree'].empty_label = "Select Degree"
+
 
 class SchoolForm(forms.ModelForm):
     class Meta:
@@ -120,4 +146,54 @@ class SchoolForm(forms.ModelForm):
             'user':'School_Coordinator',
         }
 
+class CoordinatorUserRegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'password1',
+            'password2'
+        )
+        
+    def __init__(self, *args, **kwargs):
+        super(CoordinatorUserRegistrationForm, self).__init__(*args, **kwargs)
+        
+        for fieldname in ['username','email','password1','password2']:
+            self.fields[fieldname].help_text = None
+    def save(self, commit=True):
+        user = super(CoordinatorUserRegistrationForm,self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+            
+        return user
 
+
+
+class StaffUserRegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'password1',
+            'password2'
+        )
+        
+    def __init__(self, *args, **kwargs):
+        super(StaffUserRegistrationForm, self).__init__(*args, **kwargs)
+        
+        for fieldname in ['username','email','password1','password2']:
+            self.fields[fieldname].help_text = None
+    def save(self, commit=True):
+        user = super(StaffUserRegistrationForm,self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+            
+        return user

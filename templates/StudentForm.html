@@ -42,31 +42,39 @@ Register Student
             {{form.gender|as_crispy_field}}            
             {{form.dob|as_crispy_field}}
             {{form.correspond_age|as_crispy_field}} 
-            {{form.year_reg|as_crispy_field}}
+            {{form.physical_disability|as_crispy_field}}
             </div>
             <div class="form-group">
             
-            {{form.physical_disability|as_crispy_field}}
+            {{form.service_category|as_crispy_field}}
             {{form.classe|as_crispy_field}}
-            {{form.school|as_crispy_field}}
+            {% if student.course == None %}
+                {{form.course|as_crispy_field}}
+                {% endif %}
             {{form.familyNID|as_crispy_field}}
+            {{form.phone|as_crispy_field}}
             {{form.father_name|as_crispy_field}}
-            {{form.mother_name|as_crispy_field}}
-            
-                               
+                                        
                 </div>
                 <div class="form-group">
-                
-                {{form.phone|as_crispy_field}}
-                {{form.province|as_crispy_field}}
-                {{form.district|as_crispy_field}}
-                {{form.sectors|as_crispy_field}}
-                {{form.cell|as_crispy_field}}
-                {{form.village|as_crispy_field}}
+            
+            {{form.province|as_crispy_field}}
+            {{form.district|as_crispy_field}}
+            {{form.sectors|as_crispy_field}}
+            {{form.cell|as_crispy_field}}
+            {{form.village|as_crispy_field}}
+            {{form.mother_name|as_crispy_field}}
                 
             </div>  
-            {{form.note|as_crispy_field}}   
-                  
+            <div class="form-group">
+            {{form.year_reg|as_crispy_field}}
+            {{form.st_image|as_crispy_field}}   
+            {{form.note|as_crispy_field}}  
+                {% if student.st_image != None %}
+                    <img class="profile-pic" src="{{ student.st_image.url }}" width="100" height="100" alt="">
+                {% endif %}
+                
+            </div>                  
         </div>
         <button type="submit" class="btn btn-success float-right">Submit Child</button>
         <br>
