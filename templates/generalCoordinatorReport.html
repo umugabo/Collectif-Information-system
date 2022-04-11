@@ -391,10 +391,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: ['Male', 'Female'],
+        labels: ['Male Student', 'Female Student'],
         datasets: [{
-            label: '# of Gender per RIB Station',
-            data: ['{{male}}', '{{female}}'],
+            label: '# of Student Gender',
+            data: ["{{st_male}}", "{{st_female}}"],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -419,10 +419,10 @@ const ctx1 = document.getElementById('myChart1').getContext('2d');
 const myChart1 = new Chart(ctx1, {
     type: 'pie',
     data: {
-        labels: ['Major' , 'General'],
+        labels: ['Male Teacher' , 'Female Teacher'],
         datasets: [{
-            label: '# of Rank Of Officer',
-            data: ['{{male}}', '{{female}}'],
+            label: '# of Teachers Gender',
+            data: ['{{maleteac}}', '{{femaleteac}}'],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',

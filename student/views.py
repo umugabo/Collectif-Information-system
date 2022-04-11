@@ -695,46 +695,42 @@ def testPdf(request):
 @allowed_users(allowed_roles=['BoardUser'])
 def sitesBoardReport(request):
 
-	# rib_stations = RIBStation.objects.all()
-	# cases = Case.objects.all()
-	# station_user = StationUser.objects.all()
-	male= Student.objects.filter(gender='M').count()
-	female= Student.objects.filter(gender='F').count()
-	# Captain = StationUser.objects.filter(rank = 'Captain').count()
-	# Major = StationUser.objects.filter(rank = 'Major').count()
-	# General = StationUser.objects.filter(rank = 'General').count()
+	malestd= Student.objects.filter(gender='M').count()
+	femalestd= Student.objects.filter(gender='F').count()
+	malestf= Staff.objects.filter(gender='M').count()
+	femalestf= Staff.objects.filter(gender='F').count()
+	
 
-	context = {'male':male, 'female':female}
+	context = {'malestd':malestd, 'femalestd':femalestd, 
+               'malestf':malestf, 'femalestf':femalestf}
 	return render(request, 'generalBoardReport.html',context)
 
 @login_required(login_url='login_view')
 @allowed_users(allowed_roles=['StaffUser'])
 def siteStaffReport(request):
 
-	# rib_stations = RIBStation.objects.all()
-	# cases = Case.objects.all()
-	# station_user = StationUser.objects.all()
-	male= Student.objects.filter(gender='M').count()
-	female= Student.objects.filter(gender='F').count()
-	# Captain = StationUser.objects.filter(rank = 'Captain').count()
-	# Major = StationUser.objects.filter(rank = 'Major').count()
-	# General = StationUser.objects.filter(rank = 'General').count()
+	malestd= Student.objects.filter(gender='M').count()
+	femalestd= Student.objects.filter(gender='F').count()
+	malecoo= Coordinator.objects.filter(gender='M').count()
+	femalecoo= Coordinator.objects.filter(gender='F').count()
+	
 
-	context = {'male':male, 'female':female}
+	context = {'malestd':malestd, 'femalestd':femalestd, 
+               'malecoo':malecoo, 'femalecoo':femalecoo}
 	return render(request, 'generalStaffReport.html',context)
 
 @login_required(login_url='login_view')
 @allowed_users(allowed_roles=['CoordinatorUser'])
 def siteschoolReport(request):
 
-	# rib_stations = RIBStation.objects.all()
-	# cases = Case.objects.all()
-	# station_user = StationUser.objects.all()
-	male= Student.objects.filter(gender='M').count()
-	female= Student.objects.filter(gender='F').count()
-	# Captain = StationUser.objects.filter(rank = 'Captain').count()
-	# Major = StationUser.objects.filter(rank = 'Major').count()
-	# General = StationUser.objects.filter(rank = 'General').count()
+    user = request.user
+    school = School.objects.get(user=user)
+    st_male = Student.objects.filter(gender="M", school=school).count()
+    st_female = Student.objects.filter(gender="F", school=school).count()
+    maleteac= Teacher.objects.filter(gender='M', school=school).count()
+    femaleteac= Teacher.objects.filter(gender='F', school=school).count()
+ 
 
-	context = {'male':male, 'female':female}
-	return render(request, 'generalCoordinatorReport.html',context)
+    context = {'user':user,'school':school,
+        'st_male':st_male, 'st_female':st_female,'maleteac':maleteac, 'femaleteac':femaleteac}
+    return render(request, 'generalCoordinatorReport.html',context)
