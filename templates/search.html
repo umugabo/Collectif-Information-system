@@ -27,13 +27,15 @@
         <tr>
             <td>{{student.f_name}}</td>
             <td>{{student.l_name}}</td>
-            <td>{{student.gender}}</td>
             <td>{{student.dob}}</td>
             <td>{{student.year_reg}}</td>
-            <td style="text-align: center;">{{student.physical_disability}}</td>
+            <td>{{student.physical_disability}}</td>
             <td>{{student.classe}}</td>
-            <td><a href="{% url 'student_update' student.id %}" class="btn btn-sm btn-success">Update</a></td>
-            <td><a href="{% url 'student_delete' student.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+            <td>{{student.note}}</td>
+            <td>{{student.school.school_name}}</td>
+
+            {% comment %} <td><a href="{% url 'student_update' student.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'student_delete' student.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
         </tr>
         {% endfor %}
     </tbody>
