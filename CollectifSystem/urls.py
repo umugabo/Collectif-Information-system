@@ -1,4 +1,4 @@
-"""SchoolGrading URL Configuration
+"""CollectifSystem URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from student.views import siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
+from student.views import addMembership,membershiptList,budgetList,addBudget,ListOfYear,addYear,siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff, enterMarks,schoolStatisticalReport,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.conf import settings
@@ -74,6 +74,15 @@ urlpatterns = [
     path('sitesBoardReport', sitesBoardReport, name='sitesBoardReport'),
     path('siteStaffReport', siteStaffReport, name='siteStaffReport'),
     path('siteschoolReport', siteschoolReport, name='siteschoolReport'),
+    path('addYear', addYear, name='addYear'),
+    path('ListOfYear', ListOfYear, name='ListOfYear'),
+    path('addBudget', addBudget, name='addBudget'),
+    path('budgetList', budgetList, name='budgetList'),
+    path('addMembership', addMembership, name='addMembership'),
+    path('membershiptList', membershiptList, name='membershiptList')
+
+
+
 
     
 

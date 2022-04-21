@@ -1,17 +1,18 @@
 {% extends 'BoardPage.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
-
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+{% endfor %}
 <table class="table" > 
-    {% comment %} <a style="background-color: #080808; border: #080808;" href="{% url 'addBoard' %}" class="btn btn-primary mb-3">Add New Board</a> {% endcomment %}
-     <br>
+    <br>
      <thead>
         <tr>
             <th>
              LISTS OF BOARD Members</label>&nbsp&nbsp
-                  
-                {% comment %} <input type="text" name = "board" id="board" style="background-color: red; border: #080808;" > {% endcomment %}
-   
+
             </th>
             </table>
 

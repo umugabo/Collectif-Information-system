@@ -1,11 +1,11 @@
 {% extends 'CoordinatorPage.html' %}
 {% load crispy_forms_tags %}
 {% block mytitle %}
-Register Teacher
+Register Site Staff
 {% endblock %}
 {% block myheader %}
-<h1 class="display-5 text-center">Teacher Registration</h1>
-<p class="lead">Fill out Here, a Teacher  will be Registered</p>
+<h1 class="display-5 text-center">Staff Registration</h1>
+<p class="lead">Fill out Here, a Site Staff  will be Registered</p>
 {% endblock %}
 
 {% block schoolName %}
@@ -51,7 +51,7 @@ Register Teacher
                 {{form.physical_disability|as_crispy_field}}
                                 
                 
-                {{form.course|as_crispy_field}}
+                {{form.service|as_crispy_field}}
                 {% comment %} {{form.school|as_crispy_field}} {% endcomment %}
             </div>           
         </div>

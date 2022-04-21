@@ -1,0 +1,21 @@
+{% extends 'CoordinatorPage.html' %}
+{% load crispy_forms_tags %}
+{% block myheader %}
+<h1 class="display-5">Budget Submission Form</h1>
+<p class="lead">Here, The Annual Budget will be Submitted</p>
+{% endblock %}
+{% block body %}
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {{form.budget_amount|as_crispy_field}}
+                {{form.year|as_crispy_field}}
+                {% comment %} {{form.school|as_crispy_field}}
+                {{form.date_submitted|as_crispy_field}} {% endcomment %}
+            </div>
+        </div>
+        <br>
+        <button style="margin-left: 435px;" type="submit" class="btn btn-success">Create Budget</button>
+    </form>
+{% endblock %}

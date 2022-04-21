@@ -10,14 +10,14 @@
       <thead>
         <tr>
             <th>
-            <h3>List of Site Staff in {{request.user}}</h3>
+            <h3>List of Annual Membership per year in {{request.user}}</h3>
             </th>
             </table>
 
 
 
 <table class="table" > 
-    <a style="background-color: #080808; border: #080808;" href="{% url 'addTeacher' %}" class="btn btn-primary mb-3">Add New Site Staff</a>
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addMembership' %}" class="btn btn-primary mb-3">Add New Annual Membership Fee</a>
      <br>
      <thead>
  
@@ -38,30 +38,27 @@
     
     <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Gender</th>
-            <th>DEGREE</th>
-            <th>Recruit Year</th>
+            <th>Membership Amount</th>
+            <th>Date Submitted</th>
+            <th>Annual Budget for Year</th>
+            <th>School Name</th>
+            {% comment %} <th>Recruit Year</th>
             <th>Phyisical Disability</th>
             <th>Service</th> 
             <th>School</th>            
-            <th colspan="2" style="text-align: center;">Actions</th>
+            <th colspan="2" style="text-align: center;">Actions</th> {% endcomment %}
         </tr>
     </thead>
     <tbody>
-        {% for teacher in page_obj %}
+        {% for member in page_obj %}
         <tr>
-            <td>{{teacher.f_name}}</td>
-            <td>{{teacher.l_name}}</td>
-            <td>{{teacher.gender}}</td>
-            <td>{{teacher.degree}}</td>
-            <td>{{teacher.recruit_year}}</td>
-            <td style="text-align: center;">{{teacher.physical_disability}}</td>
-            <td>{{teacher.service}}</td>
-            <td>{{teacher.school}}</td>
-            <td><a href="{% url 'teacher_update' teacher.id %}" class="btn btn-sm btn-success">Update</a></td>
-            <td><a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-sm btn-danger">Delete</a></td>
+            <td>{{member.membership_amount}}</td>
+            <td>{{member.date_submitted}}</td>
+            <td>{{member.year}}</td>
+            <td>{{member.school}}</td>
+           
+            {% comment %} <td><a href="{% url 'teacher_update' teacher.id %}" class="btn btn-sm btn-success">Update</a></td>
+            <td><a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
         </tr>
         {% endfor %}
     </tbody>

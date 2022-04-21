@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'SchoolGrading.urls'
+ROOT_URLCONF = 'CollectifSystem.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SchoolGrading.wsgi.application'
+WSGI_APPLICATION = 'CollectifSystem.wsgi.application'
 
 
 # Database

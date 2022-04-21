@@ -1,0 +1,52 @@
+{% extends 'StaffPage.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+{% endfor %}
+<table class="table" > 
+    <a style="background-color: #080808; border: #080808;" href="{% url 'addYear' %}" class="btn btn-primary mb-3">Add New Year</a>
+     <br>
+     <thead>
+        <tr>
+            <th>
+            
+            </th>
+            </table>
+
+
+
+<table class="table" > 
+  <br>
+     <thead>
+ 
+  
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+<script>
+  $( function() {
+
+    $( "#staff" ).autocomplete({
+      source: '{% url 'ajaxSearch' %}' 
+    });
+  } ); 
+  </script>
+
+    <thead>
+        <tr>
+            <th>Year site will provide their Budget</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for year in years %}
+        <tr>
+            <th>{{year.year_name}}</th>
+      </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -11,9 +11,10 @@ GENDER = [
 ]
 
 DEGREE = [
-    ("Care Givers", "Care Givers"),
-    ("A2 in Education", "A2 in Education"),
-    ("A1 in Education", "A1 in Education"),
+    ("Primary Level", "Primary Level"),
+    ("Diploma", "Diploma"),
+    ("Care Giver", "Care Giver Certificate"),
+    ("Diploma in Education", "Diploma in Education"),
     ("Bachelor in Education", "Bachelor in Education"),
     ("Masters in Education", "Masters in Education"),
     ("PhD in Education", "PhD in Education"),
@@ -24,18 +25,38 @@ CLADES = [
     ("CLADE1", "CLADE 1"),
     ("CLADE2", "CLADE 2"),
     ("CLADE3", "CLADE 3"),
+    ("CLADE4", "CLADE 4"),
+    ("CLADE5", "CLADE 5"),
+    ("CLADE6", "CLADE 6"),
 ]
 
 PHYSICAL_DISABILITY = [
-     ("NO", "No"),
     ("Autism", "Autism"),
     ("Multiple", "Multiple"),
     ("Cerebral Palsy", "Cerebral Palsy"),
     ("Cerebral Palsy ID", "Cerebral Palsy ID"),
     ("Down syndrom", "Down syndrom"),
-    
-    # ("NO", "NO")
 ]
+
+STAFF_DISABILITY = [
+    ("NO", "No"),
+    ("Physical", "Physical"),
+    ("Blind", "Blind"),
+    ("Deaf", "Deaf"),
+    ("Little", "Little"),
+    ("Albinos", "Albinos"),
+    ("Deaf-Blind", "Deaf-Blind"),
+    ("Multiple", "Multiple"),
+]
+
+SERVICE = [
+    ("Teacher", "Teacher"),
+    ("Care giver", "Care giver"),
+    ("Nurse", "Nurse"),
+    ("Fusion", "Fusion"),
+    ("Supporting Staff", "Support Staff"),
+]
+
 SERVICE_CATEGORY = [
     ("SPECIAL EDUCATION", "SPECIAL EDUCATION"),
     ("FUSION AND EDUCATION", "FUSION AND EDUCATION"), 
@@ -90,8 +111,8 @@ class Teacher(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
+    service = models.CharField(max_length=50, choices=SERVICE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -106,7 +127,7 @@ class Parent(models.Model):
     sector = models.CharField(max_length=30, blank=False)
     cell = models.CharField(max_length=30, blank=False)
     village = models.CharField(max_length=30, blank=False)
-    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
         
     def __str__(self):
         return self.f_name  
@@ -121,7 +142,7 @@ class Coordinator(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
     # school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
@@ -137,10 +158,11 @@ class Staff(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
    
     def __str__(self):
         return self.f_name  
+
 class Board(models.Model):
     user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
     boardNationalId = models.CharField(max_length=16, blank=False)
@@ -151,7 +173,7 @@ class Board(models.Model):
     email = models.CharField(max_length=50, blank=False)
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
-    physical_disability = models.CharField(max_length=50, choices=PHYSICAL_DISABILITY, default="NO")
+    physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
    
     def __str__(self):
         return self.f_name 
@@ -221,4 +243,28 @@ class Student(models.Model):
     note = models.CharField(max_length=150, blank=False)
     def __str__(self):
         return self.f_name  
+
+
+class Year(models.Model):
+    year_name = models.CharField(max_length=4)
+    def __str__(self):
+        return self.year_name
+
+class Budget(models.Model):
+    budget_amount = models.CharField(max_length=9)
+    date_submitted = models.DateTimeField(auto_now_add=True,null=True) 
+    year = models.ForeignKey(Year, on_delete=models.CASCADE , null=True, blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE , null=True, blank=True)
+
+    def __str__(self):
+        return self.budget_amount
+
+class Membership(models.Model):
+    membership_amount = models.CharField(max_length=9)
+    date_submitted = models.DateTimeField(auto_now_add=True,null=True) 
+    year = models.ForeignKey(Year, on_delete=models.CASCADE , null=True, blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE , null=True, blank=True)
+
+    def __str__(self):
+        return self.membership_amount
 

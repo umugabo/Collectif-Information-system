@@ -45,15 +45,22 @@
                     <a href="{% url 'addClasse' %}"><span class="feather icon-home"></span>Add New Class</a>
                 </li> {% endcomment %}
                
-                <li class="{% if 'addCourse' in request.path %} active {% endif %}">
+                {% comment %} <li class="{% if 'addCourse' in request.path %} active {% endif %}">
                     <a href="{% url 'addCourse' %}"><span class="feather icon-home"></span>Add New Course</a>
-                </li>
+                </li> {% endcomment %}
                 <li class="{% if 'addStudent' in request.path %} active {% endif %}">
-                    <a href="{% url 'addStudent' %}"><span class="feather icon-home"></span>Add New Student</a>
+                    <a href="{% url 'addStudent' %}"><span class="feather icon-home"></span>Add New Beneficiary</a>
                 </li>
                       
                 <li class="{% if 'addTeacher' in request.path %} active {% endif %}">
-                    <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Teacher</a>
+                    <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Site Staff</a>
+                </li>
+                <li class="{% if 'budgetList' in request.path %} active {% endif %}">
+                    <a href="{% url 'budgetList' %}"><span class="feather icon-feather"></span>Add Annual Budget</a>
+                </li>
+
+                <li class="{% if 'membershiptList' in request.path %} active {% endif %}">
+                    <a href="{% url 'membershiptList' %}"><span class="feather icon-feather"></span>Add Annual Membership</a>
                 </li>
                 
                 <li class="{% if 'bar' in request.path %} active {% endif %}">
@@ -61,10 +68,10 @@
                 </li>
                  
                            <li class="{% if 'studentList' in request.path %} active {% endif %}">
-                    <a href="{% url 'studentList' %}"><span class="feather icon-feather"></span>List Of My Student</a>
+                    <a href="{% url 'studentList' %}"><span class="feather icon-feather"></span>List Of Beneficiaries</a>
                 </li>
                         <li class="{% if 'ListOfParent' in request.path %} active {% endif %}">
-                    <a href="{% url 'ListOfParent' %}"><span class="feather icon-feather"></span>List Of Parent</a>
+                    <a href="{% url 'ListOfParent' %}"><span class="feather icon-feather"></span>List Of Bene Parent</a>
                 </li> 
                   <li class="{% if 'classeList' in request.path %} active {% endif %}">
                     <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>List Of Classes</a>
@@ -73,8 +80,9 @@
                     <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>List Of Courses</a>
                 </li> 
                  <li class="{% if 'teacherList' in request.path %} active {% endif %}">
-                    <a href="{% url 'teacherList' %}"><span class="feather icon-feather"></span>List Of Teachers</a>
+                    <a href="{% url 'teacherList' %}"><span class="feather icon-feather"></span>List Of Site Staff</a>
                 </li> 
+                
                 <li class="{% if 'siteschoolReport' in request.path %} active {% endif %}">
                     <a href="{% url 'siteschoolReport' %}"><span class="feather icon-feather"></span>Site Report</a>
                 </li>
@@ -136,7 +144,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Staffs
+                              All Site Staffs
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{staffs}}</h5>
@@ -146,7 +154,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All School Directors
+                              All Site Nurses
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{coordinators}}</h5>
@@ -156,7 +164,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Teachers
+                              All Site Teachers
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{teachers}}</h5>
@@ -174,6 +182,7 @@
                           </div>
                     </div>
                 </div>
+                
 <br>
 
 <div class="row">

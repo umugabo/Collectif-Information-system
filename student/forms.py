@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Staff,Classe,Student,Course ,Teacher ,School , Coordinator, Province, District, Sectors, Cell, Village
+from .models import Membership, Year,Budget, Staff,Classe,Student,Course ,Teacher ,School , Coordinator, Province, District, Sectors, Cell, Village
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -67,7 +67,7 @@ class TeacherForm(forms.ModelForm):
     
     class Meta:
         model = Teacher
-        fields = ('TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','course')
+        fields = ('TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','service')
         labels = {
             'TeacherNationalId':'National Identification',
             'f_name':'First Name',
@@ -77,8 +77,8 @@ class TeacherForm(forms.ModelForm):
             'recruit_year':'Recruitment Year',
             'phone':'phone',
             'email':'email',         
-            'physical_disability':'Physical Disability?',
-            'course':'Course the teacher teachs in Class', 
+            'physical_disability':'Disability?',
+            'service':'Service to provide', 
         }
     def __init__(self,*args,**kwargs):
         super(TeacherForm,self).__init__(*args,**kwargs)
@@ -197,3 +197,34 @@ class StaffUserRegistrationForm(UserCreationForm):
             user.save()
             
         return user
+
+class budgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = ('budget_amount','year')
+        labels = {
+            'budget_amount':'Budget Amount',
+            'year':'Select the Year',
+            # 'school':'School Name',
+       
+        }
+
+class yearForm(forms.ModelForm):
+    class Meta:
+        model = Year
+        fields = ('year_name',)
+        labels = {
+            'year_name':'Year to Submit',
+       
+        }
+
+class membershipForm(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = ('membership_amount','year')
+        labels = {
+            'membership_amount':'Membership Amount',
+            'year':'Select the Year',
+            # 'school':'School Name',
+       
+        }

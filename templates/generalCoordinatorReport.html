@@ -122,21 +122,21 @@
 <div class="row">
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
-            Generate Report Based on Single Case
+            Generate Report Based on Disability Type
         </button>
         
 
     </div>
     <div class="col-md-4">
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal2">
-            Generate Report Based on Case Suspect
+            Generate Report Based on Clades
         </button>
     </div>
 
     
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate Report for RIBStation Comparision
+            Generate Report Based on Gender
         </button>
     </div>
 </div>
@@ -236,7 +236,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based Suspects</h4>
+                <h4 class="modal-title">Generate report based Clades</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -419,9 +419,9 @@ const ctx1 = document.getElementById('myChart1').getContext('2d');
 const myChart1 = new Chart(ctx1, {
     type: 'pie',
     data: {
-        labels: ['Male Teacher' , 'Female Teacher'],
+        labels: ['Male Staff' , 'Female Staff'],
         datasets: [{
-            label: '# of Teachers Gender',
+            label: '# of Staff Gender',
             data: ['{{maleteac}}', '{{femaleteac}}'],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

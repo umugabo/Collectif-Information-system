@@ -1,5 +1,10 @@
 {% extends 'CoordinatorPage.html' %}
 {% block body %}
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+{% endfor %}
 <table class="table">
     <a style="background-color: #080808; border: #080808;"  href="{% url 'addClasse' %}" class="btn btn-primary mb-3">Add Class</a>
     <br>

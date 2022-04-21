@@ -11,7 +11,7 @@ from django.db import connection
 from django .http import HttpResponse,JsonResponse
 
 # Create your views here.
-from .forms import StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
+from .forms import membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
 from .models import *
 from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village
 from .filters import StudentFilter,TeacherFilter
@@ -302,7 +302,7 @@ def school_delete(request, id):
 
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['BoardUser'])
+@allowed_users(allowed_roles=['StaffUser'])
 def addCoordinator(request):
     if request.method == "GET":
         form = CoordinatorForm()
@@ -432,7 +432,7 @@ def addTeacher(request):
             form.school = school
             form.save()
             # first_name = form.cleaned_data.get('f_name')
-            messages.success(request, 'Teacher has been Created Successfully')
+            messages.success(request, 'Staff has been Created Successfully')
         return redirect('teacherList')
 
 @login_required(login_url='loginPage')
@@ -496,7 +496,7 @@ def teacher_update(request, pk_teacher):
         form = TeacherForm(request.POST, instance=teacher)
         if form.is_valid:
             form.save()
-            messages.success(request, 'Teacher has been Updated Successfully')
+            messages.success(request, 'Staff has been Updated Successfully')
             return redirect('teacherList')
     context = {'form':form}
     return render(request, 'TeacherForm.html',context)
@@ -734,3 +734,95 @@ def siteschoolReport(request):
     context = {'user':user,'school':school,
         'st_male':st_male, 'st_female':st_female,'maleteac':maleteac, 'femaleteac':femaleteac}
     return render(request, 'generalCoordinatorReport.html',context)
+
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def addYear(request):
+    if request.method == "GET":
+        form = yearForm()
+        context = {'form':form}
+        return render(request,'yearForm.html',context)
+    else:
+        form = yearForm(request.POST)
+        if form.is_valid:
+            form.save()
+            name = form.cleaned_data.get('year_name')
+            messages.success(request, 'Year has been Created Successfully ' +name)
+            
+        return redirect('ListOfYear')
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def ListOfYear(request):
+    years = Year.objects.all()
+    context = {'years':years}
+    return render(request, 'yearList.html', context)
+
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def addBudget(request):
+    user = request.user
+    school = School.objects.get(user=user)
+    if request.method == "GET":
+        form = budgetForm()
+        context = {'form':form}
+        return render(request,"budgetForm.html",context)
+    else: 
+        form = budgetForm(request.POST)
+        if form.is_valid:
+            form = form.save(commit=False)
+            form.school = school
+            form.save()
+            # first_name = form.cleaned_data.get('f_name')
+            messages.success(request, 'Budget has been Created Successfully')
+        return redirect('budgetList')
+
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def budgetList(request):
+    user = request.user
+    school = School.objects.get(user=user)
+    budgets = Budget.objects.filter(school=school)
+    paginator = Paginator(budgets, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'budgets':budgets, 'page_obj':page_obj}
+    return render(request, 'budgetList.html', context)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def addMembership(request):
+    user = request.user
+    school = School.objects.get(user=user)
+    if request.method == "GET":
+        form = membershipForm()
+        context = {'form':form}
+        return render(request,"membershipForm.html",context)
+    else: 
+        form = membershipForm(request.POST)
+        if form.is_valid:
+            form = form.save(commit=False)
+            form.school = school
+            form.save()
+            # first_name = form.cleaned_data.get('f_name')
+            messages.success(request, 'Membership has been Created Successfully')
+        return redirect('membershiptList')
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def membershiptList(request):
+    user = request.user
+    school = School.objects.get(user=user)
+    members = Membership.objects.filter(school=school)
+    paginator = Paginator(members, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'members':members, 'page_obj':page_obj}
+    return render(request, 'membershipList.html', context)
+
+
