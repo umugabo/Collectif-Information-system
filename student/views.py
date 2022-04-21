@@ -463,6 +463,7 @@ def ListOfcoordinatorStaff(request):
     return render(request, 'coordinatorListStaff.html', context)
 
 
+
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['BoardUser'])
 def ListOfBoard(request):
@@ -538,32 +539,6 @@ def ListOfParent(request):
     page_obj = paginator.get_page(page_number)
     context = {'students':students, 'page_obj':page_obj}
     return render(request, 'ParentList.html', context)
-
-
-@login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['StaffUser'])
-def enterMarks(request):
-    
-    Student_CourseFormSet = inlineformset_factory(Student.objects.filter(classe=4), Student_Course, fields=('student','course','quater','mid_marks','final_marks'),max_num=Student.objects.filter(classe=4).count(), extra=Student.objects.filter(classe=4).count())
-    formset = Student_CourseFormSet(instance=Student.objects.filter(classe=4))
-    if request.method == 'POST':
-        form = StudentCourseForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return redirect('home_school')
-    
-    context = {'formset':formset}
-    
-    
-    return render(request,'schoolPages/enterMarks.html',context)
-
-
-@login_required(login_url='loginPage')
-def schoolStatisticalReport(request):
-
-    context = {}
-    return render(request, 'schoolStatisticalReport.html', context)
-
 
 
 @login_required(login_url='loginPage')
@@ -825,4 +800,14 @@ def membershiptList(request):
     context = {'members':members, 'page_obj':page_obj}
     return render(request, 'membershipList.html', context)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def ListOfSiteMembershipFee(request):
+    members = Membership.objects.all()
+    paginator = Paginator(members, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'members':members, 'page_obj':page_obj}
+    return render(request, 'allmembershipList.html', context)
 

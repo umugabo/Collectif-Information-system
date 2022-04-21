@@ -122,34 +122,27 @@
 <div class="row">
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
-            Generate Report Based on Single Case
+            Generate Report on Membership Fee Based on Year
         </button>
         
 
     </div>
     <div class="col-md-4">
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal2">
-            Generate Report Based on Case Suspect
+            Generate Report Based on Annual Budget Based on Year
         </button>
     </div>
 
     
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate Report for RIBStation Comparision
+            Generate Report Membership Cummurative fee Based on Site 
         </button>
     </div>
 </div>
 
 
 <br><br>
-{% comment %} <div class="row">
-    <dic class="col-md-4">
-        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#myModal4">
-            Compare 2 Schools Based to Quater
-        </button>
-    </dic>
-</div> {% endcomment %}
 
 
 <!-- The Modal -->
@@ -159,7 +152,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based on Case choices</h4>
+                <h4 class="modal-title">Generate report based on Year of Your choice</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -167,7 +160,7 @@
             <div class="modal-body">
                 <form role="search" action='' target="_blank">
                     <div class="form-group">
-                        <label for="">RIBStation:</label>
+                        <label for="">Select Year:</label>
                         {% comment %} <select class="form-control" name="station" id="stations">
                             <option selected>Select RIBStation</option>
                              {% for station in rib_stations %}
@@ -175,38 +168,9 @@
                             {% endfor %} 
                         </select> {% endcomment %}
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Case:</label>
-                                {% comment %} <select class="form-control" name="case" id="cases">
-                                    <option selected>Select Case</option>
-                                     {% for case in cases %}
-                            <option value="{{case.id}}">{{case.case_name}}</option>
-                            {% endfor %} 
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
+      
 
-                    </div>
-                       
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Case Officer:</label>
-
-                                    {% comment %} <select class="form-control" name="officer" id="schools">
-                                        <option selected>Select Officer</option>
-                                         {% for stationuser in station_user %}
-                                        <option value="{{stationuser.id}}">{{stationuser.user}}</option>
-                                        {% endfor %} 
-                                    </select> {% endcomment %}
-                                </div>
-                            </div>
-                        
-                        </div>
-
-                        <button class="btn btn-primary btn-sm">Generate Case Report</button>
+                        <button class="btn btn-primary btn-sm">Generate  Report</button>
                     </form>
 
 
@@ -236,7 +200,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based Suspects</h4>
+                <h4 class="modal-title">Generate report based Annual Budget</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -247,7 +211,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">RIBStation:</label>
+                                <label for="">Select Year:</label>
                                 {% comment %} <select class="form-control" name="station" id="stations">
                                     <option selected>Select RIBStation</option>
                                     {% for stations in rib_stations %}
@@ -257,22 +221,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Case:</label>
-                                {% comment %} <select class="form-control" name="case" id="cases">
-                                    <option selected>Select Case</option>
-                                    {% for case in cases %}
-                            <option value="{{case.id}}">{{case.case_name}}</option>
-                            {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-
-                    </div>
+                   
  
-                                <button class="btn btn-primary btn-sm">Generate Suspect Report</button>
+                                <button class="btn btn-primary btn-sm">Generate Report</button>
                             </form>
 
                     
@@ -306,7 +257,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based on Crime In Staton</h4>
+                <h4 class="modal-title">Generate Cuummurative report based Site Membership</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -317,7 +268,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">RIBStation 1:</label>
+                                <label for="">Select Site:</label>
                                 {% comment %} <select class="form-control" name="station1" id="station1">
                                     <option>Select RIBStation</option>
                                     {% for station1 in rib_stations %}
@@ -328,22 +279,11 @@
                         </div>
                     </div>
                 
-                <div class="form-group">
-                    <label for="">Crime Type:</label>
-                    <select class="form-control" name="crimetype" id="crimetype">
-                        <option selected disable>Select Crime Type</option>
-                        <option value="Robbery">Robbery</option>
-                        <option value="Violent">Violent</option>
-                        <option value="Murder">Murder</option>
-                    </select>
-                </div>
-
-                
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">RIBStation 2:</label>
+                                <label for="">Select Year:</label>
                                 {% comment %} <select class="form-control" name="station2" id="station2">
                                     <option selected>Select RIBStation</option>
                                     {% for station2 in rib_stations %}
@@ -357,7 +297,7 @@
 
                 
 
-                    <button class="btn btn-primary btn-sm">Generate Comparison Report</button>
+                    <button class="btn btn-primary btn-sm">Generate Report</button>
                 </form>
             </form>
             </div>

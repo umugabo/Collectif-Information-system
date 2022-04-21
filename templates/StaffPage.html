@@ -58,12 +58,13 @@
                         <li class="{% if 'search' in request.path %} active {% endif %}">
                     <a href="{% url 'SearchStudentList' %}"><span class="feather icon-feather"></span>Search For a Child </a>
                 </li> 
-                <li class="{% if 'siteStaffReport' in request.path %} active {% endif %}">
-                    <a href="{% url 'siteStaffReport' %}"><span class="feather icon-feather"></span>Membership Fee</a>
-                </li>
+                
             </li> 
                 <li class="{% if 'ListOfYear' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfYear' %}"><span class="feather icon-feather"></span>Year for site Budget</a>
+                </li>
+                <li class="{% if 'ListOfSiteMembershipFee' in request.path %} active {% endif %}">
+                    <a href="{% url 'ListOfSiteMembershipFee' %}"><span class="feather icon-feather"></span>View Site Membership Fee</a>
                 </li>
             </li> 
             <li class="{% if 'siteStaffReport' in request.path %} active {% endif %}">

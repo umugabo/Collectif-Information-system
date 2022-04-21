@@ -1,0 +1,81 @@
+{% extends 'StaffPage.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{message}}.
+</div>
+{% endfor %}
+<table class="table" > 
+      <thead>
+        <h3>List of Annual Membership per year Collectif Tubakunde Viewed by {{request.user}}</h3>
+
+        <tr>
+            <th>
+          
+            </th>
+            </table>
+
+
+
+<table class="table" > 
+
+     <thead>
+ 
+  
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+<script>
+  $( function() {
+
+    $( "#teacher" ).autocomplete({
+      source: '{% url 'ajaxSearch' %}' 
+    });
+  } ); 
+  </script>
+
+    <br>
+    
+    <thead>
+        <tr>
+            <th>Membership Amount</th>
+            <th>Date Submitted</th>
+            <th>Fee for this Year</th>
+            <th>Site Name</th>
+            {% comment %} <th>Recruit Year</th>
+            <th>Phyisical Disability</th>
+            <th>Service</th> 
+            <th>School</th>            
+            <th colspan="2" style="text-align: center;">Actions</th> {% endcomment %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in page_obj %}
+        <tr>
+            <td>{{member.membership_amount}}</td>
+            <td>{{member.date_submitted}}</td>
+            <td>{{member.year}}</td>
+            <td>{{member.school}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
