@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Classe, Student, Course, School, Sector ,Teacher, Parent, Coordinator , Board , Staff , Admin , Province , District , Sectors , Cell , Village
+from .models import Classe, Student, Course, School, Sector ,Teacher, Parent, Coordinator , Board , Staff , Admin , Province , District , Sectors , Cell , Village, Membership, Year, Budget
 
 
 # Register your models here.
@@ -19,5 +19,10 @@ admin.site.register(District),
 admin.site.register(Sectors),
 admin.site.register(Cell),
 admin.site.register(Village),
+admin.site.register(Membership),
+admin.site.register(Year),
+admin.site.register(Budget),
+
+
 
 

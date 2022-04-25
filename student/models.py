@@ -10,6 +10,11 @@ GENDER = [
     ("F", "FEMALE"),
 ]
 
+PAY_STATUS = [
+    ("UNVERIFIED", "UNVERIFIED"),
+    ("VERIFIED", "VERIFIED"),
+]
+
 DEGREE = [
     ("Primary Level", "Primary Level"),
     ("Diploma", "Diploma"),
@@ -260,11 +265,12 @@ class Budget(models.Model):
         return self.budget_amount
 
 class Membership(models.Model):
-    membership_amount = models.CharField(max_length=9)
+    membership_amount = models.IntegerField()
+    status = models.CharField(max_length=50, choices=PAY_STATUS, null=True, blank=True)
     date_submitted = models.DateTimeField(auto_now_add=True,null=True) 
     year = models.ForeignKey(Year, on_delete=models.CASCADE , null=True, blank=True)
     school = models.ForeignKey(School, on_delete=models.CASCADE , null=True, blank=True)
 
-    def __str__(self):
+    def __int__(self):
         return self.membership_amount
 

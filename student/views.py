@@ -7,13 +7,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users
 import datetime
+from django.db.models import Sum
 from django.db import connection
 from django .http import HttpResponse,JsonResponse
 
 # Create your views here.
 from .forms import membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
 from .models import *
-from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village
+from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village, Year, Membership, Budget
 from .filters import StudentFilter,TeacherFilter
 from .utils import render_to_pdf
 from django.template.loader import get_template
@@ -810,4 +811,164 @@ def ListOfSiteMembershipFee(request):
     page_obj = paginator.get_page(page_number)
     context = {'members':members, 'page_obj':page_obj}
     return render(request, 'allmembershipList.html', context)
+
+def globalCumurativeDisability(request):
+    
+    current_year = datetime.datetime.now().year
+    six_year_before = current_year - 6
+    thirteen_year_before = current_year - 13
+    twenty_five_year_before = current_year - 25
+    
+    all_men = Student.objects.filter(gender='M').count()
+    all_female = Student.objects.filter(gender='F').count()
+    
+    
+    
+    men_six_utism = Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+    men_six_multiple= Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+    men_six_cerebral_palsy= Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    men_six_downsyndrome = Student.objects.filter(gender='M', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+    
+    female_six_utism = Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+    female_six_multiple= Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+    female_six_cerebral_palsy= Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    female_six_downsyndrome = Student.objects.filter(gender='F', dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+    
+
+    men_thirteen_utism = Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+    men_thirteen_multiple= Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+    men_thirteen_cerebral_palsy= Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_thirteen_downsyndrome = Student.objects.filter(gender='M', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+    
+    female_thirteen_utism = Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+    female_thirteen_multiple= Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+    female_thirteen_cerebral_palsy= Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_thirteen_downsyndrome = Student.objects.filter(gender='F', dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+    
+    
+    men_twenty_five_utism = Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+    men_twenty_five_multiple= Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+    men_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_twenty_five_downsyndrome = Student.objects.filter(gender='M', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+    
+    female_twenty_five_utism = Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+    female_twenty_five_multiple= Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+    female_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_twenty_five_downsyndrome = Student.objects.filter(gender='F', dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+    
+    
+    men_above_twenty_five_utism = Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+    men_above_twenty_five_multiple= Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+    men_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_above_twenty_five_downsyndrome = Student.objects.filter(gender='M', dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
+    
+    female_above_twenty_five_utism = Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+    female_above_twenty_five_multiple= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+    female_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
+    
+    context = {}
+    return render(request, 'globalCumurativeDisability.html', context)
+
+def disabilityReportSingleSite(request, pk_school):
+    
+    school = School.objects.get(id=pk_school)
+    current_year = datetime.datetime.now().year
+    six_year_before = current_year - 6
+    thirteen_year_before = current_year - 13
+    twenty_five_year_before = current_year - 25
+    
+    all_men = Student.objects.filter(gender='M', school=school).count()
+    all_female = Student.objects.filter(gender='F', school=school).count()
+    
+    
+    men_six_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+    men_six_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+    men_six_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    men_six_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+    
+    female_six_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+    female_six_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+    female_six_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+    female_six_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+    
+
+    men_thirteen_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+    men_thirteen_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+    men_thirteen_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_thirteen_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+    
+    female_thirteen_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+    female_thirteen_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+    female_thirteen_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_thirteen_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+    
+    
+    men_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+    men_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+    men_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+    
+    female_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+    female_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+    female_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+    
+    
+    men_above_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+    men_above_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+    men_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    men_above_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
+    
+    female_above_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+    female_above_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+    female_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+    female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
+    
+    context = {}
+    return render(request, 'disabilityReportSingleSite.html', context)
+
+def schoolMembershipReport(request, pk_school):
+    
+    school = School.objects.get(id=pk_school)
+    school_memberships_unverified = Membership.objects.filter(school=school, status='UNVERIFIED')
+    school_memberships_unverified_sum = Membership.objects.filter(school=school, status='UNVERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)
+ 
+    school_memberships_verified = Membership.objects.filter(school=school, status='VERIFIED')
+    school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
+    
+    context = {}
+    return render(request, 'schoolMembershipReport.html', context)
 

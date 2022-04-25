@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from student.views import addMembership,ListOfSiteMembershipFee,membershiptList,budgetList,addBudget,ListOfYear,addYear,siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
+from student.views import addMembership,ListOfSiteMembershipFee, disabilityReportSingleSite, globalCumurativeDisability,membershiptList,budgetList,addBudget,ListOfYear,addYear, schoolMembershipReport,siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff,login, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.conf import settings
@@ -79,6 +79,11 @@ urlpatterns = [
     path('addMembership', addMembership, name='addMembership'),
     path('membershiptList', membershiptList, name='membershiptList'),
     path('ListOfSiteMembershipFee', ListOfSiteMembershipFee, name='ListOfSiteMembershipFee'),
+    
+    path('globalCumurativeDisability', globalCumurativeDisability, name='globalCumurativeDisability'),
+    path('disabilityReportSingleSite/<str:pk_school>', disabilityReportSingleSite, name='disabilityReportSingleSite'),
+    path('schoolMembershipReport/<str:pk_school>', schoolMembershipReport, name='schoolMembershipReport'),
+
 
 
 
