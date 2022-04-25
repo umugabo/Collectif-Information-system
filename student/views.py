@@ -783,6 +783,7 @@ def addMembership(request):
         if form.is_valid:
             form = form.save(commit=False)
             form.school = school
+            form.status = "UNVERIFIED"
             form.save()
             # first_name = form.cleaned_data.get('f_name')
             messages.success(request, 'Membership has been Created Successfully')
