@@ -884,7 +884,22 @@ def globalCumurativeDisability(request):
     female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
     female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
     
-    context = {}
+    context = {'all_men':all_men,'all_female':all_female,'men_six_utism':men_six_utism,
+            'men_six_multiple':men_six_multiple,'men_six_cerebral_palsy':men_six_cerebral_palsy,
+            'men_six_cerebral_palsy_id':men_six_cerebral_palsy_id,'men_six_downsyndrome':men_six_downsyndrome,
+            'female_six_utism':female_six_utism,'female_six_multiple':female_six_multiple,'female_six_cerebral_palsy':female_six_cerebral_palsy,
+            'female_six_cerebral_palsy_id':female_six_cerebral_palsy_id,'female_six_downsyndrome':female_six_downsyndrome,'men_thirteen_utism':men_thirteen_utism,
+            'men_thirteen_multiple':men_thirteen_multiple,'men_thirteen_cerebral_palsy':men_thirteen_cerebral_palsy,'men_thirteen_cerebral_palsy_id':men_thirteen_cerebral_palsy_id,
+            'men_thirteen_downsyndrome':men_thirteen_downsyndrome,'female_thirteen_utism':female_thirteen_utism,'female_thirteen_multiple':female_thirteen_multiple,
+            'female_thirteen_cerebral_palsy':female_thirteen_cerebral_palsy,'female_thirteen_cerebral_palsy_id':female_thirteen_cerebral_palsy_id,'female_thirteen_downsyndrome':female_thirteen_downsyndrome,
+            'men_twenty_five_utism':men_twenty_five_utism,'men_twenty_five_multiple':men_twenty_five_multiple,'men_twenty_five_cerebral_palsy':men_twenty_five_cerebral_palsy,
+            'men_twenty_five_cerebral_palsy_id':men_twenty_five_cerebral_palsy_id,'men_twenty_five_downsyndrome':men_twenty_five_downsyndrome,'female_twenty_five_utism':female_twenty_five_utism,
+            'female_twenty_five_multiple':female_twenty_five_multiple,'female_twenty_five_cerebral_palsy':female_twenty_five_cerebral_palsy,'female_twenty_five_cerebral_palsy_id':female_twenty_five_cerebral_palsy_id,
+            'female_twenty_five_downsyndrome':female_twenty_five_downsyndrome,'men_above_twenty_five_utism':men_above_twenty_five_utism,'men_above_twenty_five_multiple':men_above_twenty_five_multiple,
+            'men_above_twenty_five_cerebral_palsy':men_above_twenty_five_cerebral_palsy,'men_above_twenty_five_cerebral_palsy_id':men_above_twenty_five_cerebral_palsy_id,'men_above_twenty_five_downsyndrome':men_above_twenty_five_downsyndrome,
+            'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
+            'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
+                }
     return render(request, 'globalCumurativeDisability.html', context)
 
 def disabilityReportSingleSite(request, pk_school):
@@ -958,8 +973,25 @@ def disabilityReportSingleSite(request, pk_school):
     female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
     female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
     
-    context = {}
+    context = {'school':school,'all_men':all_men,'all_female':all_female,'men_six_utism':men_six_utism,
+               'men_six_multiple':men_six_multiple,'men_six_cerebral_palsy':men_six_cerebral_palsy,
+                'men_six_cerebral_palsy_id':men_six_cerebral_palsy_id,'men_six_downsyndrome':men_six_downsyndrome,
+                'female_six_utism':female_six_utism,'female_six_multiple':female_six_multiple,'female_six_cerebral_palsy':female_six_cerebral_palsy,
+                'female_six_cerebral_palsy_id':female_six_cerebral_palsy_id,'female_six_downsyndrome':female_six_downsyndrome,'men_thirteen_utism':men_thirteen_utism,
+                'men_thirteen_multiple':men_thirteen_multiple,'men_thirteen_cerebral_palsy':men_thirteen_cerebral_palsy,'men_thirteen_cerebral_palsy_id':men_thirteen_cerebral_palsy_id,
+                'men_thirteen_downsyndrome':men_thirteen_downsyndrome,'female_thirteen_utism':female_thirteen_utism,'female_thirteen_multiple':female_thirteen_multiple,
+                'female_thirteen_cerebral_palsy':female_thirteen_cerebral_palsy,'female_thirteen_cerebral_palsy_id':female_thirteen_cerebral_palsy_id,'female_thirteen_downsyndrome':female_thirteen_downsyndrome,
+                'men_twenty_five_utism':men_twenty_five_utism,'men_twenty_five_multiple':men_twenty_five_multiple,'men_twenty_five_cerebral_palsy':men_twenty_five_cerebral_palsy,
+                'men_twenty_five_cerebral_palsy_id':men_twenty_five_cerebral_palsy_id,'men_twenty_five_downsyndrome':men_twenty_five_downsyndrome,'female_twenty_five_utism':female_twenty_five_utism,
+                'female_twenty_five_multiple':female_twenty_five_multiple,'female_twenty_five_cerebral_palsy':female_twenty_five_cerebral_palsy,'female_twenty_five_cerebral_palsy_id':female_twenty_five_cerebral_palsy_id,
+                'female_twenty_five_downsyndrome':female_twenty_five_downsyndrome,'men_above_twenty_five_utism':men_above_twenty_five_utism,'men_above_twenty_five_multiple':men_above_twenty_five_multiple,
+                'men_above_twenty_five_cerebral_palsy':men_above_twenty_five_cerebral_palsy,'men_above_twenty_five_cerebral_palsy_id':men_above_twenty_five_cerebral_palsy_id,'men_above_twenty_five_downsyndrome':men_above_twenty_five_downsyndrome,
+                'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
+                'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
+                 }
     return render(request, 'disabilityReportSingleSite.html', context)
+
+
 
 def schoolMembershipReport(request, pk_school):
     
@@ -970,6 +1002,7 @@ def schoolMembershipReport(request, pk_school):
     school_memberships_verified = Membership.objects.filter(school=school, status='VERIFIED')
     school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
     
-    context = {}
+    context = {'school':school,'school_memberships_unverified':school_memberships_unverified,'school_memberships_unverified_sum':school_memberships_unverified_sum,
+                'school_memberships_verified':school_memberships_verified,'school_memberships_verified_sum':school_memberships_verified_sum }
     return render(request, 'schoolMembershipReport.html', context)
 

@@ -83,6 +83,7 @@ urlpatterns = [
     path('globalCumurativeDisability', globalCumurativeDisability, name='globalCumurativeDisability'),
     path('disabilityReportSingleSite/<str:pk_school>', disabilityReportSingleSite, name='disabilityReportSingleSite'),
     path('schoolMembershipReport/<str:pk_school>', schoolMembershipReport, name='schoolMembershipReport'),
+    # path('disaReportFromSingleSchool', disaReportFromSingleSchool, name='disaReportFromSingleSchool'),
 
 
 
