@@ -118,6 +118,7 @@
 {% endblock %}
 
 {% block content %}
+
 <br><br>
 <div class="row">
     <div class="col-md-4">
@@ -128,15 +129,13 @@
 
     </div>
     <div class="col-md-4">
-        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal2">
-            Generate General Cummurative  Report  Based on Disability
-        </button>
+        <a href="{% url 'globalCumurativeDisability' %}" class="btn btn-success btn-block">Generate General Cummurative  Report  Based on Disability</a>   
     </div>
 
     
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate  Membership Report Based on Site
+            Generate Membership Report Based on Site
         </button>
     </div>
 </div>
@@ -146,15 +145,15 @@
 <br><br>
 <div class="row">
     <div class="col-md-4">
-        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal4">
-            Generate Report Based on Disability in Single site
-        </button>
+    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal4">
+        Generate Report Based on Disability in Single site
+    </button>
         
 
     </div>
     <div class="col-md-4">
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal5">
-            Generate Genger Report Based on Site
+            Generate Gender Report Based on Site
         </button>
     </div>
 
@@ -305,15 +304,15 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'schoolMembershipReport' %}' target="_blank">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">Select School:</label>
                                  <select class="form-control" name="school" id="school">
-                                    <option>Select Cite of Your choice</option>
-                                    {% for school in school %}
+                                    <option>Select schools</option>
+                                    {% for school in schools %}
                                     <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
                                 </select> 
@@ -350,18 +349,18 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'disabilityReportSingleSite' %}' target="_blank">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">School:</label>
-                                {% comment %} <select class="form-control" name="station" id="stations">
-                                    <option selected>Select RIBStation</option>
-                                    {% for stations in rib_stations %}
-                                    <option value="{{stations.id}}">{{stations.station_name}}</option>
+                                <select class="form-control" name="school" id="school">
+                                    <option selected>Select School</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
-                                </select> {% endcomment %}
+                                </select> 
                             </div>
                         </div>
                     </div>
