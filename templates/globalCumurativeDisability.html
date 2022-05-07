@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,402 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>globalCumurativeDisability</title>
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            /* margin: 25px 0; */
+            font-size: 1.0em;
+            font-family: sans-serif;
+            width: 900px;
+            height: 100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+        }
+    .styled-table thead tr {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        
+    }
+     td {
+        width: 70px;
+        height: 70px;
+    } 
+    
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #070707;
+    }
+    .row {
+                width: 140px;
+                height: 60px;
+                font-size: 11px;
+            }
+    /* .course {
+        font-size: 12px;
+    } */
+    /* .toCenter {
+        margin: 30px;
+    } */
+
+    @page {
+            size: a4 portrait;
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 50pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>globalCumurativeDisability</h1>
-
+    {% comment %} Starting of page 1 {% endcomment %}
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
     
+    <div id="header_content">
+        <br>
+        <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+         
+    </div><br><br>
+    <center>
+           <h1 style="text-align: center;">GLOBAL CUMMURATIVE DISABILITY REPORT IN ALL SITE</h1>
+           <br>
+           <h2 style="text-align: center;">MALE & FEMALE CUMMURATIVE REPORT</h2>
+           
+           <br> 
+           <h2 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+           <h2 style="text-align: center;">MALE BENEFICIALIES HAVING AUTISM Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>                    
+                    <tr>
+                        <td class="row">{{men_six_utism}}</td>
+                         <td class="row">{{men_thirteen_utism}}</td>
+                        <td class="row">{{men_twenty_five_utism}}</td>
+                        <td class="row">{{men_above_twenty_five_utism}}</td>
+                        <td class="row">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES HAVING AUTISM Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row">{{female_six_utism}}</td>
+                         <td class="row">{{female_thirteen_utism}}</td>
+                        <td class="row">{{female_twenty_five_utism}}</td>
+                        <td class="row">{{female_above_twenty_five_utism}}</td>
+                        <td class="row">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table>
+    {% comment %} Ending of page 1 {% endcomment %}
+
+
+
+       {% comment %} Starting of page 2 {% endcomment %}
+        <center>
+            <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+            
+            <div id="header_content">
+                <br>
+                <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+                 
+            </div><br><br>
+        <br><br><br><br>
+        <h2 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+
+        <h2 style="text-align: center;">MALE BENEFICIALIES HAVING MULTIPLE Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>                    
+                    <tr>
+                        <td class="row">{{men_six_multiple}}</td>
+                         <td class="row">{{men_thirteen_multiple}}</td>
+                        <td class="row">{{men_twenty_five_multiple}}</td>
+                        <td class="row">{{men_above_twenty_five_multiple}}</td>
+                        <td class="row">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES HAVING MULTIPLE Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row">{{female_six_multiple}}</td>
+                         <td class="row">{{female_thirteen_multiple}}</td>
+                        <td class="row">{{female_twenty_five_multiple}}</td>
+                        <td class="row">{{female_above_twenty_five_multiple}}</td>
+                        <td class="row">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table>
+        <br><br><br><br>
+        {% comment %} Ending of page 2 {% endcomment %}
+
+        {% comment %} Starting of page 3 {% endcomment %}
+        <center>
+            <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+            
+            <div id="header_content">
+                <br>
+                <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+                 
+            </div>
+        <br><br><br><br>
+
+        <br><br><br><br><br>
+        <h2 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+
+        <h2 style="text-align: center;">MALE BENEFICIALIES HAVING CEREBRAL PALSY Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>                    
+                    <tr>
+                        <td class="row">{{men_six_cerebral_palsy}}</td>
+                         <td class="row">{{men_thirteen_cerebral_palsy}}</td>
+                        <td class="row">{{men_twenty_five_cerebral_palsy}}</td>
+                        <td class="row">{{men_above_twenty_five_cerebral_palsy}}</td>
+                        <td class="row">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES HAVING CEREBRAL PALSY Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row">{{female_six_cerebral_palsy}}</td>
+                         <td class="row">{{female_thirteen_cerebral_palsy}}</td>
+                        <td class="row">{{female_twenty_five_cerebral_palsy}}</td>
+                        <td class="row">{{female_above_twenty_five_cerebral_palsy}}</td>
+                        <td class="row">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br>
+        {% comment %} Ending of page 3 {% endcomment %}
+
+        {% comment %} Starting of page 4 {% endcomment %}
+        <br><br>
+        <center>
+            <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+            
+            <div id="header_content">
+                <br>
+            
+        <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+         
+    </div>
+    <center>
+           <br> 
+           <h2 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+           <h2 style="text-align: center;">MALE BENEFICIALIES HAVING CEREBRAL PALSY ID Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>                    
+                    <tr>
+                        <td class="row">{{men_six_cerebral_palsy_id}}</td>
+                         <td class="row">{{men_thirteen_cerebral_palsy_id}}</td>
+                        <td class="row">{{men_twenty_five_cerebral_palsy_id}}</td>
+                        <td class="row">{{men_above_twenty_five_cerebral_palsy_id}}</td>
+                        <td class="row">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES HAVING CEREBRAL PALSY ID Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row">{{female_six_cerebral_palsy_id}}</td>
+                         <td class="row">{{female_thirteen_cerebral_palsy_id}}</td>
+                        <td class="row">{{female_twenty_five_cerebral_palsy_id}}</td>
+                        <td class="row">{{female_above_twenty_five_cerebral_palsy_id}}</td>
+                        <td class="row">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br>
+    {% comment %} Ending of page 4 {% endcomment %}
+
+
+
+    {% comment %} Starting of page 5 {% endcomment %}
+        <center>
+            <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+            
+            <div id="header_content">
+                <br>
+                <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+                 
+            </div><br><br>
+        <br><br><br><br>
+        <h2 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+
+        <h2 style="text-align: center;">MALE BENEFICIALIES HAVING DOWN SYNDROM Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>                    
+                    <tr>
+                        <td class="row">{{men_six_downsyndrome}}</td>
+                         <td class="row">{{men_thirteen_downsyndrome}}</td>
+                        <td class="row">{{men_twenty_five_downsyndrome}}</td>
+                        <td class="row">{{men_above_twenty_five_downsyndrome}}</td>
+                        <td class="row">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES HAVING DOWN SYNDROM Disability </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row">{{female_six_downsyndrome}}</td>
+                         <td class="row">{{female_thirteen_downsyndrome}}</td>
+                        <td class="row">{{female_twenty_five_downsyndrome}}</td>
+                        <td class="row">{{female_above_twenty_five_downsyndrome}}</td>
+                        <td class="row">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table>
+       
+    {% comment %} Ending of page 5 {% endcomment %}
+
+
+
+    </center>
+
+    <br>
+    
+<div id="footer_content"> (c) - page <pdf:pagenumber>
+    of <pdf:pagecount>
+  </div>
+
 </body>
+</html>
 </html>

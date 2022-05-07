@@ -1045,8 +1045,8 @@ def schoolMembershipReport(request):
         school_memberships_verified = Membership.objects.filter(school=school, status='VERIFIED')
         school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
     
-    context = {'school':school,'school_memberships_unverified':school_memberships_unverified,'school_memberships_unverified_sum':school_memberships_unverified_sum,
-                'school_memberships_verified':school_memberships_verified,'school_memberships_verified_sum':school_memberships_verified_sum }
+    context = {'school':school,'school_memberships_unverified':school_memberships_unverified,'school_memberships_verified':school_memberships_verified,                
+                school_memberships_unverified_sum:'school_memberships_unverified_sum', school_memberships_verified_sum:'school_memberships_verified_sum'}
     # return render(request, 'schoolMembershipReport.html', context)
     html = template.render(context)
     pdf= render_to_pdf('schoolMembershipReport.html', context)
@@ -1066,9 +1066,10 @@ def siteStaffRole(request):
     
     user = request.user
     school = School.objects.get(user=user)
+    address = school.province
     teachers = Teacher.objects.filter(school=school)
     
-    context = {'teachers':teachers}
+    context = {'teachers':teachers, school:'school', user:'user',address:'address'}
     html = template.render(context)
     pdf= render_to_pdf('siteStaffRole.html', context)
     if pdf:
