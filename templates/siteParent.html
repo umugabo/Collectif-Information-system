@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Stafff List and their User role</title>
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            /* margin: 25px 0; */
+            font-size: 1.0em;
+            font-family: sans-serif;
+            width: 900px;
+            height: 100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+        }
+    .styled-table thead tr {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        
+    }
+     td {
+        width: 70px;
+        height: 70px;
+    } 
+    
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #070707;
+    }
+    .row {
+                width: 140px;
+                height: 60px;
+                font-size: 11px;
+            }
+    /* .course {
+        font-size: 12px;
+    } */
+    /* .toCenter {
+        margin: 30px;
+    } */
+
+    @page {
+            size: a4 portrait;
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="60">
+    <br>
+    <div id="header_content">
+        <br><br>
+        <center><strong><h2>Collectif Tubakunde Report</strong> </center><br><br>
+         Site Name: <strong>{{school.school_name}}</strong> <br><br>
+         Location: <strong>{{address}}</strong><br> <br>
+         {% comment %} Purpose Of This report: <strong>Comparison of Suspect in Case {{nameC1}} And Suspect in Case {{nameC2}}</strong>  {% endcomment %}
+    </div></h2><br><br>
+    <center>
+           <h2 style="text-align: center;">SITE BENEFICIALLY LIST IN: " {{school.school_name}} "</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Family NID</th>
+                    <th>Father Name</th>
+                    <th>Mother Name</th>
+                    <th>Phone</th>
+                    <th>Province</th>
+                    <th>District</th>
+                    <th>Sector</th>
+                    <th>Cell</th>
+                    <th>Village</th>
+                    <th>Child</th>
+                </tr>
+            </thead>
+             <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{student.familyNID}}</td>            
+                        <td>{{student.father_name}}</td>
+                        <td>{{student.mother_name}}</td>
+                        <td>{{student.phone}}</td>
+                        <td>{{student.province}}</td>
+                        <td>{{student.district}}</td>
+                        <td>{{student.sectors}}</td>
+                        <td>{{student.cell}}</td>
+                        <td style="text-align: center;">{{student.village}}</td>
+                        <td>{{student.f_name}} {{student.l_name}}</td>
+                
+                </tr>
+                {% endfor %} 
+            </tbody>
+        </table>
+
+
+
+
+        {% comment %} <h2 style="text-align: center;">SUSPECT LIST ON Case: " {{nameC2}} "</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">ID No</th>
+                    <th class="row">Name</th>
+                    <th class="row">Gender</th>
+                    <th class="row">DOB</th>
+                    <th class="row">Date Arrested</th>
+                    <th class="row">RIB Station</th>
+                    <th class="row">Case Officer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sus2 in cases_suspects2 %}
+                <tr>
+                    <td class="row">{{sus2.suspectNID}}</td>
+                    <td class="row">{{sus2.f_name}} {{sus2.l_name}}</td>
+                    <td class="row">{{sus2.gender}}</td>
+                    <td class="row">{{sus2.dob}}</td>
+                    <td class="row">{{sus2.date_arrested}}</td>
+                    <td class="row">{{sus2.ribstation}}</td>
+                    <td class="row">{{sus2.stationuser}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> {% endcomment %}
+    </center>
+
+    <br>
+    
+<div id="footer_content"> (c) - page <pdf:pagenumber>
+    of <pdf:pagecount>
+  </div>
+
+</body>
+</html>
+</html>

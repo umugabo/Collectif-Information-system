@@ -119,10 +119,13 @@ def homeBoard(request):
     st_male = Student.objects.filter(gender="M").count()
     st_female = Student.objects.filter(gender="F").count()
 
+    
+
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
         'st_male':st_male, 'st_female':st_female
     }
+    # messages.success(request, 'Welcome You are Logged In As Board User')
     return render(request, 'BoardPage.html', context)
 
 
@@ -132,7 +135,15 @@ def homeBoard(request):
 def homeCoordinator(request):
     user = request.user
     school = School.objects.get(user=user)
+
     children = Student.objects.filter(school=school).count() 
+    tot_staff = Teacher.objects.filter(school=school).count() 
+    teachers = Teacher.objects.filter(service="Teacher",school=school).count()
+    nurses = Teacher.objects.filter(service="Nurse",school=school).count()
+    fusios = Teacher.objects.filter(service="Fusion",school=school).count()
+    cares = Teacher.objects.filter(service="Care giver",school=school).count()
+
+
     Autisms = Student.objects.filter(physical_disability="Autism", school=school).count()
     Multiples = Student.objects.filter(physical_disability="Multiple", school=school).count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy", school=school).count()
@@ -146,7 +157,7 @@ def homeCoordinator(request):
     st_male = Student.objects.filter(gender="M", school=school).count()
     st_female = Student.objects.filter(gender="F", school=school).count()
 
-    context = {'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
+    context = {'tot_staff':tot_staff,'fusios':fusios,'cares':cares,'nurses':nurses,'teachers':teachers,'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
         'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
     }
     return render(request, 'CoordinatorPage.html', context)
@@ -391,6 +402,19 @@ def studentList(request):
     context = {'students':students, 'page_obj':page_obj}
     return render(request, 'studentList.html', context)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def studentListStaff(request):
+    user = request.user
+    students = Student.objects.all()
+    paginator = Paginator(students, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'students':students, 'page_obj':page_obj}
+    return render(request, 'studentListStfaff.html', context)
+
+
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -414,6 +438,20 @@ def student_update(request, pk_student):
             return redirect('studentList')
     context = {'form':form, 'student':student}
     return render(request, 'StudentForm.html',context)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def student_details(request, pk_student):
+    student = Student.objects.get(id=pk_student)
+    form = StudentForm(instance=student)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Student has been Updated Successfully')
+            return redirect('studentListStaff')
+    context = {'form':form, 'student':student}
+    return render(request, 'studentDetails.html',context)
 
 
 
@@ -688,15 +726,16 @@ def sitesBoardReport(request):
 @allowed_users(allowed_roles=['StaffUser'])
 def siteStaffReport(request):
 
-	malestd= Student.objects.filter(gender='M').count()
-	femalestd= Student.objects.filter(gender='F').count()
-	malecoo= Coordinator.objects.filter(gender='M').count()
-	femalecoo= Coordinator.objects.filter(gender='F').count()
-	
+    malestd= Student.objects.filter(gender='M').count()
+    femalestd= Student.objects.filter(gender='F').count()
+    malecoo= Coordinator.objects.filter(gender='M').count()
+    femalecoo= Coordinator.objects.filter(gender='F').count()
+    years = Year.objects.all()
 
-	context = {'malestd':malestd, 'femalestd':femalestd, 
-               'malecoo':malecoo, 'femalecoo':femalecoo}
-	return render(request, 'generalStaffReport.html',context)
+
+    context = {'malestd':malestd, 'femalestd':femalestd,'malecoo':malecoo, 'femalecoo':femalecoo,
+                'years':years,}
+    return render(request, 'generalStaffReport.html',context)
 
 @login_required(login_url='login_view')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -1013,6 +1052,7 @@ def disabilityReportSingleSite(request):
                 'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
                 'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
                  }
+    # to use pdf remove comment to return render          
     # return render(request, 'disabilityReportSingleSite.html', context)
     html = template.render(context)
     pdf= render_to_pdf('disabilityReportSingleSite.html', context)
@@ -1046,13 +1086,71 @@ def schoolMembershipReport(request):
         school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
     
     context = {'school':school,'school_memberships_unverified':school_memberships_unverified,'school_memberships_verified':school_memberships_verified,                
-                school_memberships_unverified_sum:'school_memberships_unverified_sum', school_memberships_verified_sum:'school_memberships_verified_sum'}
-    # return render(request, 'schoolMembershipReport.html', context)
+                'school_memberships_unverified_sum':school_memberships_unverified_sum, 'school_memberships_verified_sum':school_memberships_verified_sum}
+    # to use pdf comment return render
+    return render(request, 'schoolMembershipReport.html', context)
     html = template.render(context)
     pdf= render_to_pdf('schoolMembershipReport.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         file_name = "Single Site Membership Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def yearMembershipReport(request):
+    
+    template = get_template('yearMembershipReport.html')
+    
+    try: 
+        yearId = request.GET.get('year')
+    except:
+        yearId = None
+    if yearId:
+        year = Year.objects.get(id=yearId)
+        school_membership = Membership.objects.filter(year=year)
+
+    context = {'year':year,'school_membership':school_membership}
+    # to use pdf comment return render
+    return render(request, 'yearMembershipReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('yearMembershipReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Yearly Site Membership Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+def yearBudgetReport(request):
+    
+    template = get_template('yearbudgetReport.html')
+    
+    try: 
+        yearId = request.GET.get('year')
+    except:
+        yearId = None
+    if yearId:
+        year = Year.objects.get(id=yearId)
+        school_budget = Budget.objects.filter(year=year)
+
+    context = {'year':year,'school_budget':school_budget}
+    # to use pdf comment return render
+    return render(request, 'yearbudgetReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('yearbudgetReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Yearly Site Budget Report"
         content = "inline; filename='%s'" %(file_name)
         download = request.GET.get("download")
         if download:
@@ -1067,14 +1165,154 @@ def siteStaffRole(request):
     user = request.user
     school = School.objects.get(user=user)
     address = school.province
+    school_name= school.school_name
     teachers = Teacher.objects.filter(school=school)
+    tot_tea = teachers.count()
     
-    context = {'teachers':teachers, school:'school', user:'user',address:'address'}
+    context = {'teachers':teachers, 'school':school, user:'user','address':address,'tot_tea':tot_tea}
     html = template.render(context)
     pdf= render_to_pdf('siteStaffRole.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         file_name = "Single Site Staff Role Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def siteBeneficiallyList(request):
+    template = get_template('siteBeneficially.html')
+    
+    user = request.user
+    school = School.objects.get(user=user)
+    address = school.province
+    students = Student.objects.filter(school=school)
+    tot_bene = students.count()
+    
+    context = {'students':students, 'school':school, user:'user','address':address,'tot_bene':tot_bene}
+    html = template.render(context)
+    pdf= render_to_pdf('siteBeneficially.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Beneficially Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def siteParentList(request):
+    template = get_template('siteParent.html')
+    
+    user = request.user
+    school = School.objects.get(user=user)
+    address = school.province
+    students = Student.objects.filter(school=school)
+    
+    context = {'students':students, 'school':school, user:'user','address':address}
+    html = template.render(context)
+    pdf= render_to_pdf('siteParent.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Beneficially Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+
+def schoolgenderReport(request):
+    
+    template = get_template('schoolgenderReport.html')
+    
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        school_male_beneficially = Student.objects.filter(school=school, gender='M').count()
+        school_female_beneficially = Student.objects.filter(school=school, gender='F').count()
+        
+    context = {'school':school,'school_male_beneficially':school_male_beneficially,'school_female_beneficially':school_female_beneficially}
+    return render(request, 'schoolgenderReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('schoolgenderReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Gender Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+
+def ageReportSingleSite(request):
+    
+    template = get_template('ageReportSingleSite.html')
+    
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        current_year = datetime.datetime.now().year
+        six_year_before = current_year - 6
+        thirteen_year_before = current_year - 13
+        twenty_five_year_before = current_year - 25
+        
+        all_men = Student.objects.filter(gender='M', school=school).count()
+        all_female = Student.objects.filter(gender='F', school=school).count()
+        
+        
+        men_six= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year).count()
+   
+        female_six = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year).count()
+     
+
+        men_thirteen = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before).count()
+ 
+        female_thirteen = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before).count()
+   
+        
+        men_twenty_five = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before).count()
+   
+        female_twenty_five = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before).count()
+   
+        
+        men_above_twenty_five= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before).count()
+    
+        female_above_twenty_five = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before).count()
+    
+    context = {'school':school,'all_men':all_men,'all_female':all_female,
+                'men_six':men_six,'female_six':female_six,
+                'men_thirteen':men_thirteen,'female_thirteen':female_thirteen,
+                'men_twenty_five':men_twenty_five,'female_twenty_five':female_twenty_five,
+                'men_above_twenty_five':men_above_twenty_five,'female_above_twenty_five':female_above_twenty_five,
+                 }
+    # remove or add comment below          
+    return render(request, 'ageReportSingleSite.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('ageReportSingleSite.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Global Cumulative Disability Single Site"
         content = "inline; filename='%s'" %(file_name)
         download = request.GET.get("download")
         if download:

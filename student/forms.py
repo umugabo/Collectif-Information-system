@@ -33,7 +33,7 @@ class StudentForm(forms.ModelForm):
     dob =forms.DateField(widget=DateInput)
     class Meta:
         model = Student
-        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','course','physical_disability','classe','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note', 'service_category', 'st_image')
+        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','course','physical_disability','classe','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note', 'service_category', 'st_image','school')
         labels = {
             'f_name':'First Name',
             'l_name':'Last Name',
@@ -55,7 +55,8 @@ class StudentForm(forms.ModelForm):
             'village':'Village',
             'note':'Observation Note',
             'service_category':'Service Category',
-            'st_image':'Image',         
+            'st_image':'Image',  
+            'school':'School Name',       
         }
     def __init__(self,*args,**kwargs):
         super(StudentForm,self).__init__(*args,**kwargs)

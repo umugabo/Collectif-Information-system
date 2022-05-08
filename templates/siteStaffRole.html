@@ -58,23 +58,24 @@
     </style>
 </head>
 <body>
-    
-    <img src="http://localhost:8000/static/images/hd.jpg" alt="logo" height="70" width="850">
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="60">
     <br>
     <div id="header_content">
         <br><br>
         <center><strong><h2>Collectif Tubakunde Report</strong> </center><br><br>
-         Site Name: <strong>{{user}}</strong> <br><br>
+         Site Name: <strong>{{school.school_name}}</strong> <br><br>
          Location: <strong>{{address}}</strong><br> <br>
          {% comment %} Purpose Of This report: <strong>Comparison of Suspect in Case {{nameC1}} And Suspect in Case {{nameC2}}</strong>  {% endcomment %}
     </div></h2><br><br>
     <center>
-           <h2 style="text-align: center;">SITE STAFF LIST AND THEIR USER ROLE IN: " {{school}} "</h2>
+           <h2 style="text-align: center;">SITE STAFF LIST AND THEIR USER ROLE IN: " {{school.school_name}} "</h2>
+           <h2 style="text-align: center;">TOTAL NUMBER OF SITE STAFF IS: " {{tot_tea}} "</h2>
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th class="row">ID No</th>
-                    <th class="row">Name</th>
+                    <th class="row">Identity No</th>
+                    <th class="row">Full Name</th>
                     <th class="row">Gender</th>
                     <th class="row">degree</th>
                     <th class="row">Recruit Year</th>

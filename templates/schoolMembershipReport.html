@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Stafff List and their User role</title>
+    <title>Site Membership Report</title>
     <style>
         .styled-table {
             border-collapse: collapse;
@@ -58,34 +58,36 @@
     </style>
 </head>
 <body>
-    
-    <img src="http://localhost:8000/static/images/hd.jpg" alt="logo" height="70" width="850">
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
     <br>
     <div id="header_content">
         <br><br>
         <center><strong><h2>Collectif Tubakunde Report</strong> </center><br><br>
-         Site Name: <strong>{{user}}</strong> <br><br>
-         Location: <strong>{{address}}</strong><br> <br>
+         Site Name: <strong>{{school.school_name}}</strong> <br><br>
+         Location: <strong>{{school.province}}</strong><br> <br>
         
     </div></h2><br><br>
     <center>
-           <h2 style="text-align: center;">School Membership Report</h2>
+           <h2 style="text-align: center;">{{school.school_name}} Membership Report</h2>
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th class="row">ID No</th>
-                    <th class="row">Name</th>
-                    <th class="row">Gender</th>
-                    <th class="row">degree</th>
-                    <th class="row">Recruit Year</th>
-                    <th class="row">Disability</th>
-                    <th class="row">Service</th>
+                    <th class="row">Membership That have been Approved</th>
+                    <th class="row"> </th>
+                    <th class="row"> </th>
+                    <th class="row"> </th>
+                    <th class="row">Membership That have Not been Approved</th>
                 </tr>
             </thead>
              <tbody>
                      
                     <tr>
-                        <td class="row">{{school_memberships_unverified}}</td>
+                        <td class="row" align="center"> {{school_memberships_unverified_sum}} Rwfs</td>
+                        <td class="row"> </td>
+                        <td class="row"> </td>
+                        <td class="row"> </td>
+                        <td class="row" align="center"> {{school_memberships_verified_sum}} Rwfs</td>
                   
 
                 </tr>

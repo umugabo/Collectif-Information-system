@@ -121,32 +121,23 @@
 <br><br>
 <div class="row">
     <div class="col-md-4">
-        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
-            Generate Report Based on site Beneficialy Disability Type
-        </button>
-        
-
+        <a href="{% url 'siteBeneficiallyList' %}" class="btn btn-success btn-block">Generate Report Based on Site Beneficially</a>   
+           
     </div>
+
     <div class="col-md-4">
         <a href="{% url 'siteStaffRole' %}" class="btn btn-success btn-block">Generate Report Based on Site Staff Role</a>   
     </div>
        
-    <div class="col-md-4">
-        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate Report Based on Site Beneficialy Gender
-        </button>
+     <div class="col-md-4">
+        <a href="{% url 'siteParentList' %}" class="btn btn-success btn-block">Generate Report Based on Parents</a>   
+    </div>
     </div>
 </div>
 
 
 <br><br>
-{% comment %} <div class="row">
-    <dic class="col-md-4">
-        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#myModal4">
-            Compare 2 Schools Based to Quater
-        </button>
-    </dic>
-</div> {% endcomment %}
+
 
 
 <!-- The Modal -->

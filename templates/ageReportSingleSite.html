@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteCumurativeAge</title>
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            /* margin: 25px 0; */
+            font-size: 1.0em;
+            font-family: sans-serif;
+            width: 900px;
+            height: 100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+        }
+    .styled-table thead tr {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        
+    }
+     td {
+        width: 70px;
+        height: 70px;
+    } 
+    
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #070707;
+    }
+    .row {
+                width: 140px;
+                height: 60px;
+                font-size: 11px;
+            }
+    /* .course {
+        font-size: 12px;
+    } */
+    /* .toCenter {
+        margin: 30px;
+    } */
+
+    @page {
+            size: a4 portrait;
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 50pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% comment %} Starting of page 1 {% endcomment %}
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+    
+    <div id="header_content">
+        <br>
+        <center><strong><h2>Collectif Tubakunde Report</strong> </center><br><br>
+            Site Name: <strong>{{school.school_name}}</strong> <br><br>
+            Location: <strong>{{school.province}}</strong><br> <br>
+           
+    </div><br>
+    <center>
+           <h1 style="text-align: center;">SITE CUMMURATIVE AGE REPORT IN ALL SITE</h1>
+           
+           <h2 style="text-align: center;">MALE & FEMALE SITE AGE CUMMURATIVE REPORT</h2>
+           <br>
+           <h2 style="text-align: center;">TOTAL {{school.school_name}} MALE  BENEFICIALIES ARE: {{all_men}}</h2>     
+           <h2 style="text-align: center;">MALE BENEFICIALIES</h2>
+
+           <br> 
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead><center>
+             <tbody>                    
+                    <tr>
+                        <td class="row" align="center">{{men_six}}</td>
+                         <td class="row" align="center">{{men_thirteen}}</td>
+                        <td class="row" align="center">{{men_twenty_five}}</td>
+                        <td class="row" align="center">{{men_above_twenty_five}}</td>
+                        <td class="row" align="center">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br><br><br><br><br><br><br><br>
+
+        <br> 
+           <h2 style="text-align: center;">TOTAL {{school.school_name}} FEMALE  BENEFICIALIES ARE: {{all_female}}</h2>  
+        <h2 style="text-align: center;">FEMALE BENEFICIALIES </h2>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="row">[0 - 6]</th>
+                    <th class="row">[7 - 13]</th>
+                    <th class="row">[14 - 25]</th>
+                    <th class="row">[26 - Above]</th>
+                    <th class="row">TOTAL</th>
+                </tr>
+            </thead>
+             <tbody>
+                    
+                    <tr>
+                        <td class="row" align="center">{{female_six}}</td>
+                         <td class="row" align="center">{{female_thirteen}}</td>
+                        <td class="row" align="center">{{female_twenty_five}}</td>
+                        <td class="row" align="center">{{female_above_twenty_five}}</td>
+                        <td class="row" align="center">{{all_female}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table>
+
+
+    </center>
+
+    <br>
+    
+<div id="footer_content"> (c) - page <pdf:pagenumber>
+    of <pdf:pagecount>
+  </div>
+
+</body>
+</html>
+</html>

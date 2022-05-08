@@ -39,21 +39,15 @@
             </center>
             <ul class="list-unstyled components">
           
-                <p> <strong style="color: #78797F;">COLLECTIF STAFF USER</strong> </p>
+                <p> <strong style="color: #78797F;">COLLECTIF SECRETARIAT</strong> </p>
                  
                                <li class="{% if 'homeStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'homeStaff' %}"><span class="feather icon-map"></span> Dashboard</a>
-                {% comment %} </li>
-                              <li class="{% if 'studentList' in request.path %} active {% endif %}">
-                    <a href="{% url 'studentList' %}"><span class="feather icon-home"></span>Childrens</a>
-                </li>      {% endcomment %}
-                             {% comment %} <li class="{% if 'course' in request.path %} active {% endif %}">
-                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>Courses Taught In All Site</a>
-                </li>
-                    {% endcomment %}
-                            {% comment %} <li class="{% if 'classeList' in request.path %} active {% endif %}">
-                    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>Classes In All Site</a>
-                {% endcomment %}
+                 </li>
+                              <li class="{% if 'studentListStaff' in request.path %} active {% endif %}">
+                    <a href="{% url 'studentListStaff' %}"><span class="feather icon-home"></span>List Of Beneciary</a>
+                </li>      
+
                            <li class="{% if 'ListOfcoordinatorStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfcoordinatorStaff' %}"><span class="feather icon-feather"></span>List Of Coordinators </a>
                 </li>
@@ -76,7 +70,7 @@
 
             </ul>
                        
-            {% comment %} <ul class="list-unstyled CTAs"> {% endcomment %}
+           
                 <li>
                     
                         {% csrf_token%}
@@ -173,7 +167,7 @@
 
 <div class="row">
 <div class="col-md-6">
-    <canvas id="myChart3" height="240"></canvas>
+    <canvas id="myChart3" height="230"></canvas>
 </div>
 <div class="col-md-6">
     <canvas id="myChart" height="120"></canvas>

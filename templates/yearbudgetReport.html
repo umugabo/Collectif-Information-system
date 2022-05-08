@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Membership Report</title>
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            /* margin: 25px 0; */
+            font-size: 1.0em;
+            font-family: sans-serif;
+            width: 900px;
+            height: 100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+        }
+    .styled-table thead tr {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        
+    }
+     td {
+        width: 70px;
+        height: 70px;
+    } 
+    
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #070707;
+    }
+    .row {
+                width: 140px;
+                height: 60px;
+                font-size: 11px;
+            }
+    /* .course {
+        font-size: 12px;
+    } */
+    /* .toCenter {
+        margin: 30px;
+    } */
+
+    @page {
+            size: a4 portrait;
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <img src="http://localhost:8000/static/images/logo.jpg" alt="logo" height="70" width="70">
+    <br>
+    <div id="header_content">
+        <br><br>
+        <center><strong><h2>Collectif Tubakunde Report</strong> </center><br><br>
+
+        
+    </div></h2><br><br>
+    <center>
+           <h2 style="text-align: center;"> Budget Report for site in Year: {{year}}</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Budget Amount</th>
+                    <th>Date Submitted</th>
+                    <th>Annual Budget for Year</th>
+                    <th>School Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in school_budget %}
+                <tr>
+                    <td align="center">{{budget.budget_amount}} rwf</td>
+                    <td align="center">{{budget.date_submitted}}</td>
+                    <td align="center">{{budget.year}}</td>
+                    <td align="center">{{budget.school}}</td>
+  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </center>
+
+    <br>
+    
+<div id="footer_content"> (c) - page <pdf:pagenumber>
+    of <pdf:pagecount>
+  </div>
+
+</body>
+</html>
+</html>

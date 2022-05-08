@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'CollectifSystem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'school',
+        'NAME': 'collectif_db',
         'USER': 'postgres',
         'PASSWORD': 'mgb',
         'HOST': 'localhost',

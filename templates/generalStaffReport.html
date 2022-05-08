@@ -127,16 +127,18 @@
         
 
     </div>
-    <div class="col-md-4">
-        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal2">
-            Generate Report Based on Annual Budget Based on Year
-        </button>
-    </div>
+  
 
     
     <div class="col-md-4">
-        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate Report Membership Cummurative fee Based on Site 
+        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal2">
+            --------------------------------- 
+        </button>
+    </div>
+
+    <div class="col-md-4">
+        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal3">
+            Generate Report Based on Annual Budget Based on Year
         </button>
     </div>
 </div>
@@ -158,15 +160,15 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'yearMembershipReport' %}' target="_blank">
                     <div class="form-group">
                         <label for="">Select Year:</label>
-                        {% comment %} <select class="form-control" name="station" id="stations">
-                            <option selected>Select RIBStation</option>
-                             {% for station in rib_stations %}
-                            <option value="{{station.id}}">{{station.station_name}}</option>
+                         <select class="form-control" name="year" id="year">
+                            <option selected>Select Year</option>
+                             {% for year in years %}
+                            <option value="{{year.id}}">{{year.year_name}}</option>
                             {% endfor %} 
-                        </select> {% endcomment %}
+                        </select> 
                     </div>
       
 
@@ -187,14 +189,64 @@
 
 
 
-
-
-
-
-
-
-
 <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <!-- Modal body -->
+            {% comment %} <div class="modal-body">
+                <form role="search" action='' target="_blank">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Select Site:</label>
+                               
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Select Year:</label>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                
+
+                    <button class="btn btn-primary btn-sm">Generate Report</button>
+                </form>
+            </form>
+            </div>
+
+        </div> {% endcomment %}
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -206,23 +258,16 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Select Year:</label>
-                                {% comment %} <select class="form-control" name="station" id="stations">
-                                    <option selected>Select RIBStation</option>
-                                    {% for stations in rib_stations %}
-                                    <option value="{{stations.id}}">{{stations.station_name}}</option>
-                                    {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-                    </div>
-                   
- 
+                <form role="search" action='{% url 'yearBudgetReport' %}' target="_blank">
+                    <div class="form-group">
+                        <label for="">Select Year:</label>
+                         <select class="form-control" name="year" id="year">
+                            <option selected>Select Year</option>
+                             {% for year in years %}
+                            <option value="{{year.id}}">{{year.year_name}}</option>
+                            {% endfor %} 
+                        </select> 
+                    
                                 <button class="btn btn-primary btn-sm">Generate Report</button>
                             </form>
 
@@ -251,67 +296,7 @@
 
 
 
-<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Generate Cuummurative report based Site Membership</h4>
-                <button type="button" class="close" data-dismiss="modal">×</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form role="search" action='' target="_blank">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Select Site:</label>
-                                {% comment %} <select class="form-control" name="station1" id="station1">
-                                    <option>Select RIBStation</option>
-                                    {% for station1 in rib_stations %}
-                                    <option value="{{station1.id}}">{{station1.station_name}}</option>
-                                    {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-                    </div>
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Select Year:</label>
-                                {% comment %} <select class="form-control" name="station2" id="station2">
-                                    <option selected>Select RIBStation</option>
-                                    {% for station2 in rib_stations %}
-                                    <option value="{{station2.id}}">{{station2.station_name}}</option>
-                                    {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-
-                
-
-                    <button class="btn btn-primary btn-sm">Generate Report</button>
-                </form>
-            </form>
-            </div>
-
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-
-    </div>
-</div>
-</div>
 
 
 

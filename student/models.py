@@ -148,7 +148,7 @@ class Coordinator(models.Model):
     degree = models.CharField(max_length=30, choices=DEGREE)
     recruit_year = models.IntegerField()
     physical_disability = models.CharField(max_length=50, choices=STAFF_DISABILITY, default="NO")
-    # school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+
     
     def __str__(self):
         return self.f_name  
