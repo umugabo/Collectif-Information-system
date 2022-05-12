@@ -80,6 +80,7 @@ def homeStaff(request):
     Autisms = Student.objects.filter(physical_disability="Autism").count()
     Multiples = Student.objects.filter(physical_disability="Multiple").count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID").count()
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
 
     clades1 = Student.objects.filter(classe="CLADE1").count()
@@ -92,7 +93,8 @@ def homeStaff(request):
 
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3,
+        'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'StaffPage.html', context)
 
@@ -114,6 +116,7 @@ def homeBoard(request):
     Autisms = Student.objects.filter(physical_disability="Autism").count()
     Multiples = Student.objects.filter(physical_disability="Multiple").count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID").count()
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
 
     st_male = Student.objects.filter(gender="M").count()
@@ -123,7 +126,7 @@ def homeBoard(request):
 
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female
+        'st_male':st_male, 'st_female':st_female, 'Cerebral_PalsysID':Cerebral_PalsysID
     }
     # messages.success(request, 'Welcome You are Logged In As Board User')
     return render(request, 'BoardPage.html', context)
@@ -147,6 +150,8 @@ def homeCoordinator(request):
     Autisms = Student.objects.filter(physical_disability="Autism", school=school).count()
     Multiples = Student.objects.filter(physical_disability="Multiple", school=school).count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy", school=school).count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID" , school=school).count()
+    
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom", school=school).count()
 
     clades1 = Student.objects.filter(classe="CLADE1", school=school).count()
@@ -158,7 +163,7 @@ def homeCoordinator(request):
     st_female = Student.objects.filter(gender="F", school=school).count()
 
     context = {'tot_staff':tot_staff,'fusios':fusios,'cares':cares,'nurses':nurses,'teachers':teachers,'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3 , 'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'CoordinatorPage.html', context)
 
