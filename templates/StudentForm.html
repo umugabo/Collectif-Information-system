@@ -55,10 +55,10 @@ Register Student
             {{form.phone|as_crispy_field}}
             {{form.father_name|as_crispy_field}}
             
-            {% if student.school != None %}
+            {% comment %} {% if student.school != None %}
             'Transfer the student To'
             {{form.school|as_crispy_field}}
-            {% endif %}
+            {% endif %} {% endcomment %}
                                         
                 </div>
                 <div class="form-group">

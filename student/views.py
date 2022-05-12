@@ -12,7 +12,7 @@ from django.db import connection
 from django .http import HttpResponse,JsonResponse
 
 # Create your views here.
-from .forms import membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
+from .forms import membershipValidation,membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
 from .models import *
 from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village, Year, Membership, Budget
 from .filters import StudentFilter,TeacherFilter
@@ -206,6 +206,35 @@ def course_update(request, pk_course):
             return redirect('courseList')
     context = {'form':form}
     return render(request, 'CourseForm.html',context)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def membership_update(request, pk_course):
+    membership = Membership.objects.get(id=pk_course)
+    form = membershipValidation(instance=membership)
+    if request.method == 'POST':
+        form = membershipValidation(request.POST, instance=membership)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Membership has been Updated Successfully')
+            return redirect('ListOfSiteMembershipFee')
+    context = {'form':form}
+    return render(request, 'membershipValidation.html',context)
+
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def budget_update(request, pk_course):
+    budget = Budget.objects.get(id=pk_course)
+    form = budgetForm(instance=budget)
+    if request.method == 'POST':
+        form = budgetForm(request.POST, instance=budget)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Budget has been Updated Successfully')
+            return redirect('budgetList')
+    context = {'form':form}
+    return render(request, 'budgetForm.html',context)
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])

@@ -33,7 +33,7 @@ class StudentForm(forms.ModelForm):
     dob =forms.DateField(widget=DateInput)
     class Meta:
         model = Student
-        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','course','physical_disability','classe','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note', 'service_category', 'st_image','school')
+        fields = ('f_name','l_name','gender','dob','correspond_age','year_reg','course','physical_disability','classe','familyNID','father_name','mother_name','phone','province','district','sectors','cell','village','note', 'service_category', 'st_image')
         labels = {
             'f_name':'First Name',
             'l_name':'Last Name',
@@ -56,7 +56,7 @@ class StudentForm(forms.ModelForm):
             'note':'Observation Note',
             'service_category':'Service Category',
             'st_image':'Image',  
-            'school':'School Name',       
+            # 'school':'School Name',       
         }
     def __init__(self,*args,**kwargs):
         super(StudentForm,self).__init__(*args,**kwargs)
@@ -227,5 +227,17 @@ class membershipForm(forms.ModelForm):
             'membership_amount':'Membership Amount',
             'year':'Select the Year',
             # 'school':'School Name',
+       
+        }
+
+class membershipValidation(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = ('membership_amount','year','school','status')
+        labels = {
+            'membership_amount':'Membership Amount',
+            'year':'Select the Year',
+            'school':'School Name',
+            'status':'Approval',
        
         }

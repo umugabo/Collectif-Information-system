@@ -58,7 +58,8 @@
             <td>{{member.year}}</td>
             <td>{{member.school}}</td>
             <td>{{member.status}}</td>
-            <td><a href="" class="btn btn-sm btn-success">Validate Membership</a></td>
+            <td><a href="{% url 'membership_update' member.id %}" class="btn btn-sm btn-success">Validate Membership</a></td>
+          
 
         </tr>
         {% endfor %}

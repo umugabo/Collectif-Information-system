@@ -57,8 +57,8 @@
             <td>{{budget.year}}</td>
             <td>{{budget.school}}</td>
            
-            {% comment %} <td><a href="{% url 'teacher_update' teacher.id %}" class="btn btn-sm btn-success">Update</a></td>
-            <td><a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
+            <td><a href="{% url 'budget_update' budget.id %}" class="btn btn-sm btn-success">Update</a></td>
+            {% comment %} <td><a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
         </tr>
         {% endfor %}
     </tbody>

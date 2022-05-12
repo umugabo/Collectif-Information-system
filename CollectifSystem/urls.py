@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from student.views import yearBudgetReport,yearMembershipReport,siteParentList,siteBeneficiallyList,ageReportSingleSite,schoolgenderReport,siteStaffRole, addMembership,ListOfSiteMembershipFee, disabilityReportSingleSite, globalCumurativeDisability,membershiptList,budgetList,addBudget,ListOfYear,addYear, schoolMembershipReport,siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff,login,studentListStaff,student_details, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
+from student.views import yearBudgetReport,yearMembershipReport,siteParentList,siteBeneficiallyList,membership_update,ageReportSingleSite,schoolgenderReport,siteStaffRole, addMembership,ListOfSiteMembershipFee, disabilityReportSingleSite, globalCumurativeDisability,membershiptList,budgetList,addBudget,ListOfYear,addYear, schoolMembershipReport,siteschoolReport,siteStaffReport,sitesBoardReport,register_staff_user,addStaff,register_coordinator_user, testPdf,SectorStatisticalReport,StatisticalReport,login_view,budget_update, homeStaff, homeCoordinator, addSchool, school_delete, schoolList, school_update, homeAdmin, homeBoard, studentList, classeList, courseList, addCoordinator,ListOfcoordinator ,ListOfParent ,ListOfcoordinatorStaff,ListOfBoard, ListOfStaff,login,studentListStaff,student_details, addCourse, addClasse, addStudent, student_delete, student_update, class_update, class_delete, course_update, course_delete, addTeacher, teacherList ,teacher_delete, teacher_update, coordinator_update, coordinator_delete, registerPage, SearchStudentList, SearchteacherList, logoutUser, error401, ajaxSearch, footer, addCourse
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.conf import settings
@@ -39,6 +39,8 @@ urlpatterns = [
     path('class_update/<str:pk_class>',class_update, name='class_update'),
     path('class_delete/<str:id>',class_delete, name='class_delete'),
     path('course_update/<str:pk_course>',course_update, name='course_update'),
+    path('membership_update/<str:pk_course>',membership_update, name='membership_update'),
+    path('budget_update/<str:pk_course>',budget_update, name='budget_update'),
     path('course_delete/<str:id>',course_delete, name='course_delete'),
     path('SearchStudentList',SearchStudentList, name='SearchStudentList'),
     path('SearchteacherList',SearchteacherList, name='SearchteacherList'),
