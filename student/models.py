@@ -58,13 +58,13 @@ SERVICE = [
     ("Teacher", "Teacher"),
     ("Care giver", "Care giver"),
     ("Nurse", "Nurse"),
-    ("Fusion", "Fusion"),
+    ("Physio", "Physio"),
     ("Supporting Staff", "Support Staff"),
 ]
 
 SERVICE_CATEGORY = [
     ("SPECIAL EDUCATION", "SPECIAL EDUCATION"),
-    ("FUSION AND EDUCATION", "FUSION AND EDUCATION"), 
+    ("PHYSIO AND EDUCATION", "PHYSIO AND EDUCATION"), 
 ]
 
 

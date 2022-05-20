@@ -143,7 +143,7 @@ def homeCoordinator(request):
     tot_staff = Teacher.objects.filter(school=school).count() 
     teachers = Teacher.objects.filter(service="Teacher",school=school).count()
     nurses = Teacher.objects.filter(service="Nurse",school=school).count()
-    fusios = Teacher.objects.filter(service="Fusion",school=school).count()
+    fusios = Teacher.objects.filter(service="Physio",school=school).count()
     cares = Teacher.objects.filter(service="Care giver",school=school).count()
 
 
