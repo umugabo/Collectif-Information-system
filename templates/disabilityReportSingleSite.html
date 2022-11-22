@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/png">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +59,51 @@
     </style>
 </head>
 <body>
+    {% comment %} Starting of Homepage {% endcomment %}
+    <br> <br><br><br><br><br><br><br><br><br><br><br>
+    <center>
+        <img src="http://localhost:8000/static/images/collectif.png" alt="logo" height="70" width="90">
+    <div id="header_content">
+        <br>
+        <center><strong></h2>Collectif Tubakunde Report</strong> </center><br><br>
+        Site Name: <strong>{{school.school_name}}</strong> <br><br>
+        Location: <strong>{{school.province}}</strong><br> <br>
+    </div>
+    <center>
+           <h1 style="text-align: center;"> SITE CUMMURATIVE DISABILITY REPORT IN ALL SITE</h1>
+           <br>
+           <h2 style="text-align: center;">MALE & FEMALE SITE NUMBERS REPORT</h2>
+           
+           <h1 style="text-align: center;">TOTAL  MALE  BENEFICIALIES ARE: {{all_men}}</h1>     
+           <h1 style="text-align: center;">TOTAL  FEMALE  BENEFICIALIES ARE: {{all_female}}</h1>
+
+           ===========
+           <table class="styled-table">
+            <thead>
+                <tr>                                      
+                    <th class="row">TOTAL  MALE  BENEFICIALIES ARE:</th>
+                    <th class="row"></th>
+                    <th class="row"></th>
+                    <th class="row"></th>
+                    <th class="row">TOTAL  FEMALE  BENEFICIALIES ARE:</th>
+                </tr>
+            </thead><center>
+             <tbody>                    
+                    <tr>                       
+                        <td class="row" align="center">{{all_female}}</td> 
+                        <td class="row" align="center"></td>
+                        <td class="row" align="center"></td>
+                       <td class="row" align="center"></td>
+                        <td class="row" align="center">{{all_men}}</td> 
+                </tr>
+                 
+            </tbody>
+        </table><br>        
+           ===========
+           <br><br><br><br><br><br><br><br><br><br>
+        
+    {% comment %} Ending of Homepage {% endcomment %}
+
     {% comment %} Starting of page 1 {% endcomment %}
     <center>
         <img src="http://localhost:8000/static/images/collectif.png" alt="logo" height="70" width="90">

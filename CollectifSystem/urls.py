@@ -95,19 +95,6 @@ urlpatterns = [
     path('yearBudgetReport', yearBudgetReport, name='yearBudgetReport'),
 
 
-    
-    
-
-
-
-
-
-
-    
-
-
-
-    
-   
+  
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
