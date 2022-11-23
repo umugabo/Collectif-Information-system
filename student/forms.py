@@ -55,7 +55,8 @@ class StudentForm(forms.ModelForm):
             'village':'Village',
             'note':'Observation Note',
             'service_category':'Service Category',
-            'st_image':'Image',         
+            'st_image':'Image',  
+            # 'school':'School Name',       
         }
     def __init__(self,*args,**kwargs):
         super(StudentForm,self).__init__(*args,**kwargs)
@@ -226,5 +227,17 @@ class membershipForm(forms.ModelForm):
             'membership_amount':'Membership Amount',
             'year':'Select the Year',
             # 'school':'School Name',
+       
+        }
+
+class membershipValidation(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = ('membership_amount','year','school','status')
+        labels = {
+            'membership_amount':'Membership Amount',
+            'year':'Select the Year',
+            'school':'School Name',
+            'status':'Approval',
        
         }

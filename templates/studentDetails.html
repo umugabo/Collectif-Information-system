@@ -1,0 +1,84 @@
+{% extends "StaffPage.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block mytitle %}
+Register Student
+{% endblock %}  
+{% block myheader %}
+<a href="{% url 'studentListStaff'%}" class="btn btn-sm btn-danger float-left">Close</a>
+<h1 class="display-5 text-center">Beneficiary Full Details</h1>
+{% endblock %}
+
+{% block schoolName %}
+<li class="nav-item">
+  
+</li>
+{% endblock %}
+
+{% block body %}
+
+<style>
+
+    form button{
+        margin-right: 170px;
+    }
+
+    .contain{
+        display: flex;
+    }
+    .form-group {
+        width: 70%;
+    }
+
+</style>
+    <form action="" method="post" autocomplete="off" novalidate>
+        {% csrf_token %}
+       <div class="contain">
+        <div class="form-group">
+            {{form.f_name|as_crispy_field}}
+            {{form.l_name|as_crispy_field}}
+            {{form.gender|as_crispy_field}}            
+            {{form.dob|as_crispy_field}}
+            {{form.correspond_age|as_crispy_field}} 
+            {{form.physical_disability|as_crispy_field}}
+            </div>
+            <div class="form-group">
+            
+            {{form.service_category|as_crispy_field}}
+            {{form.classe|as_crispy_field}}
+            {% if student.course == None %}
+                {{form.course|as_crispy_field}}
+                {% endif %}
+            {{form.familyNID|as_crispy_field}}
+            {{form.phone|as_crispy_field}}
+            {{form.father_name|as_crispy_field}}
+                                        
+                </div>
+                <div class="form-group">
+            
+            {{form.province|as_crispy_field}}
+            {{form.district|as_crispy_field}}
+            {{form.sectors|as_crispy_field}}
+            {{form.cell|as_crispy_field}}
+            {{form.village|as_crispy_field}}
+            {{form.mother_name|as_crispy_field}}
+                
+            </div>  
+            <div class="form-group">
+            {{form.year_reg|as_crispy_field}}
+            {{form.st_image|as_crispy_field}}   
+            {{form.note|as_crispy_field}}  
+                {% if student.st_image != None %}
+                    <img class="profile-pic" src="{{ student.st_image.url }}" width="100" height="100" alt="">
+                {% endif %}
+                
+            </div>                  
+        </div>
+        {% comment %} <button type="submit" class="btn btn-success float-right">Submit Child</button> {% endcomment %}
+        <br>
+    </form>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+{% endblock %} 

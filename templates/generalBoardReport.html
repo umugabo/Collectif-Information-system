@@ -118,6 +118,7 @@
 {% endblock %}
 
 {% block content %}
+
 <br><br>
 <div class="row">
     <div class="col-md-4">
@@ -128,15 +129,13 @@
 
     </div>
     <div class="col-md-4">
-        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal2">
-            Generate General Cummurative  Report  Based on Disability
-        </button>
+        <a href="{% url 'globalCumurativeDisability' %}" class="btn btn-success btn-block">Generate General Cummurative  Report  Based on Disability</a>   
     </div>
 
     
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal3">
-            Generate  Membership Report Based on Site
+            Generate Membership Report Based on Site
         </button>
     </div>
 </div>
@@ -146,22 +145,23 @@
 <br><br>
 <div class="row">
     <div class="col-md-4">
-        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal4">
-            Generate Report Based on Disability in Single site
-        </button>
+    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal4">
+        Generate Report Based on Disability in Single site
+    </button>
         
 
     </div>
     <div class="col-md-4">
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal5">
-            Generate Genger Report Based on Site
+            {% comment %} Generate Gender Report Based on Site {% endcomment %}
+            --------------------------------------
         </button>
     </div>
 
     
     <div class="col-md-4">
         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal6">
-            Generate  Global Cummurative  Report  based on Gender
+            Generate  Statistical Site Report  based on Gender
         </button>
     </div>
 </div>
@@ -177,54 +177,30 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based on School chosen</h4>
+                <h4 class="modal-title">Generate report Global Disability report</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
-                    <div class="form-group">
-                        <label for="">School:</label>
-                        {% comment %} <select class="form-control" name="station" id="stations">
-                            <option selected>Select RIBStation</option>
-                             {% for station in rib_stations %}
-                            <option value="{{station.id}}">{{station.station_name}}</option>
-                            {% endfor %} 
-                        </select> {% endcomment %}
-                    </div>
+                <form role="search" action='{% url 'ageReportSingleSite' %}' target="_blank">
+                <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">Case:</label>
-                                {% comment %} <select class="form-control" name="case" id="cases">
-                                    <option selected>Select Case</option>
-                                     {% for case in cases %}
-                            <option value="{{case.id}}">{{case.case_name}}</option>
-                            {% endfor %} 
-                                </select> {% endcomment %}
+                                <label for="">School:</label>
+                                 <select class="form-control" name="school" id="schools">
+                                    <option selected>Select School</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
+                                    {% endfor %}
+                                </select> 
                             </div>
                         </div>
-
-                    </div>
-                       
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Case Officer:</label>
-
-                                    {% comment %} <select class="form-control" name="officer" id="schools">
-                                        <option selected>Select Officer</option>
-                                         {% for stationuser in station_user %}
-                                        <option value="{{stationuser.id}}">{{stationuser.user}}</option>
-                                        {% endfor %} 
-                                    </select> {% endcomment %}
-                                </div>
-                            </div>
-                        
+                    </div>                        
                         </div>
 
-                        <button class="btn btn-primary btn-sm">Generate School Report</button>
+                        <button class="btn btn-primary btn-sm">Generate Report</button>
                     </form>
 
 
@@ -299,58 +275,30 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based on Comparing Two schools</h4>
+                <h4 class="modal-title">Generate report based on Single school</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'schoolMembershipReport' %}' target="_blank">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">School 1:</label>
-                                {% comment %} <select class="form-control" name="station1" id="station1">
-                                    <option>Select RIBStation</option>
-                                    {% for station1 in rib_stations %}
-                                    <option value="{{station1.id}}">{{station1.station_name}}</option>
+                                <label for="">Select School:</label>
+                                 <select class="form-control" name="school" id="school">
+                                    <option>Select schools</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
-                                </select> {% endcomment %}
+                                </select> 
                             </div>
                         </div>
                     </div>
-                
-                <div class="form-group">
-                    <label for="">Clade Level:</label>
-                    <select class="form-control" name="crimetype" id="crimetype">
-                        <option selected disable>Select Clade</option>
-                        <option value="Clade1">Clade1</option>
-                        <option value="Clade2">Clade2</option>
-                        <option value="Clade3">Clade3</option>
-                    </select>
-                </div>
 
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">School 2:</label>
-                                {% comment %} <select class="form-control" name="station2" id="station2">
-                                    <option selected>Select RIBStation</option>
-                                    {% for station2 in rib_stations %}
-                                    <option value="{{station2.id}}">{{station2.station_name}}</option>
-                                    {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-                    </div>
-                    </div>
 
-                
-
-                    <button class="btn btn-primary btn-sm">Generate Comparison Report</button>
+                    <button class="btn btn-primary btn-sm">Generate Report</button>
                 </form>
             </form>
             </div>
@@ -372,43 +320,31 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based School Courses</h4>
+                <h4 class="modal-title">Generate report based single Site</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'disabilityReportSingleSite' %}' target="_blank">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">School:</label>
-                                {% comment %} <select class="form-control" name="station" id="stations">
-                                    <option selected>Select RIBStation</option>
-                                    {% for stations in rib_stations %}
-                                    <option value="{{stations.id}}">{{stations.station_name}}</option>
+                                <select class="form-control" name="school" id="school">
+                                    <option selected>Select School</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
-                                </select> {% endcomment %}
+                                </select> 
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Course:</label>
-                                {% comment %} <select class="form-control" name="case" id="cases">
-                                    <option selected>Select Case</option>
-                                    {% for case in cases %}
-                            <option value="{{case.id}}">{{case.case_name}}</option>
-                            {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
+                  
 
-                    </div>
  
-                                <button class="btn btn-primary btn-sm">Generate Course Report</button>
+                                <button class="btn btn-primary btn-sm">Generate Report</button>
                             </form>                  
                     </form>
 
@@ -431,7 +367,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Generate report based School Clade</h4>
+                {% comment %} <h4 class="modal-title">Generate report based School Clade</h4> {% endcomment %}
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -439,36 +375,23 @@
             <div class="modal-body">
                 <form role="search" action='' target="_blank">
                 <div class="container">
-                    <div class="row">
+                    {% comment %} <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">School:</label>
-                                {% comment %} <select class="form-control" name="station" id="stations">
-                                    <option selected>Select RIBStation</option>
-                                    {% for stations in rib_stations %}
-                                    <option value="{{stations.id}}">{{stations.station_name}}</option>
+                                 <select class="form-control" name="school" id="schools">
+                                    <option selected>Select School</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
-                                </select> {% endcomment %}
+                                </select> 
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Clade:</label>
-                                {% comment %} <select class="form-control" name="case" id="cases">
-                                    <option selected>Select Case</option>
-                                    {% for case in cases %}
-                            <option value="{{case.id}}">{{case.case_name}}</option>
-                            {% endfor %}
-                                </select> {% endcomment %}
-                            </div>
-                        </div>
-
-                    </div>
+                  
  
                                 <button class="btn btn-primary btn-sm">Generate Clade Report</button>
-                            </form>                  
+                            </form>                   {% endcomment %}
                     </form>
 
                 </div>
@@ -496,18 +419,18 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form role="search" action='' target="_blank">
+                <form role="search" action='{% url 'schoolgenderReport' %}' target="_blank">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">School:</label>
-                                {% comment %} <select class="form-control" name="station" id="stations">
-                                    <option selected>Select RIBStation</option>
-                                    {% for stations in rib_stations %}
-                                    <option value="{{stations.id}}">{{stations.station_name}}</option>
+                                 <select class="form-control" name="school" id="schools">
+                                    <option selected>Select School</option>
+                                    {% for school in schools %}
+                                    <option value="{{school.id}}">{{school.school_name}}</option>
                                     {% endfor %}
-                                </select> {% endcomment %}
+                                </select> 
                             </div>
                         </div>
                     </div>

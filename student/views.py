@@ -12,7 +12,7 @@ from django.db import connection
 from django .http import HttpResponse,JsonResponse
 
 # Create your views here.
-from .forms import membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
+from .forms import membershipValidation,membershipForm,budgetForm,yearForm,StaffForm,CourseForm, StudentForm, ClasseForm, TeacherForm, SchoolForm ,CoordinatorForm, CoordinatorUserRegistrationForm,StaffUserRegistrationForm
 from .models import *
 from .models import Classe, Student, Course, Sector, School ,Teacher, Province , District , Sectors , Cell , Village, Year, Membership, Budget
 from .filters import StudentFilter,TeacherFilter
@@ -80,6 +80,7 @@ def homeStaff(request):
     Autisms = Student.objects.filter(physical_disability="Autism").count()
     Multiples = Student.objects.filter(physical_disability="Multiple").count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID").count()
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
 
     clades1 = Student.objects.filter(classe="CLADE1").count()
@@ -92,7 +93,8 @@ def homeStaff(request):
 
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3,
+        'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'StaffPage.html', context)
 
@@ -114,15 +116,19 @@ def homeBoard(request):
     Autisms = Student.objects.filter(physical_disability="Autism").count()
     Multiples = Student.objects.filter(physical_disability="Multiple").count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy").count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID").count()
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom").count()
 
     st_male = Student.objects.filter(gender="M").count()
     st_female = Student.objects.filter(gender="F").count()
 
+    
+
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female
+        'st_male':st_male, 'st_female':st_female, 'Cerebral_PalsysID':Cerebral_PalsysID
     }
+    # messages.success(request, 'Welcome You are Logged In As Board User')
     return render(request, 'BoardPage.html', context)
 
 
@@ -132,10 +138,20 @@ def homeBoard(request):
 def homeCoordinator(request):
     user = request.user
     school = School.objects.get(user=user)
+
     children = Student.objects.filter(school=school).count() 
+    tot_staff = Teacher.objects.filter(school=school).count() 
+    teachers = Teacher.objects.filter(service="Teacher",school=school).count()
+    nurses = Teacher.objects.filter(service="Nurse",school=school).count()
+    fusios = Teacher.objects.filter(service="Physio",school=school).count()
+    cares = Teacher.objects.filter(service="Care giver",school=school).count()
+
+
     Autisms = Student.objects.filter(physical_disability="Autism", school=school).count()
     Multiples = Student.objects.filter(physical_disability="Multiple", school=school).count()
     Cerebral_Palsys = Student.objects.filter(physical_disability="Cerebral Palsy", school=school).count()
+    Cerebral_PalsysID = Student.objects.filter(physical_disability="Cerebral Palsy ID" , school=school).count()
+    
     Down_syndroms = Student.objects.filter(physical_disability="Down syndrom", school=school).count()
 
     clades1 = Student.objects.filter(classe="CLADE1", school=school).count()
@@ -146,8 +162,8 @@ def homeCoordinator(request):
     st_male = Student.objects.filter(gender="M", school=school).count()
     st_female = Student.objects.filter(gender="F", school=school).count()
 
-    context = {'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3
+    context = {'tot_staff':tot_staff,'fusios':fusios,'cares':cares,'nurses':nurses,'teachers':teachers,'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3 , 'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'CoordinatorPage.html', context)
 
@@ -195,6 +211,35 @@ def course_update(request, pk_course):
             return redirect('courseList')
     context = {'form':form}
     return render(request, 'CourseForm.html',context)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def membership_update(request, pk_course):
+    membership = Membership.objects.get(id=pk_course)
+    form = membershipValidation(instance=membership)
+    if request.method == 'POST':
+        form = membershipValidation(request.POST, instance=membership)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Membership has been Updated Successfully')
+            return redirect('ListOfSiteMembershipFee')
+    context = {'form':form}
+    return render(request, 'membershipValidation.html',context)
+
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['CoordinatorUser'])
+def budget_update(request, pk_course):
+    budget = Budget.objects.get(id=pk_course)
+    form = budgetForm(instance=budget)
+    if request.method == 'POST':
+        form = budgetForm(request.POST, instance=budget)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Budget has been Updated Successfully')
+            return redirect('budgetList')
+    context = {'form':form}
+    return render(request, 'budgetForm.html',context)
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -391,6 +436,19 @@ def studentList(request):
     context = {'students':students, 'page_obj':page_obj}
     return render(request, 'studentList.html', context)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def studentListStaff(request):
+    user = request.user
+    students = Student.objects.all()
+    paginator = Paginator(students, 8) # Show 8 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'students':students, 'page_obj':page_obj}
+    return render(request, 'studentListStfaff.html', context)
+
+
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -414,6 +472,20 @@ def student_update(request, pk_student):
             return redirect('studentList')
     context = {'form':form, 'student':student}
     return render(request, 'StudentForm.html',context)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
+def student_details(request, pk_student):
+    student = Student.objects.get(id=pk_student)
+    form = StudentForm(instance=student)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Student has been Updated Successfully')
+            return redirect('studentListStaff')
+    context = {'form':form, 'student':student}
+    return render(request, 'studentDetails.html',context)
 
 
 
@@ -671,29 +743,33 @@ def testPdf(request):
 @allowed_users(allowed_roles=['BoardUser'])
 def sitesBoardReport(request):
 
-	malestd= Student.objects.filter(gender='M').count()
-	femalestd= Student.objects.filter(gender='F').count()
-	malestf= Staff.objects.filter(gender='M').count()
-	femalestf= Staff.objects.filter(gender='F').count()
-	
+    malestd= Student.objects.filter(gender='M').count()
+    femalestd= Student.objects.filter(gender='F').count()
+    malestf= Staff.objects.filter(gender='M').count()
+    femalestf= Staff.objects.filter(gender='F').count()
 
-	context = {'malestd':malestd, 'femalestd':femalestd, 
-               'malestf':malestf, 'femalestf':femalestf}
-	return render(request, 'generalBoardReport.html',context)
+    schools = School.objects.all()
+
+    context = {'malestd':malestd, 'femalestd':femalestd, 
+                'malestf':malestf, 'femalestf':femalestf,
+                'schools':schools
+                }
+    return render(request, 'generalBoardReport.html',context)
 
 @login_required(login_url='login_view')
 @allowed_users(allowed_roles=['StaffUser'])
 def siteStaffReport(request):
 
-	malestd= Student.objects.filter(gender='M').count()
-	femalestd= Student.objects.filter(gender='F').count()
-	malecoo= Coordinator.objects.filter(gender='M').count()
-	femalecoo= Coordinator.objects.filter(gender='F').count()
-	
+    malestd= Student.objects.filter(gender='M').count()
+    femalestd= Student.objects.filter(gender='F').count()
+    malecoo= Coordinator.objects.filter(gender='M').count()
+    femalecoo= Coordinator.objects.filter(gender='F').count()
+    years = Year.objects.all()
 
-	context = {'malestd':malestd, 'femalestd':femalestd, 
-               'malecoo':malecoo, 'femalecoo':femalecoo}
-	return render(request, 'generalStaffReport.html',context)
+
+    context = {'malestd':malestd, 'femalestd':femalestd,'malecoo':malecoo, 'femalecoo':femalecoo,
+                'years':years,}
+    return render(request, 'generalStaffReport.html',context)
 
 @login_required(login_url='login_view')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -783,6 +859,7 @@ def addMembership(request):
         if form.is_valid:
             form = form.save(commit=False)
             form.school = school
+            form.status = "UNVERIFIED"
             form.save()
             # first_name = form.cleaned_data.get('f_name')
             messages.success(request, 'Membership has been Created Successfully')
@@ -814,6 +891,8 @@ def ListOfSiteMembershipFee(request):
 
 def globalCumurativeDisability(request):
     
+    template = get_template('globalCumurativeDisability.html')
+
     current_year = datetime.datetime.now().year
     six_year_before = current_year - 6
     thirteen_year_before = current_year - 13
@@ -883,92 +962,396 @@ def globalCumurativeDisability(request):
     female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
     female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
     
-    context = {}
-    return render(request, 'globalCumurativeDisability.html', context)
+    context = {'all_men':all_men,'all_female':all_female,'men_six_utism':men_six_utism,
+            'men_six_multiple':men_six_multiple,'men_six_cerebral_palsy':men_six_cerebral_palsy,
+            'men_six_cerebral_palsy_id':men_six_cerebral_palsy_id,'men_six_downsyndrome':men_six_downsyndrome,
+            'female_six_utism':female_six_utism,'female_six_multiple':female_six_multiple,'female_six_cerebral_palsy':female_six_cerebral_palsy,
+            'female_six_cerebral_palsy_id':female_six_cerebral_palsy_id,'female_six_downsyndrome':female_six_downsyndrome,'men_thirteen_utism':men_thirteen_utism,
+            'men_thirteen_multiple':men_thirteen_multiple,'men_thirteen_cerebral_palsy':men_thirteen_cerebral_palsy,'men_thirteen_cerebral_palsy_id':men_thirteen_cerebral_palsy_id,
+            'men_thirteen_downsyndrome':men_thirteen_downsyndrome,'female_thirteen_utism':female_thirteen_utism,'female_thirteen_multiple':female_thirteen_multiple,
+            'female_thirteen_cerebral_palsy':female_thirteen_cerebral_palsy,'female_thirteen_cerebral_palsy_id':female_thirteen_cerebral_palsy_id,'female_thirteen_downsyndrome':female_thirteen_downsyndrome,
+            'men_twenty_five_utism':men_twenty_five_utism,'men_twenty_five_multiple':men_twenty_five_multiple,'men_twenty_five_cerebral_palsy':men_twenty_five_cerebral_palsy,
+            'men_twenty_five_cerebral_palsy_id':men_twenty_five_cerebral_palsy_id,'men_twenty_five_downsyndrome':men_twenty_five_downsyndrome,'female_twenty_five_utism':female_twenty_five_utism,
+            'female_twenty_five_multiple':female_twenty_five_multiple,'female_twenty_five_cerebral_palsy':female_twenty_five_cerebral_palsy,'female_twenty_five_cerebral_palsy_id':female_twenty_five_cerebral_palsy_id,
+            'female_twenty_five_downsyndrome':female_twenty_five_downsyndrome,'men_above_twenty_five_utism':men_above_twenty_five_utism,'men_above_twenty_five_multiple':men_above_twenty_five_multiple,
+            'men_above_twenty_five_cerebral_palsy':men_above_twenty_five_cerebral_palsy,'men_above_twenty_five_cerebral_palsy_id':men_above_twenty_five_cerebral_palsy_id,'men_above_twenty_five_downsyndrome':men_above_twenty_five_downsyndrome,
+            'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
+            'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
+                }
+    # return render(request, 'globalCumurativeDisability.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('globalCumurativeDisability.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Global Cumulative Disability"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
 
-def disabilityReportSingleSite(request, pk_school):
+def disabilityReportSingleSite(request):
     
-    school = School.objects.get(id=pk_school)
-    current_year = datetime.datetime.now().year
-    six_year_before = current_year - 6
-    thirteen_year_before = current_year - 13
-    twenty_five_year_before = current_year - 25
+    template = get_template('disabilityReportSingleSite.html')
     
-    all_men = Student.objects.filter(gender='M', school=school).count()
-    all_female = Student.objects.filter(gender='F', school=school).count()
-    
-    
-    men_six_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
-    men_six_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
-    men_six_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
-    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
-    men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
-    men_six_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
-    
-    female_six_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
-    female_six_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
-    female_six_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
-    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
-    female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
-    female_six_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
-    
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        current_year = datetime.datetime.now().year
+        six_year_before = current_year - 6
+        thirteen_year_before = current_year - 13
+        twenty_five_year_before = current_year - 25
+        
+        all_men = Student.objects.filter(gender='M', school=school).count()
+        all_female = Student.objects.filter(gender='F', school=school).count()
+        
+        
+        men_six_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+        men_six_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+        men_six_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+        men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+        men_six_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+        men_six_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+        
+        female_six_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Autism').count()
+        female_six_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Multiple').count()
+        female_six_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy').count()
+        female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+        female_six_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Cerebral Palsy ID').count()
+        female_six_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year, physical_disability='Down syndrom').count()
+        
 
-    men_thirteen_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
-    men_thirteen_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
-    men_thirteen_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
-    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_thirteen_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+        men_thirteen_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+        men_thirteen_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+        men_thirteen_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+        men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_thirteen_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_thirteen_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+        
+        female_thirteen_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
+        female_thirteen_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
+        female_thirteen_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
+        female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_thirteen_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
+        
+        
+        men_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+        men_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+        men_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+        men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+        
+        female_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
+        female_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
+        female_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
+        female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
+        
+        
+        men_above_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+        men_above_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+        men_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+        men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+        men_above_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
+        
+        female_above_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
+        female_above_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
+        female_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
+        female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
+        female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
     
-    female_thirteen_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Autism').count()
-    female_thirteen_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Multiple').count()
-    female_thirteen_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy').count()
-    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_thirteen_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_thirteen_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before, physical_disability='Down syndrom').count()
-    
-    
-    men_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
-    men_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
-    men_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
-    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
-    
-    female_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Autism').count()
-    female_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Multiple').count()
-    female_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy').count()
-    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before, physical_disability='Down syndrom').count()
-    
-    
-    men_above_twenty_five_utism = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
-    men_above_twenty_five_multiple= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
-    men_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
-    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
-    men_above_twenty_five_downsyndrome = Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
-    
-    female_above_twenty_five_utism = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Autism').count()
-    female_above_twenty_five_multiple= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Multiple').count()
-    female_above_twenty_five_cerebral_palsy= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy').count()
-    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_above_twenty_five_cerebral_palsy_id= Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Cerebral Palsy ID').count()
-    female_above_twenty_five_downsyndrome = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before, physical_disability='Down syndrom').count()
-    
-    context = {}
-    return render(request, 'disabilityReportSingleSite.html', context)
+    context = {'school':school,'all_men':all_men,'all_female':all_female,'men_six_utism':men_six_utism,
+               'men_six_multiple':men_six_multiple,'men_six_cerebral_palsy':men_six_cerebral_palsy,
+                'men_six_cerebral_palsy_id':men_six_cerebral_palsy_id,'men_six_downsyndrome':men_six_downsyndrome,
+                'female_six_utism':female_six_utism,'female_six_multiple':female_six_multiple,'female_six_cerebral_palsy':female_six_cerebral_palsy,
+                'female_six_cerebral_palsy_id':female_six_cerebral_palsy_id,'female_six_downsyndrome':female_six_downsyndrome,'men_thirteen_utism':men_thirteen_utism,
+                'men_thirteen_multiple':men_thirteen_multiple,'men_thirteen_cerebral_palsy':men_thirteen_cerebral_palsy,'men_thirteen_cerebral_palsy_id':men_thirteen_cerebral_palsy_id,
+                'men_thirteen_downsyndrome':men_thirteen_downsyndrome,'female_thirteen_utism':female_thirteen_utism,'female_thirteen_multiple':female_thirteen_multiple,
+                'female_thirteen_cerebral_palsy':female_thirteen_cerebral_palsy,'female_thirteen_cerebral_palsy_id':female_thirteen_cerebral_palsy_id,'female_thirteen_downsyndrome':female_thirteen_downsyndrome,
+                'men_twenty_five_utism':men_twenty_five_utism,'men_twenty_five_multiple':men_twenty_five_multiple,'men_twenty_five_cerebral_palsy':men_twenty_five_cerebral_palsy,
+                'men_twenty_five_cerebral_palsy_id':men_twenty_five_cerebral_palsy_id,'men_twenty_five_downsyndrome':men_twenty_five_downsyndrome,'female_twenty_five_utism':female_twenty_five_utism,
+                'female_twenty_five_multiple':female_twenty_five_multiple,'female_twenty_five_cerebral_palsy':female_twenty_five_cerebral_palsy,'female_twenty_five_cerebral_palsy_id':female_twenty_five_cerebral_palsy_id,
+                'female_twenty_five_downsyndrome':female_twenty_five_downsyndrome,'men_above_twenty_five_utism':men_above_twenty_five_utism,'men_above_twenty_five_multiple':men_above_twenty_five_multiple,
+                'men_above_twenty_five_cerebral_palsy':men_above_twenty_five_cerebral_palsy,'men_above_twenty_five_cerebral_palsy_id':men_above_twenty_five_cerebral_palsy_id,'men_above_twenty_five_downsyndrome':men_above_twenty_five_downsyndrome,
+                'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
+                'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
+                 }
+    # to use pdf remove comment to return render          
+    # return render(request, 'disabilityReportSingleSite.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('disabilityReportSingleSite.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Global Cumulative Disability Single Site"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
 
-def schoolMembershipReport(request, pk_school):
+
+
+def schoolMembershipReport(request):
     
-    school = School.objects.get(id=pk_school)
-    school_memberships_unverified = Membership.objects.filter(school=school, status='UNVERIFIED')
-    school_memberships_unverified_sum = Membership.objects.filter(school=school, status='UNVERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)
- 
-    school_memberships_verified = Membership.objects.filter(school=school, status='VERIFIED')
-    school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
+    template = get_template('schoolMembershipReport.html')
     
-    context = {}
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        school_memberships_unverified = Membership.objects.filter(school=school, status='UNVERIFIED')
+        school_memberships_unverified_sum = Membership.objects.filter(school=school, status='UNVERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)
+    
+        school_memberships_verified = Membership.objects.filter(school=school, status='VERIFIED')
+        school_memberships_verified_sum = Membership.objects.filter(school=school, status='VERIFIED').aggregate(Sum('membership_amount')).get('membership_amount__sum', 0.00)   
+    
+    context = {'school':school,'school_memberships_unverified':school_memberships_unverified,'school_memberships_verified':school_memberships_verified,                
+                'school_memberships_unverified_sum':school_memberships_unverified_sum, 'school_memberships_verified_sum':school_memberships_verified_sum}
+    # to use pdf comment return render
     return render(request, 'schoolMembershipReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('schoolMembershipReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Membership Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def yearMembershipReport(request):
+    
+    template = get_template('yearMembershipReport.html')
+    
+    try: 
+        yearId = request.GET.get('year')
+    except:
+        yearId = None
+    if yearId:
+        year = Year.objects.get(id=yearId)
+        school_membership = Membership.objects.filter(year=year)
+
+    context = {'year':year,'school_membership':school_membership}
+    # to use pdf comment return render
+    return render(request, 'yearMembershipReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('yearMembershipReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Yearly Site Membership Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+def yearBudgetReport(request):
+    
+    template = get_template('yearbudgetReport.html')
+    
+    try: 
+        yearId = request.GET.get('year')
+    except:
+        yearId = None
+    if yearId:
+        year = Year.objects.get(id=yearId)
+        school_budget = Budget.objects.filter(year=year)
+
+    context = {'year':year,'school_budget':school_budget}
+    # to use pdf comment return render
+    return render(request, 'yearbudgetReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('yearbudgetReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Yearly Site Budget Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+def siteStaffRole(request):
+    template = get_template('siteStaffRole.html')
+    
+    user = request.user
+    school = School.objects.get(user=user)
+    address = school.province
+    school_name= school.school_name
+    teachers = Teacher.objects.filter(school=school)
+    tot_tea = teachers.count()
+    
+    context = {'teachers':teachers, 'school':school, user:'user','address':address,'tot_tea':tot_tea}
+    html = template.render(context)
+    pdf= render_to_pdf('siteStaffRole.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Staff Role Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def siteBeneficiallyList(request):
+    template = get_template('siteBeneficially.html')
+    
+    user = request.user
+    school = School.objects.get(user=user)
+    address = school.province
+    students = Student.objects.filter(school=school)
+    tot_bene = students.count()
+    
+    context = {'students':students, 'school':school, user:'user','address':address,'tot_bene':tot_bene}
+    html = template.render(context)
+    pdf= render_to_pdf('siteBeneficially.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Beneficially Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+def siteParentList(request):
+    template = get_template('siteParent.html')
+    
+    user = request.user
+    school = School.objects.get(user=user)
+    address = school.province
+    students = Student.objects.filter(school=school)
+    
+    context = {'students':students, 'school':school, user:'user','address':address}
+    html = template.render(context)
+    pdf= render_to_pdf('siteParent.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Beneficially Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+
+def schoolgenderReport(request):
+    
+    template = get_template('schoolgenderReport.html')
+    
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        school_male_beneficially = Student.objects.filter(school=school, gender='M').count()
+        school_female_beneficially = Student.objects.filter(school=school, gender='F').count()
+        
+    context = {'school':school,'school_male_beneficially':school_male_beneficially,'school_female_beneficially':school_female_beneficially}
+    return render(request, 'schoolgenderReport.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('schoolgenderReport.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Single Site Gender Report"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
+
+
+
+def ageReportSingleSite(request):
+    
+    template = get_template('ageReportSingleSite.html')
+    
+    try: 
+        schoolId = request.GET.get('school')
+    except:
+        schoolId = None
+    if schoolId:
+        school = School.objects.get(id=schoolId)
+        current_year = datetime.datetime.now().year
+        six_year_before = current_year - 6
+        thirteen_year_before = current_year - 13
+        twenty_five_year_before = current_year - 25
+        
+        all_men = Student.objects.filter(gender='M', school=school).count()
+        all_female = Student.objects.filter(gender='F', school=school).count()
+        
+        
+        men_six= Student.objects.filter(gender='M', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year).count()
+   
+        female_six = Student.objects.filter(gender='F', school=school, dob__year__gte=six_year_before, dob__year__lte=current_year).count()
+     
+
+        men_thirteen = Student.objects.filter(gender='M', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before).count()
+ 
+        female_thirteen = Student.objects.filter(gender='F', school=school, dob__year__gte=thirteen_year_before, dob__year__lt=six_year_before).count()
+   
+        
+        men_twenty_five = Student.objects.filter(gender='M', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before).count()
+   
+        female_twenty_five = Student.objects.filter(gender='F', school=school, dob__year__gte=twenty_five_year_before, dob__year__lt=thirteen_year_before).count()
+   
+        
+        men_above_twenty_five= Student.objects.filter(gender='M', school=school, dob__year__lt=twenty_five_year_before).count()
+    
+        female_above_twenty_five = Student.objects.filter(gender='F', school=school, dob__year__lt=twenty_five_year_before).count()
+    
+    context = {'school':school,'all_men':all_men,'all_female':all_female,
+                'men_six':men_six,'female_six':female_six,
+                'men_thirteen':men_thirteen,'female_thirteen':female_thirteen,
+                'men_twenty_five':men_twenty_five,'female_twenty_five':female_twenty_five,
+                'men_above_twenty_five':men_above_twenty_five,'female_above_twenty_five':female_above_twenty_five,
+                 }
+    # remove or add comment below          
+    return render(request, 'ageReportSingleSite.html', context)
+    html = template.render(context)
+    pdf= render_to_pdf('ageReportSingleSite.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        file_name = "Global Cumulative Disability Single Site"
+        content = "inline; filename='%s'" %(file_name)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(file_name)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse*"Not found"
 

@@ -1,0 +1,21 @@
+{% extends 'StaffPage.html' %}
+{% load crispy_forms_tags %}
+{% block myheader %}
+<h1 class="display-5">Membership Validation Form</h1>
+<p class="lead">Here, The Annual Membership will be Validated</p>
+{% endblock %}
+{% block body %}
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {{form.membership_amount|as_crispy_field}}
+                {{form.year|as_crispy_field}}
+                {{form.school|as_crispy_field}}
+                {{form.status|as_crispy_field}}
+            </div>
+        </div>
+        <br>
+        <button style="margin-left: 435px;" type="submit" class="btn btn-success">Validate Membership</button>
+    </form>
+{% endblock %}

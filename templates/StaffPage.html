@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -33,27 +34,21 @@
             <center>
                 <div class="sidebar .sidebar-header">
                      
-                        <img src="{% static 'images/logo.JPG' %}"" alt="logo" height="130" width="240"> 
+                        <img src="{% static 'images/collectif.png' %}"" alt="logo" height="130" width="190"> 
                     </a>
                 </div>
             </center>
             <ul class="list-unstyled components">
           
-                <p> <strong style="color: #78797F;">COLLECTIF STAFF USER</strong> </p>
+                <p> <strong style="color: #78797F;">COLLECTIF SECRETARIAT</strong> </p>
                  
                                <li class="{% if 'homeStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'homeStaff' %}"><span class="feather icon-map"></span> Dashboard</a>
-                {% comment %} </li>
-                              <li class="{% if 'studentList' in request.path %} active {% endif %}">
-                    <a href="{% url 'studentList' %}"><span class="feather icon-home"></span>Childrens</a>
-                </li>      {% endcomment %}
-                             {% comment %} <li class="{% if 'course' in request.path %} active {% endif %}">
-                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>Courses Taught In All Site</a>
-                </li>
-                    {% endcomment %}
-                            {% comment %} <li class="{% if 'classeList' in request.path %} active {% endif %}">
-                    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>Classes In All Site</a>
-                {% endcomment %}
+                 </li>
+                              <li class="{% if 'studentListStaff' in request.path %} active {% endif %}">
+                    <a href="{% url 'studentListStaff' %}"><span class="feather icon-home"></span>List Of Beneciary</a>
+                </li>      
+
                            <li class="{% if 'ListOfcoordinatorStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfcoordinatorStaff' %}"><span class="feather icon-feather"></span>List Of Coordinators </a>
                 </li>
@@ -76,7 +71,7 @@
 
             </ul>
                        
-            {% comment %} <ul class="list-unstyled CTAs"> {% endcomment %}
+           
                 <li>
                     
                         {% csrf_token%}
@@ -173,7 +168,7 @@
 
 <div class="row">
 <div class="col-md-6">
-    <canvas id="myChart3" height="240"></canvas>
+    <canvas id="myChart3" height="230"></canvas>
 </div>
 <div class="col-md-6">
     <canvas id="myChart" height="120"></canvas>
@@ -185,20 +180,22 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
 type: 'doughnut',
 data: {
-    labels: ['Autism', 'Multiple', 'Cerebral Palsy', 'Down syndrom'],
+    labels: ['Autism', 'Multiple', 'Cerebral Palsy' , 'Cerebral Palsy ID', 'Down syndrom'],
     datasets: [{
         label: '# of Votes',
-        data: ["{{Autisms}}", "{{Multiples}}", "{{Cerebral_Palsys}}", "{{Down_syndroms}}"],
+        data: ["{{Autisms}}", "{{Multiples}}", "{{Cerebral_Palsys}}" , "{{Cerebral_PalsysID}}", "{{Down_syndroms}}"],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
             'rgba(255, 206, 86, 0.2)',
+            'rgba(255, 43, 8, 0.2)',
             'rgba(75, 192, 192, 0.2)',
         ],
         borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',
+            'rgba(255, 43, 8, 0.2)',
             'rgba(75, 192, 192, 1)',
         ],
         borderWidth: 1

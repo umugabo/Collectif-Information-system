@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
@@ -32,7 +33,7 @@
 
     }
 .form_container {
-			margin-top: 20px;
+			margin-top: 10px;
 		}
 
 		#form-title{
@@ -43,13 +44,13 @@
 <center>
                 <div class="sidebar-header">
                      
-                        <img src="{% static 'images/logo.JPG' %}"" alt="logo" height="210" width="250"> 
+                        <img src="{% static 'images/logocollectif.jpg' %}"" alt="logo" height="120" width="165"> 
                     </a>
                 </div>
  <div class="text-center mt-0">
         <h3 class="text-muted">COLLECTIF TUBAKUNDE CYWID MANAGEMENT AND INFORMATION SYSTEM</h2>
     </div>
-<div class="card shadow p-3 pb-5 mt-5 ml-auto mr-auto" style="width: 500px; height: 90%;">
+<div class="card shadow p-3 pb-5 mt-5 ml-auto mr-auto" style="width: 500px; height: 80%;">
     <div class="text-center mt-0">
         <h2 class="text-muted">LOGIN FORM</h2>
     </div>
@@ -67,10 +68,12 @@
             style="background-color: #DAA520;">
 
         
-           {% comment %} <p class="text-center">You do not have an account? </p> 
+            <p class="text-center">You do not have an account? </p> 
            <center>
-            <a href="{% url 'registerPage' %}" class="btn btn-outline-info btn-sm">Register</a>
-           </center>  {% endcomment %}
+            {% comment %} <a href="{% url 'registerPage' %}" class="btn btn-outline-info btn-sm">Register</a> {% endcomment %}
+
+            <a href="#" class="btn btn-outline-info btn-sm">Register</a>
+           </center>  
            
     </form>
         <a style="text-decoration: none; text-align: right; style="background-color: #2b3250;" " href="#">&copy Collectif TUBAKUNDE 2022</a>
