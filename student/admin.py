@@ -23,6 +23,9 @@ admin.site.register(Membership),
 admin.site.register(Year),
 admin.site.register(Budget),
 
-
+# Admin Title
+admin.site.site_header = "COLLECTIF INFORMATION SYSTEM ADMNIN PANEL"
+admin.site.site_title = "Browser Title"
+admin.site.index_title = "Welcome To Collectif System Admin Area"
 
 
