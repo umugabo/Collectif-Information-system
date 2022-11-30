@@ -301,7 +301,7 @@ def class_delete(request, id):
     return redirect('classeList')
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['BoardUser'])
+@allowed_users(allowed_roles=['StaffUser'])
 def addSchool(request):
     if request.method == "GET":
         form = SchoolForm()
@@ -318,14 +318,14 @@ def addSchool(request):
 
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['BoardUser'])
+@allowed_users(allowed_roles=['StaffUser'])
 def schoolList(request):
     schools = School.objects.all()
     context={'schools':schools}
     return render(request, 'schoolList.html', context)
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['BoardUser'])
+@allowed_users(allowed_roles=['StaffUser'])
 def school_update(request, pk_school):
     school = School.objects.get(id=pk_school)
     form = SchoolForm(instance=school)
@@ -339,7 +339,7 @@ def school_update(request, pk_school):
     return render(request, 'SchoolForm.html',context)
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['BoardUser'])
+@allowed_users(allowed_roles=['StaffUser'])
 def school_delete(request, id):
     school = School.objects.get(pk=id)
     school.delete()
@@ -389,7 +389,7 @@ def coordinator_update(request, pk_coordinator):
         if form.is_valid:
             form.save()
             messages.success(request, 'Coordinator has been Updated Successfully')
-            return redirect('coordinatorListStaff')
+            return redirect('ListOfcoordinatorStaff')
     context = {'form':form}
     return render(request, 'CoordinatorForm.html',context)
 
@@ -1087,7 +1087,7 @@ def disabilityReportSingleSite(request):
                 'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
                  }
     # to use pdf remove comment to return render          
-    # return render(request, 'disabilityReportSingleSite.html', context)
+    return render(request, 'disabilityReportSingleSite.html', context)
     html = template.render(context)
     pdf= render_to_pdf('disabilityReportSingleSite.html', context)
     if pdf:

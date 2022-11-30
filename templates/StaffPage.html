@@ -52,6 +52,9 @@
                            <li class="{% if 'ListOfcoordinatorStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfcoordinatorStaff' %}"><span class="feather icon-feather"></span>List Of Coordinators </a>
                 </li>
+                <li class="{% if 'schoolList' in request.path %} active {% endif %}">
+                    <a href="{% url 'schoolList' %}"><span class="feather icon-feather"></span>List Of Site School </a>
+                </li>
                         <li class="{% if 'search' in request.path %} active {% endif %}">
                     <a href="{% url 'SearchStudentList' %}"><span class="feather icon-feather"></span>Search For a Child </a>
                 </li> 

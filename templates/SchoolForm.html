@@ -1,4 +1,4 @@
-{% extends "BoardPage.html" %}
+{% extends 'StaffPage.html' %}
 {% load crispy_forms_tags %}
 {% block mytitle %}
 Register School
@@ -44,7 +44,7 @@ Register School
             <div class="form-group">
                 {{form.user|as_crispy_field}}
             </div>           
-        </div><a href="{% url 'homeBoard'%}" class="btn btn-sm btn-success float-left">Back</a>
+        </div><a href="{% url 'schoolList'%}" class="btn btn-sm btn-success float-left">Back</a>
         <button type="submit" class="btn btn-success float-right">Submit</button>
         <br>
     </form>
