@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block myheader %}
 <h1 class="display-5">Course Creation</h1>
-<p class="lead">Here, The Course that will be created, will be used by the Students that are belong to it</p>
+<p class="lead">Here, The Course that will be created, will be used by the Beneficiary that are belong to it</p>
 {% endblock %}
 {% block body %}
     <form action="" method="post" autocomplete="off">
@@ -11,6 +11,7 @@
             <div class="col-md-6">
                 {{form.course_name|as_crispy_field}}
                 {{form.course_desc|as_crispy_field}}
+                {{form.school|as_crispy_field}}
             </div>
         </div>
         <br>

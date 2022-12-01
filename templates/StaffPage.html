@@ -34,7 +34,7 @@
             <center>
                 <div class="sidebar .sidebar-header">
                      
-                        <img src="{% static 'images/collectif.png' %}"" alt="logo" height="130" width="190"> 
+                        <img src="{% static 'images/collectif.png' %}"" alt="logo" height="80" width="120"> 
                     </a>
                 </div>
             </center>
@@ -46,25 +46,25 @@
                     <a href="{% url 'homeStaff' %}"><span class="feather icon-map"></span> Dashboard</a>
                  </li>
                               <li class="{% if 'studentListStaff' in request.path %} active {% endif %}">
-                    <a href="{% url 'studentListStaff' %}"><span class="feather icon-home"></span>List Of Beneciary</a>
+                    <a href="{% url 'studentListStaff' %}"><span class="feather icon-home"></span>List Of Beneficiary</a>
                 </li>      
 
                            <li class="{% if 'ListOfcoordinatorStaff' in request.path %} active {% endif %}">
                     <a href="{% url 'ListOfcoordinatorStaff' %}"><span class="feather icon-feather"></span>List Of Coordinators </a>
                 </li>
-                <li class="{% if 'schoolList' in request.path %} active {% endif %}">
-                    <a href="{% url 'schoolList' %}"><span class="feather icon-feather"></span>List Of Site School </a>
+                  <li class="{% if 'schoolList' in request.path %} active {% endif %}">
+                    <a href="{% url 'schoolList' %}"><span class="feather icon-feather"></span>List Of Center/School </a>
                 </li>
-                        <li class="{% if 'search' in request.path %} active {% endif %}">
-                    <a href="{% url 'SearchStudentList' %}"><span class="feather icon-feather"></span>Search For a Child </a>
+                        <li class="{% if 'SearchStudentList' in request.path %} active {% endif %}">
+                    <a href="{% url 'SearchStudentList' %}"><span class="feather icon-feather"></span>Search For a Beneficiary </a>
                 </li> 
                 
             </li> 
                 <li class="{% if 'ListOfYear' in request.path %} active {% endif %}">
-                    <a href="{% url 'ListOfYear' %}"><span class="feather icon-feather"></span>Year for site Budget</a>
+                    <a href="{% url 'ListOfYear' %}"><span class="feather icon-feather"></span>Year for Center Budget</a>
                 </li>
                 <li class="{% if 'ListOfSiteMembershipFee' in request.path %} active {% endif %}">
-                    <a href="{% url 'ListOfSiteMembershipFee' %}"><span class="feather icon-feather"></span>View Site Membership Fee</a>
+                    <a href="{% url 'ListOfSiteMembershipFee' %}"><span class="feather icon-feather"></span>View Center Membership Fee</a>
                 </li>
             </li> 
             <li class="{% if 'siteStaffReport' in request.path %} active {% endif %}">
@@ -129,7 +129,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Staffs
+                              All Secretariat
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{staffs}}</h5>
@@ -139,7 +139,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All School Directors
+                              All Center Coordinators
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{coordinators}}</h5>
@@ -149,7 +149,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Teachers
+                              All Center/school Staff
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{teachers}}</h5>
@@ -159,7 +159,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Student
+                              All Beneficiaries
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{children}}</h5>
@@ -244,10 +244,10 @@ const ctx3 = document.getElementById('myChart3').getContext('2d');
 const myChart3 = new Chart(ctx3, {
 type: 'bar',
 data: {
-    labels: ['CLADE 1 Children', 'CLADE 2 Children', 'CLADE 3 Children'],
+    labels: ['CLADE 1 Children', 'CLADE 2 Children', 'CLADE 3 Children', 'CLADE 4 Children', 'CLADE 5 Children', 'CLADE 6 Children'],
     datasets: [{
         label: '# of Beneciary based on gender',
-        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}"],
+        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}","{{clades4}}", "{{clades5}}", "{{clades6}}"],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',

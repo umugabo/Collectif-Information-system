@@ -45,7 +45,7 @@
                 </li>
                       
                 <li class="{% if 'addTeacher' in request.path %} active {% endif %}">
-                    <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Site Staff</a>
+                    <a href="{% url 'addTeacher' %}"><span class="feather icon-home"></span>Add New Center Staff</a>
                 </li>
                 <li class="{% if 'budgetList' in request.path %} active {% endif %}">
                     <a href="{% url 'budgetList' %}"><span class="feather icon-feather"></span>Add Annual Budget</a>
@@ -54,22 +54,27 @@
                 <li class="{% if 'membershiptList' in request.path %} active {% endif %}">
                     <a href="{% url 'membershiptList' %}"><span class="feather icon-feather"></span>Add Annual Membership</a>
                 </li>
+                
+                 <li>
+                   <a href=""><span class="feather icon-feather"></span>===============</a>
+                </li>
                  
                            <li class="{% if 'studentList' in request.path %} active {% endif %}">
                     <a href="{% url 'studentList' %}"><span class="feather icon-feather"></span>List Of Beneficiaries</a>
                 </li>
                         <li class="{% if 'ListOfParent' in request.path %} active {% endif %}">
-                    <a href="{% url 'ListOfParent' %}"><span class="feather icon-feather"></span>List Of Bene Parent</a>
+                    <a href="{% url 'ListOfParent' %}"><span class="feather icon-feather"></span>List Of Beneficiary Parent</a>
                 </li> 
-                  <li class="{% if 'classeList' in request.path %} active {% endif %}">
-                    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>List Of Classes</a>
-                </li> 
+                
                   <li class="{% if 'courseList' in request.path %} active {% endif %}">
-                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>List Of Courses</a>
+                    <a href="{% url 'courseList' %}"><span class="feather icon-feather"></span>List Of Courses in our Center</a>
                 </li> 
                  <li class="{% if 'teacherList' in request.path %} active {% endif %}">
-                    <a href="{% url 'teacherList' %}"><span class="feather icon-feather"></span>List Of Site Staff</a>
+                    <a href="{% url 'teacherList' %}"><span class="feather icon-feather"></span>List Of Center Staff</a>
                 </li> 
+                <!--  <li class="{% if 'classeList' in request.path %} active {% endif %}">-->
+                <!--    <a href="{% url 'classeList' %}"><span class="feather icon-feather"></span>List Of Classes</a>-->
+                <!--</li> -->
                 
                 <li class="{% if 'siteschoolReport' in request.path %} active {% endif %}">
                     <a href="{% url 'siteschoolReport' %}"><span class="feather icon-feather"></span>Site Report</a>
@@ -130,7 +135,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Site Staffs
+                              All Center Staffs
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{tot_staff}}</h5>
@@ -141,7 +146,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Physio
+                              All Center Physio
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{fusios}}</h5>
@@ -151,7 +156,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Site Nurses
+                              All Center Nurses
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{nurses}}</h5>
@@ -161,7 +166,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Teachers
+                              All Center Teachers
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{teachers}}</h5>
@@ -172,7 +177,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Care Givers
+                              All Center Care Givers
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{cares}}</h5>
@@ -184,7 +189,7 @@
                     <div class="col-md-2">
                         <div class="card">
                             <div class="card-header text-center">
-                              All Beneciary
+                              All Center Beneciary
                             </div>
                             <div class="card-body">
                               <h5 class="card-title text-center">{{children}}</h5>
@@ -246,7 +251,7 @@ type: 'pie',
 data: {
     labels: ['Male Beneficiary', 'Femele Beneficiary'],
     datasets: [{
-        label: '# of Beneciary based on gender',
+        label: '# of Beneficiary based on gender',
         data: ["{{st_male}}", "{{st_female}}"],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -271,16 +276,22 @@ const ctx3 = document.getElementById('myChart3').getContext('2d');
 const myChart3 = new Chart(ctx3, {
 type: 'bar',
 data: {
-    labels: ['CLADE 1 Children', 'CLADE 2 Children', 'CLADE 3 Children'],
+   labels: ['CLADE 1 Beneficiary', 'CLADE 2 Beneficiary', 'CLADE 3 Beneficiary', 'CLADE 4 Beneficiary', 'CLADE 5 Beneficiary', 'CLADE 6 Beneficiary'],
     datasets: [{
-        label: '# of Students based on Clases',
-        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}"],
+        label: '# of Beneficiary based on gender',
+        data: ["{{clades1}}", "{{clades2}}", "{{clades3}}","{{clades4}}", "{{clades5}}", "{{clades6}}"],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
             'rgba(255, 206, 86, 0.2)',
+             'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
         ],
         borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',

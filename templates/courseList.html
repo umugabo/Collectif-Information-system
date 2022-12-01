@@ -12,6 +12,7 @@
         <tr>
             <th>Course Name</th>
             <th>Course Description</th>
+            <th>Center Name</th>
             <th colspan="2" class="text-center">Action</th>
         </tr>
     </thead>
@@ -20,6 +21,7 @@
         <tr>
             <td>{{course.course_name}}</td>
             <td>{{course.course_desc}}</td>
+            <td>{{course.school}}</td>
             <td><a href="{% url 'course_update' course.id %}" class="btn btn-sm btn-success">Update</a></td>
             <td><a href="{% url 'course_delete' course.id%}" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>

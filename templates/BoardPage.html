@@ -58,10 +58,10 @@
                 {% comment %} </li>
                   <li class="{% if 'addSchool' in request.path %} active {% endif %}">
                     <a href="{% url 'addSchool' %}"><span class="feather icon-feather"></span>Open New School Site</a>
-                </li>  {% endcomment %}
+                </li>  
                     <li class="{% if 'schoolList' in request.path %} active {% elif 'addSchool' in request.path %} active {% endif %}">
                     <a href="{% url 'schoolList' %}"><span class="feather icon-feather"></span>Site List in Rwanda</a>
-                </li> 
+                </li> {% endcomment %}
 
                 <li class="{% if 'sitesBoardReport' in request.path %} active {% endif %}">
                     <a href="{% url 'sitesBoardReport' %}"><span class="feather icon-feather"></span>Statistical Reports</a>
@@ -135,7 +135,7 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header text-center">
-                                  Center Responsibles
+                                  Center Coordinators
                                 </div>
                                 <div class="card-body">
                                   <h5 class="card-title text-center">{{coordinators}}</h5>
@@ -155,7 +155,7 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header text-center">
-                                  All Student
+                                  All Beneficiaries
                                 </div>
                                 <div class="card-body">
                                   <h5 class="card-title text-center">{{children}}</h5>

@@ -15,7 +15,9 @@ class CourseForm(forms.ModelForm):
         fields = ('course_name', 'course_desc','school')
         labels = {
             'course_name':'Course Name',
-            'course_desc':'Course Description'
+            'course_desc':'Course Description',
+            'school':'Select Your Center'
+
         }
 
 class ClasseForm(forms.ModelForm):
@@ -68,7 +70,7 @@ class TeacherForm(forms.ModelForm):
     
     class Meta:
         model = Teacher
-        fields = ('TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','service')
+        fields = ('school','TeacherNationalId','f_name','l_name','gender','degree','recruit_year','phone','email','physical_disability','service')
         labels = {
             'TeacherNationalId':'National Identification',
             'f_name':'First Name',
@@ -80,6 +82,7 @@ class TeacherForm(forms.ModelForm):
             'email':'email',         
             'physical_disability':'Disability?',
             'service':'Service to provide', 
+            'school':'Select you School',
         }
     def __init__(self,*args,**kwargs):
         super(TeacherForm,self).__init__(*args,**kwargs)

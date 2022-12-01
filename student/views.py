@@ -86,6 +86,9 @@ def homeStaff(request):
     clades1 = Student.objects.filter(classe="CLADE1").count()
     clades2 = Student.objects.filter(classe="CLADE2").count()
     clades3 = Student.objects.filter(classe="CLADE3").count()
+    clades4 = Student.objects.filter(classe="CLADE4").count()
+    clades5 = Student.objects.filter(classe="CLADE5").count()
+    clades6 = Student.objects.filter(classe="CLADE6").count()
 
 
     st_male = Student.objects.filter(gender="M").count()
@@ -93,7 +96,7 @@ def homeStaff(request):
 
     context = {'coordinators':coordinators, 'schools':schools, 'teachers':teachers, 'children':children, 'staffs':staffs,
         'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3,
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3, 'clades4':clades4, 'clades5':clades5, 'clades6':clades6 ,
         'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'StaffPage.html', context)
@@ -157,13 +160,16 @@ def homeCoordinator(request):
     clades1 = Student.objects.filter(classe="CLADE1", school=school).count()
     clades2 = Student.objects.filter(classe="CLADE2", school=school).count()
     clades3 = Student.objects.filter(classe="CLADE3", school=school).count()
+    clades4 = Student.objects.filter(classe="CLADE4", school=school).count()
+    clades5 = Student.objects.filter(classe="CLADE5", school=school).count()
+    clades6 = Student.objects.filter(classe="CLADE6", school=school).count()
 
 
     st_male = Student.objects.filter(gender="M", school=school).count()
     st_female = Student.objects.filter(gender="F", school=school).count()
 
     context = {'tot_staff':tot_staff,'fusios':fusios,'cares':cares,'nurses':nurses,'teachers':teachers,'children':children, 'Autisms':Autisms, 'Multiples':Multiples, 'Cerebral_Palsys':Cerebral_Palsys, 'Down_syndroms':Down_syndroms,
-        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3 , 'Cerebral_PalsysID':Cerebral_PalsysID
+        'st_male':st_male, 'st_female':st_female, 'clades1':clades1, 'clades2':clades2, 'clades3':clades3 , 'clades4':clades4, 'clades5':clades5, 'clades6':clades6 , 'Cerebral_PalsysID':Cerebral_PalsysID
     }
     return render(request, 'CoordinatorPage.html', context)
 
@@ -203,9 +209,13 @@ def courseList(request):
 def course_update(request, pk_course):
     course = Course.objects.get(id=pk_course)
     form = CourseForm(instance=course)
+    user = request.user
+    school = School.objects.get(user=user)
     if request.method == 'POST':
         form = CourseForm(request.POST, instance=course)
         if form.is_valid:
+            form = form.save(commit=False)
+            form.school = school
             form.save()
             messages.success(request, 'Course has been Updated Successfully')
             return redirect('courseList')
@@ -266,7 +276,7 @@ def addClasse(request):
             name = form.cleaned_data.get('class_name')
             messages.success(request, 'Class has been Created Successfully ' +name)
             
-        return redirect('homeCoordinator')
+        return redirect('classeList')
 
 
 @login_required(login_url='loginPage')
@@ -399,7 +409,7 @@ def coordinator_delete(request, id):
     coordinator = Coordinator.objects.get(pk=id)
     coordinator.delete()
     messages.success(request, 'Coordinator has been deleted Successfully')
-    return redirect('coordinatorListStaff')
+    return redirect('ListOfcoordinatorStaff')
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -978,7 +988,7 @@ def globalCumurativeDisability(request):
             'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
             'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
                 }
-    # return render(request, 'globalCumurativeDisability.html', context)
+    return render(request, 'globalCumurativeDisability.html', context)
     html = template.render(context)
     pdf= render_to_pdf('globalCumurativeDisability.html', context)
     if pdf:
@@ -1086,7 +1096,7 @@ def disabilityReportSingleSite(request):
                 'female_above_twenty_five_utism':female_above_twenty_five_utism,'female_above_twenty_five_multiple':female_above_twenty_five_multiple,'female_above_twenty_five_cerebral_palsy':female_above_twenty_five_cerebral_palsy,
                 'female_above_twenty_five_cerebral_palsy_id':female_above_twenty_five_cerebral_palsy_id,'female_above_twenty_five_downsyndrome':female_above_twenty_five_downsyndrome
                  }
-    # to use pdf remove comment to return render          
+  # to use pdf remove comment to return render          
     return render(request, 'disabilityReportSingleSite.html', context)
     html = template.render(context)
     pdf= render_to_pdf('disabilityReportSingleSite.html', context)
