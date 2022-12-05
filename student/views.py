@@ -692,6 +692,8 @@ def autosuggest(request):
     context = {}
     return render(request, 'ajaxTeacherForm.html', context)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['StaffUser'])
 def register_coordinator_user(request):
     form = CoordinatorUserRegistrationForm()
     if request.method == 'POST':
@@ -708,7 +710,8 @@ def register_coordinator_user(request):
     context = {'form':form}
     return render(request, 'coordinator_user_form.html', context)
 
-
+@login_required(login_url='login_view')
+@allowed_users(allowed_roles=['BoardUser'])
 def register_staff_user(request):
     form = StaffUserRegistrationForm()
     if request.method == 'POST':
