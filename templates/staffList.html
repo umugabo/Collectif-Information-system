@@ -66,8 +66,8 @@
             <td>{{staff.phone}}</td>
             <td>{{staff.email}}</td>
             
-            {% comment %} <td><a href="{% url 'staff_update' staff.id %}" class="btn btn-sm btn-success">Update</a></td>
-            <td><a href="{% url 'staff_delete' staff.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
+            <td><a href="{% url 'staff_update' staff.id %}" class="btn btn-sm btn-success">Update</a></td>
+            {% comment %} <td><a href="{% url 'staff_delete' staff.id %}" class="btn btn-sm btn-danger">Delete</a></td> {% endcomment %}
         </tr>
         {% endfor %}
     </tbody>

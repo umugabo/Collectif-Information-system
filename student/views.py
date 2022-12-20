@@ -561,6 +561,20 @@ def ListOfStaff(request):
     context = {'staffs':staffs}
     return render(request, 'staffList.html', context)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['BoardUser'])
+def staff_update(request, pk_teacher):
+    staffs = Staff.objects.get(id=pk_teacher)
+    form = StaffForm(instance=staffs)
+    if request.method == 'POST':
+        form = StaffForm(request.POST, instance=staffs)
+        if form.is_valid:
+            form.save()
+            messages.success(request, 'Staff has been Updated Successfully')
+            return redirect('ListOfStaff')
+    context = {'form':form}
+    return render(request, 'staffForm.html',context)
+
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['CoordinatorUser'])
@@ -572,7 +586,7 @@ def teacher_delete(request, id):
 
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['CoordinatorUser'])
+@allowed_users(allowed_roles=['BoardUser'])
 def teacher_update(request, pk_teacher):
     teacher = Teacher.objects.get(id=pk_teacher)
     form = TeacherForm(instance=teacher)

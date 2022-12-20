@@ -83,7 +83,7 @@ class Province(models.Model):
 
 class School(models.Model):
     user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
-    school_name = models.CharField(max_length=30)
+    school_name = models.CharField(max_length=60)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
 
     def __str__(self):

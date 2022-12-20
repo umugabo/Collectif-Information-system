@@ -35,7 +35,7 @@
            
             <ul class="list-styled  components" color: #7abecc>
                
-                <p> <strong style="color: #0000FF;">Coordinators PAGE</strong> </p>
+                <p> <strong style="color: #0000FF;">{{request.user.username}} PAGE</strong> </p>
                  <li class="{% if 'homeCoordinator' in request.path %} active {% endif %}">
                     <a href="{% url 'homeCoordinator' %}"><span class="feather icon-map"></span> Dashboard</a>
                 </li> 
